@@ -1,0 +1,47 @@
+[
+  {
+    "id": "the-last-page",
+    "title": "The Last Page",
+    "author": "Ananya Sharma",
+    "type": "story",
+    "date": "2026-08",
+    "featured": true,
+    "body": "She found the book in the rain, swollen and abandoned on a park bench like a waterlogged confession. The pages had fused together in places, ink bleeding into constellations that no author had intended.\n\nFor three weeks, she spent her evenings peeling apart the pages with a butter knife and a patience she didn't know she possessed. Each separated page revealed another chapter of someone else's life — not the printed story, but the marginalia. Someone had been living inside this book.\n\nThere were grocery lists wedged between love scenes, phone numbers scrawled over death scenes, and in the final chapter, pressed between the last two pages like a secret kept too long, a photograph of two people she would never know, laughing in a kitchen that no longer existed.\n\nShe never did read the actual novel. The real story was better."
+  },
+  {
+    "id": "ink-stained-morning",
+    "title": "Ink-Stained Morning",
+    "author": "Rohan Mehta",
+    "type": "poem",
+    "date": "2026-08",
+    "featured": false,
+    "body": "The morning arrives ink-stained,\nfingerprints of night still pressed\nagainst the windowpane.\n\nI trace the words the darkness left —\na draft of dreams, half-revised,\ncommas where I paused too long\nat the edge of sleep.\n\nThe coffee steams like a sentence\nstill searching for its verb,\nand I sit here, waiting\nfor the light to finish\nwhat the dark began."
+  },
+  {
+    "id": "the-cartographer-of-forgotten-rooms",
+    "title": "The Cartographer of Forgotten Rooms",
+    "author": "Meera Iyer",
+    "type": "story",
+    "date": "2026-07",
+    "featured": false,
+    "body": "Professor Ghosh had a peculiar hobby: he drew maps of rooms that no longer existed. Not famous rooms — not the library of Alexandria or the war room at Bletchley Park — but ordinary rooms. His grandmother's kitchen. The classroom where he first understood calculus. The hospital room where his daughter was born.\n\nHe worked from memory, which meant each map was slightly wrong. The kitchen was always larger than it had been. The classroom had windows it never possessed. The hospital room faced a garden that existed only in his grief.\n\n\"Memory is a terrible cartographer,\" he would tell his students. \"It moves walls, adds doors, changes the light. But it never loses the feeling of a room. The dimensions lie. The atmosphere is always true.\"\n\nWhen he died, his daughter found forty-seven maps in his desk drawer. She couldn't identify a single room. But standing in her own kitchen, holding the papers that smelled of his pipe smoke, she understood every one of them."
+  },
+  {
+    "id": "margins",
+    "title": "Margins",
+    "author": "Priya Nair",
+    "type": "poem",
+    "date": "2026-07",
+    "featured": false,
+    "body": "We live in the margins\nof books we haven't finished,\nscribbling our real thoughts\nin the white space\nbetween someone else's certainties.\n\nThe best conversations I've had\nwere written in pencil\nin borrowed copies —\nhalf-arguments with dead authors,\nquestions no one will answer,\nand once, just once,\na phone number\nthat changed everything."
+  },
+  {
+    "id": "the-lending-library",
+    "title": "The Lending Library of Last Resort",
+    "author": "Arjun Desai",
+    "type": "story",
+    "date": "2026-06",
+    "featured": false,
+    "body": "The rules of the Lending Library of Last Resort were simple: you could borrow any book, but you had to leave one behind. Not just any book — the book that had changed your life the most. The one you'd read so many times the spine cracked when you opened it to your favorite page.\n\nMost people hesitated at the threshold. Some turned back entirely. But those who entered found shelves lined with the most extraordinary collection in the world — not rare first editions or ancient manuscripts, but paperbacks with broken spines and dog-eared pages, highlighted passages and tear-stained chapters. Books that had been loved so hard they were falling apart.\n\nThe librarian, a woman whose age was as indeterminate as the library's location, never recommended books. She simply watched which shelf your hand reached for first. \"That's the one,\" she'd say, before you even pulled it free. She was never wrong.\n\nI left behind my copy of 'Letters to a Young Poet.' I took home someone's battered 'Kitchen' by Banana Yoshimoto. Inside the cover, in handwriting I'll never identify, someone had written: 'This book taught me that grief and hunger are the same thing.' I've been thinking about that sentence for three years. I think I'm beginning to understand."
+  }
+]

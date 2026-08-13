@@ -1,0 +1,298 @@
+@import "tailwindcss";
+
+/* ============================================
+   INKS & QUILS — Design System
+   "Ink & Parchment" Theme
+   ============================================ */
+
+:root {
+  /* Core palette */
+  --ink: oklch(0.20 0.04 260);
+  --ink-light: oklch(0.35 0.03 260);
+  --parchment: oklch(0.96 0.01 80);
+  --parchment-dark: oklch(0.92 0.015 80);
+  --gold: oklch(0.72 0.14 75);
+  --gold-dim: oklch(0.60 0.12 75);
+  --burgundy: oklch(0.42 0.16 15);
+  --mist: oklch(0.90 0.02 240);
+  --charcoal: oklch(0.15 0.01 260);
+  --charcoal-light: oklch(0.22 0.015 260);
+
+  /* Semantic */
+  --background: var(--parchment);
+  --foreground: var(--ink);
+  --accent: var(--gold);
+  --accent-hover: var(--gold-dim);
+  --surface: var(--parchment-dark);
+  --surface-dark: var(--charcoal);
+  --text-muted: var(--ink-light);
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-light: var(--ink-light);
+  --color-parchment: var(--parchment);
+  --color-parchment-dark: var(--parchment-dark);
+  --color-gold: var(--gold);
+  --color-gold-dim: var(--gold-dim);
+  --color-burgundy: var(--burgundy);
+  --color-mist: var(--mist);
+  --color-charcoal: var(--charcoal);
+  --color-charcoal-light: var(--charcoal-light);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-display: "Playfair Display", "Georgia", serif;
+  --font-body: "Source Serif 4", "Georgia", serif;
+  --font-ui: "Inter", system-ui, sans-serif;
+
+  /* Animation durations */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 600ms;
+  --duration-slower: 1000ms;
+
+  /* Easing */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-smooth: cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-ui);
+  overflow-x: hidden;
+}
+
+/* Selection color */
+::selection {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-ui {
+  font-family: var(--font-ui);
+}
+
+/* Drop cap for story/poem first paragraphs */
+.drop-cap::first-letter {
+  font-family: var(--font-display);
+  font-size: 3.5em;
+  float: left;
+  line-height: 0.8;
+  margin-right: 0.08em;
+  margin-top: 0.05em;
+  color: var(--burgundy);
+  font-weight: 700;
+}
+
+/* ============================================
+   ANIMATIONS — Keyframes
+   ============================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes textReveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes inkDrop {
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes quillWrite {
+  0% { stroke-dashoffset: 1000; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 oklch(0.72 0.14 75 / 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px 4px oklch(0.72 0.14 75 / 0.15);
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s var(--ease-out-expo) forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.6s var(--ease-out-expo) forwards;
+}
+
+.animate-text-reveal {
+  animation: textReveal 0.8s var(--ease-out-expo) forwards;
+}
+
+.animate-float {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 25%,
+    oklch(0.72 0.14 75 / 0.15) 50%,
+    transparent 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Stagger delay utilities */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+.delay-700 { animation-delay: 700ms; }
+.delay-800 { animation-delay: 800ms; }
+
+/* ============================================
+   DECORATIVE ELEMENTS
+   ============================================ */
+
+/* Gold decorative line */
+.gold-line {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+.gold-line-center {
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin-inline: auto;
+}
+
+/* Glassmorphism nav */
+.glass {
+  background: oklch(0.96 0.01 80 / 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid oklch(0.72 0.14 75 / 0.2);
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--parchment-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ink-light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ink);
+}
+
+/* ============================================
+   PAGE TRANSITION LAYER
+   ============================================ */
+
+.page-enter {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s var(--ease-out-expo), transform 0.4s var(--ease-out-expo);
+}
