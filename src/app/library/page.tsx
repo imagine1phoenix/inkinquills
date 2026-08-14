@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import booksData from "@/data/books.json";
 import type { Book } from "@/data/types";
@@ -8,18 +8,8 @@ import { DoodleFace, DoodleCrown, DoodleStar, DoodleSquiggle, DoodleEye, DoodleS
 
 const books: Book[] = booksData as Book[];
 
-// Split books into shelf rows of ~5 books each
-function createShelves(books: Book[], booksPerShelf = 5): Book[][] {
-  const shelves: Book[][] = [];
-  for (let i = 0; i < books.length; i += booksPerShelf) {
-    shelves.push(books.slice(i, i + booksPerShelf));
-  }
-  return shelves;
-}
-
 export default function LibraryPage() {
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
-  const shelves = createShelves(books, 5);
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -31,56 +21,52 @@ export default function LibraryPage() {
 
   return (
     <div className="min-h-screen bg-midnight">
-      {/* Header */}
-      <section className="py-20 md:py-28 px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <p className="font-ui text-xs uppercase tracking-[0.3em] text-metro-yellow mb-4">
-            Our Curated Collection
-          </p>
-          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-bold text-text-primary mb-4 relative inline-block">
-            The Book Wall
-            <div className="absolute -top-10 -right-16 w-20 h-20 text-electric-blue rotate-12 hidden md:block">
-               <DoodleCrown className="w-full h-full" delayIndex={1} />
-            </div>
-          </h1>
-          <p className="font-body text-lg text-text-muted max-w-lg mx-auto">
-            Pull a book from the shelf. Every spine holds a story we love.
-          </p>
-          <div className="absolute top-10 left-10 w-24 h-24 text-metro-yellow/40 -rotate-12 hidden md:block">
-            <DoodleFace className="w-full h-full" delayIndex={2} />
+      {/* ============= HEADER ============= */}
+      <section className="relative pt-28 md:pt-36 pb-16 px-6 overflow-hidden">
+        {/* Background ambient glow */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
+           <div className="w-[600px] h-[600px] bg-electric-blue blur-[100px] rounded-full" />
+        </div>
+
+        {/* Header Sticky Note */}
+        <div className="relative max-w-3xl mx-auto z-10 flex flex-col items-center">
+          <div className="absolute -top-8 -left-2 md:-left-8 z-20 bg-metro-yellow text-midnight px-4 py-2 font-ui text-[10px] font-bold uppercase tracking-widest border-2 border-midnight rotate-[-5deg] shadow-[4px_4px_0_var(--electric-blue)]">
+            SECTION 03
           </div>
-          <div className="absolute bottom-10 right-20 w-16 h-16 text-electric-blue/50 rotate-45 hidden md:block">
-            <DoodleStar className="w-full h-full" delayIndex={1.5} />
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 30, rotate: -3 }}
+            animate={{ opacity: 1, y: 0, rotate: -2 }}
+            transition={{ duration: 0.6 }}
+            className="relative bg-[#F4F2EC] text-midnight border-[4px] border-midnight p-8 md:p-14 shadow-[8px_8px_0_var(--electric-blue)] md:shadow-[16px_16px_0_var(--electric-blue)] w-full max-w-2xl"
+          >
+            {/* Top tape */}
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-8 bg-white/70 border-2 border-midnight shadow-sm rotate-[2deg]" />
+            
+            <h1 className="font-display text-5xl sm:text-7xl md:text-8xl font-bold mb-4 text-center leading-[0.9] uppercase">
+              The<br/>Book<br/>Wall
+            </h1>
+            <div className="w-full h-2 bg-midnight mb-6 border-b-2 border-dashed border-white"></div>
+            <p className="font-body text-base md:text-xl font-bold text-center uppercase tracking-wider text-midnight/80">
+              A chaotic collection of stories we can&apos;t stop talking about.
+            </p>
+          </motion.div>
+          
+          {/* Header Doodles */}
+          <div className="absolute -bottom-10 -right-4 w-24 h-24 text-electric-blue rotate-12 z-0 hidden sm:block">
+             <DoodleCrown className="w-full h-full" delayIndex={1} />
           </div>
-        </motion.div>
+          <div className="absolute top-1/2 -left-16 w-20 h-20 text-metro-yellow -rotate-12 z-0 hidden md:block">
+             <DoodleEye className="w-full h-full" delayIndex={1.5} />
+          </div>
+        </div>
       </section>
 
-      {/* Bookshelf */}
-      <section className="pb-24 px-4 md:px-8 relative">
-        <div className="absolute top-1/4 -left-16 w-40 h-40 text-electric-blue/10 rotate-12 hidden lg:block pointer-events-none">
-          <DoodleSwirl className="w-full h-full" delayIndex={0} />
-        </div>
-        <div className="absolute bottom-1/4 -right-16 w-32 h-32 text-metro-yellow/10 -rotate-12 hidden lg:block pointer-events-none">
-          <DoodleEye className="w-full h-full" delayIndex={0.5} />
-        </div>
-        <div className="max-w-6xl mx-auto space-y-2">
-          {shelves.map((shelfBooks, shelfIdx) => (
-            <motion.div
-              key={shelfIdx}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 * shelfIdx, duration: 0.6 }}
-            >
-              <Shelf
-                books={shelfBooks}
-                onSelectBook={setSelectedBook}
-                shelfIndex={shelfIdx}
-              />
-            </motion.div>
+      {/* ============= BOOKS GRID ============= */}
+      <section className="pb-32 px-4 md:px-8 max-w-7xl mx-auto relative z-10">
+        <div className="flex flex-wrap justify-center gap-6 md:gap-10">
+          {books.map((book, i) => (
+            <BookCard key={book.id} book={book} index={i} onClick={() => setSelectedBook(book)} />
           ))}
         </div>
       </section>
@@ -98,112 +84,58 @@ export default function LibraryPage() {
   );
 }
 
-// ============= SHELF COMPONENT =============
-function Shelf({
-  books,
-  onSelectBook,
-  shelfIndex,
-}: {
-  books: Book[];
-  onSelectBook: (book: Book) => void;
-  shelfIndex: number;
-}) {
+// ============= BOOK CARD COMPONENT =============
+function BookCard({ book, index, onClick }: { book: Book; index: number; onClick: () => void }) {
+  // Randomize rotation slightly for the scattered look (-4, -2, 0, 2, 4)
+  const rotation = (index % 5) * 2 - 4; 
+  
   return (
-    <div className="relative">
-      {/* Shelf surface */}
-      <div className="relative flex items-end justify-center gap-[3px] md:gap-[5px] px-4 md:px-8 pt-4 pb-0 min-h-[220px] md:min-h-[280px]">
-        {books.map((book, i) => (
-          <BookSpine
-            key={book.id}
-            book={book}
-            onClick={() => onSelectBook(book)}
-            index={i}
-          />
-        ))}
-      </div>
-
-      {/* Shelf board */}
-      <div className="relative h-4 bg-gradient-to-b from-ink-black to-midnight rounded-b-sm border-b border-text-dim/20 shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
-        <div className="absolute inset-x-0 top-0 h-[2px] bg-text-dim/30" />
-      </div>
-
-      {/* Shelf shadow */}
-      <div className="h-6 bg-gradient-to-b from-midnight/80 to-transparent" />
-    </div>
-  );
-}
-
-// ============= BOOK SPINE COMPONENT =============
-function BookSpine({
-  book,
-  onClick,
-  index,
-}: {
-  book: Book;
-  onClick: () => void;
-  index: number;
-}) {
-  // Vary spine dimensions for a natural look
-  const heights = [200, 220, 190, 230, 210, 215, 195, 225];
-  const widths = [44, 48, 40, 52, 46, 42, 50, 38];
-  const height = heights[index % heights.length];
-  const width = widths[index % widths.length];
-
-  return (
-    <motion.button
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.05 * (index % 10), duration: 0.5 }}
+      whileHover={{ y: -10, rotate: 0, scale: 1.02 }}
+      whileTap={{ scale: 0.95 }}
       onClick={onClick}
-      className="relative group cursor-pointer focus:outline-none"
-      style={{
-        height: `${height}px`,
-        width: `${width}px`,
-        minWidth: `${width}px`,
-        perspective: "800px",
-      }}
-      whileHover={{
-        rotateY: -15,
-        x: -4,
-        transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
-      }}
-      whileTap={{ scale: 0.97 }}
-      aria-label={`${book.title} by ${book.author}`}
+      className="cursor-pointer"
+      style={{ rotate: `${rotation}deg` }}
     >
-      {/* Spine face */}
-      <div
-        className="absolute inset-0 rounded-[2px] flex flex-col items-center justify-center px-1 overflow-hidden shadow-md group-hover:shadow-xl transition-shadow duration-300"
-        style={{ backgroundColor: book.coverColor }}
-      >
-        {/* Top decorative line */}
-        <div
-          className="absolute top-3 left-2 right-2 h-[1px] opacity-30"
-          style={{ backgroundColor: book.textColor }}
-        />
+      <div className="relative bg-[#F4F2EC] border-[3px] border-midnight p-4 w-40 sm:w-48 md:w-[260px] h-[300px] md:h-[380px] flex flex-col justify-between shadow-[6px_6px_0_var(--electric-blue)] hover:shadow-[12px_12px_0_var(--metro-yellow)] transition-all duration-300 group">
+        
+        {/* Top Tape */}
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-4 bg-white/90 border border-midnight shadow-sm rotate-[-4deg] z-10" />
 
-        {/* Title - vertical */}
-        <div
-          className="flex-1 flex items-center justify-center w-full"
-          style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
+        {/* Abstract Cover Strip */}
+        <div 
+           className="w-full h-32 md:h-44 border-[3px] border-midnight overflow-hidden relative mb-4"
+           style={{ backgroundColor: book.coverColor }}
         >
-          <span
-            className="font-display text-[10px] md:text-xs font-bold tracking-wide leading-tight text-center line-clamp-3"
-            style={{ color: book.textColor }}
-          >
-            {book.title}
-          </span>
+           {/* Texture Overlay */}
+           <div className="absolute inset-0 opacity-20 mix-blend-multiply" style={{ backgroundColor: book.textColor }} />
+           
+           {/* Abstract typography graphic */}
+           <div className="absolute -bottom-8 -right-4 text-[100px] font-display font-bold mix-blend-overlay opacity-30 select-none pointer-events-none" style={{ color: book.textColor, lineHeight: 1 }}>
+             {book.title.substring(0, 2).toUpperCase()}
+           </div>
         </div>
 
-        {/* Bottom decorative line */}
-        <div
-          className="absolute bottom-3 left-2 right-2 h-[1px] opacity-30"
-          style={{ backgroundColor: book.textColor }}
-        />
-
-        {/* Spine edge highlight */}
-        <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-white/10" />
-
-        {/* Hover glow */}
-        <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300 rounded-[2px]" />
+        {/* Text Area */}
+        <div className="flex-1 flex flex-col">
+          <h3 className="font-display text-xl sm:text-2xl font-bold leading-tight text-midnight line-clamp-3 mb-2 uppercase group-hover:text-electric-blue transition-colors">
+            {book.title}
+          </h3>
+          
+          <div className="mt-auto space-y-2 border-t-[3px] border-dashed border-midnight/30 pt-3">
+             <p className="font-ui text-[10px] font-bold uppercase tracking-widest text-midnight">
+               <span className="opacity-50">BY</span> {book.author}
+             </p>
+             <span className="inline-block bg-metro-yellow/30 px-2 py-0.5 font-ui text-[9px] font-bold uppercase tracking-widest text-midnight">
+               {book.genre}
+             </span>
+          </div>
+        </div>
       </div>
-    </motion.button>
+    </motion.div>
   );
 }
 
@@ -222,133 +154,91 @@ function BookDetail({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      {/* Backdrop */}
-      <motion.div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={onClose}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+      <motion.div 
+         className="absolute inset-0 bg-midnight/80 backdrop-blur-md cursor-pointer" 
+         onClick={onClose} 
       />
 
-      {/* Side panel */}
       <motion.div
-        className="relative z-10 h-full w-full max-w-lg bg-surface overflow-y-auto shadow-2xl border-l border-ink-black"
+        className="relative z-10 h-full w-full max-w-2xl bg-[#F4F2EC] overflow-y-auto border-l-[4px] border-midnight shadow-[-20px_0_40px_rgba(0,0,0,0.5)]"
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
         exit={{ x: "100%" }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ type: "spring", damping: 30, stiffness: 250 }}
       >
-        {/* Book cover visualization */}
-        <div
-          className="relative px-8 md:px-12 py-16 flex flex-col items-center"
-          style={{ backgroundColor: book.coverColor }}
+        <button
+          onClick={onClose}
+          className="sticky top-6 right-6 ml-auto w-12 h-12 flex items-center justify-center bg-metro-yellow text-midnight hover:bg-electric-blue hover:text-[#F4F2EC] transition-colors z-30 border-[3px] border-midnight shadow-[4px_4px_0_var(--midnight)]"
+          aria-label="Close"
         >
-          {/* Close button */}
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-black/20 hover:bg-black/30 transition-colors"
-            aria-label="Close book detail"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke={book.textColor}
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
 
-          {/* Book shape */}
-          <div
-            className="w-40 h-56 rounded-sm shadow-2xl flex flex-col items-center justify-center p-4 border border-white/10"
-            style={{
-              backgroundColor: book.spineColor,
-              boxShadow: `8px 8px 24px rgba(0,0,0,0.4)`,
-            }}
-          >
-            <div
-              className="w-full h-[1px] opacity-30 mb-3"
-              style={{ backgroundColor: book.textColor }}
-            />
-            <h3
-              className="font-display text-sm font-bold text-center leading-tight"
-              style={{ color: book.textColor }}
-            >
-              {book.title}
-            </h3>
-            <p
-              className="font-ui text-[9px] mt-1 uppercase tracking-widest opacity-70"
-              style={{ color: book.textColor }}
-            >
-              {book.author}
-            </p>
-            <div
-              className="w-full h-[1px] opacity-30 mt-3"
-              style={{ backgroundColor: book.textColor }}
-            />
+        <div className="px-6 sm:px-12 pb-20 pt-8 -mt-16">
+          
+          {/* Header Block */}
+          <div className="flex flex-col sm:flex-row gap-6 sm:items-end mb-10 border-b-[4px] border-midnight pb-8 relative mt-16">
+             <div className="w-32 h-40 sm:w-40 sm:h-48 border-[4px] border-midnight flex-none shadow-[8px_8px_0_var(--electric-blue)] flex items-center justify-center p-2 relative overflow-hidden bg-white -rotate-2" style={{ backgroundColor: book.coverColor }}>
+                 <div className="absolute inset-0 opacity-20 mix-blend-multiply" style={{ backgroundColor: book.textColor }} />
+                 <span className="font-display text-7xl opacity-40 text-center mix-blend-overlay" style={{ color: book.textColor }}>
+                   {book.title.substring(0, 1).toUpperCase()}
+                 </span>
+             </div>
+             <div className="flex-1">
+                <span className="font-ui text-[10px] uppercase font-bold tracking-widest px-3 py-1 bg-electric-blue text-[#F4F2EC] border-[2px] border-midnight mb-3 inline-block shadow-[3px_3px_0_var(--midnight)] rotate-2">
+                  {book.genre}
+                </span>
+                <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold uppercase leading-[0.85] text-midnight mb-4">
+                  {book.title}
+                </h2>
+                <div className="bg-metro-yellow inline-block px-3 py-1 border-[2px] border-midnight">
+                  <p className="font-ui text-xs font-bold uppercase tracking-widest text-midnight">
+                    BY {book.author}
+                  </p>
+                </div>
+             </div>
+             
+             {/* Doodles */}
+             <div className="absolute -top-12 right-0 w-20 h-20 text-electric-blue hidden md:block">
+               <DoodleSpark className="w-full h-full" delayIndex={0.5} />
+             </div>
           </div>
-        </div>
 
-        {/* Content */}
-        <div className="px-8 md:px-12 py-10 space-y-8">
-          {/* Title + metadata */}
-          <div className="relative">
-            <div className="absolute -top-4 right-0 w-16 h-8 text-metro-yellow/50 rotate-6">
-              <DoodleSquiggle className="w-full h-full" delayIndex={0.5} />
+          {/* Content Blocks */}
+          <div className="space-y-12">
+            <div className="relative">
+              <h4 className="absolute -top-3 left-6 bg-[#F4F2EC] px-3 font-ui text-[10px] font-bold uppercase tracking-[0.2em] text-midnight border-[2px] border-midnight rotate-[-2deg]">
+                SYNOPSIS
+              </h4>
+              <div className="border-[3px] border-dashed border-midnight/40 p-6 sm:p-8 bg-white/50">
+                 <p className="font-body text-base md:text-lg text-midnight leading-relaxed font-medium">
+                   {book.synopsis}
+                 </p>
+              </div>
             </div>
-            <h2 className="font-display text-3xl font-bold text-text-primary mb-1">
-              {book.title}
-            </h2>
-            <p className="font-body text-base text-text-muted">
-              {book.author}
-              {book.year && (
-                <span className="text-text-dim"> · {book.year}</span>
-              )}
-            </p>
-            <span className="inline-block mt-3 font-ui text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-metro-yellow/20 text-metro-yellow">
-              {book.genre}
-            </span>
-          </div>
 
-          {/* Synopsis */}
-          <div>
-            <h4 className="font-ui text-xs uppercase tracking-widest text-metro-yellow mb-3">
-              Synopsis
-            </h4>
-            <p className="font-body text-sm text-text-muted leading-[1.8]">
-              {book.synopsis}
-            </p>
-          </div>
-
-          {/* Our review */}
-          <div>
-            <h4 className="font-ui text-xs uppercase tracking-widest text-metro-yellow mb-3">
-              Our Review
-            </h4>
-            <p className="font-body text-sm text-text-primary leading-[1.8]">
-              {book.review}
-            </p>
-          </div>
-
-          {/* Recommended by */}
-          <div className="flex items-center gap-3 pt-4 border-t border-text-dim/20">
-            <div className="w-8 h-8 rounded-full bg-ink-black flex items-center justify-center">
-              <span className="font-display text-sm text-metro-yellow font-bold">
-                {book.recommendedBy.charAt(0)}
-              </span>
+            <div className="relative">
+              <h4 className="absolute -top-3 left-6 bg-[#F4F2EC] px-3 font-ui text-[10px] font-bold uppercase tracking-[0.2em] text-midnight border-[2px] border-midnight rotate-[1deg]">
+                OUR REVIEW
+              </h4>
+              <div className="border-[4px] border-midnight p-6 sm:p-8 bg-metro-yellow/20 shadow-[8px_8px_0_var(--midnight)]">
+                 <p className="font-body text-base md:text-lg text-midnight leading-relaxed font-bold">
+                   {book.review}
+                 </p>
+              </div>
             </div>
-            <div>
-              <p className="font-ui text-xs text-text-muted">
-                Recommended by
-              </p>
-              <p className="font-ui text-sm font-medium text-text-primary">
-                {book.recommendedBy}
-              </p>
+
+            <div className="flex items-center gap-4 bg-midnight text-[#F4F2EC] p-4 sm:p-6 border-[4px] border-midnight relative overflow-hidden">
+               <div className="absolute top-0 right-0 w-32 h-32 text-electric-blue/20 -translate-y-1/2 translate-x-1/4">
+                 <DoodleSwirl className="w-full h-full" delayIndex={0} />
+               </div>
+               <span className="font-ui text-[10px] font-bold uppercase tracking-[0.2em] relative z-10 w-24 flex-none">Rec'd By</span>
+               <span className="font-display text-2xl sm:text-3xl uppercase border-l-[3px] border-[#F4F2EC]/30 pl-4 sm:pl-6 relative z-10">
+                 {book.recommendedBy}
+               </span>
             </div>
           </div>
+          
         </div>
       </motion.div>
     </motion.div>
