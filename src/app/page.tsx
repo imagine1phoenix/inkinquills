@@ -80,122 +80,86 @@ export default function LandingPage() {
   return (
     <div>
       {/* ============= HERO ============= */}
-      <section className="relative min-h-[100vh] flex flex-col items-center justify-center overflow-hidden bg-midnight text-text-primary px-6">
-        {/* Background ink splashes (decorative) */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <motion.div
-            className="absolute top-[20%] left-[10%] w-64 h-64 rounded-full bg-metro-yellow/10 blur-3xl"
-            animate={{
-              scale: [1, 1.2, 1],
-              x: [0, 20, 0],
-              y: [0, -10, 0],
-            }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute bottom-[20%] right-[15%] w-80 h-80 rounded-full bg-brass-gold/10 blur-3xl"
-            animate={{
-              scale: [1, 1.15, 1],
-              x: [0, -15, 0],
-              y: [0, 15, 0],
-            }}
-            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-electric-blue/10 blur-3xl"
-            animate={{ scale: [1, 1.3, 1] }}
-            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          />
+      <section className="relative min-h-[100vh] w-full flex items-center justify-center overflow-hidden bg-electric-blue text-text-primary px-6" style={{ background: 'linear-gradient(135deg, #012CEB 0%, #001066 100%)' }}>
+        {/* Background Silhouette Glow */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
+           <div className="w-[800px] h-[800px] bg-midnight blur-[100px] rounded-full" />
         </div>
 
-        {/* Hero content */}
-        <div className="relative z-10 text-center max-w-4xl">
-          {/* Decorative flourish */}
-          <motion.div
-            className="text-metro-yellow/60 text-2xl mb-6 tracking-[0.5em] font-display"
-            initial={{ opacity: 0, letterSpacing: "1em" }}
-            animate={{ opacity: 1, letterSpacing: "0.5em" }}
-            transition={{ duration: 1.2, delay: 0.1 }}
-          >
-            ✦ ✦ ✦
-          </motion.div>
+        {/* Central 3D Text */}
+        <div className="relative z-10 text-center select-none">
+           <h1 className="font-display text-8xl md:text-[12rem] leading-[0.8] text-[#F4F2EC] text-3d -rotate-2 hover:scale-105 transition-transform duration-500 cursor-default">
+             Inks &<br />Quils
+           </h1>
+        </div>
 
-          {/* Club name — letter stagger */}
-          <motion.h1
-            className="font-display text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight leading-none mb-6"
-            variants={titleContainer}
-            initial="hidden"
-            animate="visible"
-          >
-            {clubName.split("").map((char, i) => (
-              <motion.span
-                key={i}
-                variants={titleLetter}
-                className={char === " " ? "inline-block w-[0.3em]" : "inline-block"}
-                style={{
-                  background:
-                    i < 4 || i > 6
-                      ? "linear-gradient(135deg, var(--color-text-primary), var(--color-metro-yellow))"
-                      : undefined,
-                  WebkitBackgroundClip: i < 4 || i > 6 ? "text" : undefined,
-                  WebkitTextFillColor:
-                    i < 4 || i > 6 ? "transparent" : undefined,
-                  color: i >= 4 && i <= 6 ? "var(--color-metro-yellow)" : undefined,
-                }}
-              >
-                {char}
-              </motion.span>
-            ))}
-            {/* Doodle Underline */}
-            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[120%] h-[40px]">
-              <DoodleUnderline className="w-full h-full" delayIndex={2} />
-            </div>
-          </motion.h1>
+        {/* Top Left: Est Card */}
+        <div className="absolute top-24 left-6 md:top-32 md:left-16 lg:left-24 z-20">
+          <div className="bg-[#F4F2EC] text-midnight border-2 border-midnight p-3 md:p-4 shadow-[6px_6px_0_var(--electric-blue)] font-body text-sm font-bold text-center -rotate-3 hover:rotate-0 transition-transform cursor-default">
+            EST. 2026<br />
+            <span className="font-normal text-xs border-t border-midnight/20 mt-1 pt-1 block">Literary Club</span>
+          </div>
+        </div>
 
-          {/* Tagline */}
-          <motion.p
-            className="font-body text-xl md:text-2xl text-text-muted max-w-xl mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.8 }}
-          >
-            A community of readers, writers, and dreamers.
-          </motion.p>
+        {/* Top Right: Graph Lockup */}
+        <div className="absolute top-24 right-6 md:top-32 md:right-16 lg:right-24 z-20 flex items-start gap-4">
+          <div className="text-right font-display text-xl md:text-2xl leading-tight">
+            Creative by night,<br />
+            more creative by <span className="bg-[#F4F2EC] text-electric-blue border-2 border-midnight px-2 py-1 shadow-[4px_4px_0_var(--electric-blue)] inline-block mt-1">midnight.</span>
+          </div>
+          {/* Simple SVG Graph */}
+          <div className="w-24 h-16 border-l-2 border-b-2 border-[#F4F2EC] relative hidden lg:block">
+            <svg viewBox="0 0 100 100" className="absolute bottom-0 left-0 w-full h-full overflow-visible">
+               <path d="M 0 80 Q 50 80 100 20" fill="none" stroke="#F4F2EC" strokeWidth="4" strokeLinecap="round" />
+               <circle cx="100" cy="20" r="6" fill="#F4F2EC" />
+            </svg>
+            <div className="absolute -bottom-6 left-0 text-[10px] font-ui">20:00</div>
+            <div className="absolute -bottom-6 right-0 text-[10px] font-ui">00:00</div>
+          </div>
+        </div>
 
-          {/* Rotating quote */}
-          <motion.div
-            className="mt-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5 }}
-          >
-            <RotatingQuote quotes={heroQuotes} />
-          </motion.div>
+        {/* Bottom Left: Timeline */}
+        <div className="absolute bottom-32 left-6 md:bottom-40 md:left-16 lg:left-24 z-20 flex flex-col gap-6 hidden sm:flex">
+           <div className="relative pl-6">
+             <div className="absolute left-0 top-2 bottom-[-1.5rem] w-[2px] border-l-2 border-dashed border-[#F4F2EC]/30" />
+             <div className="text-[10px] font-ui text-[#F4F2EC]/70 uppercase tracking-widest">Started As</div>
+             <div className="font-display text-xl">Reader</div>
+           </div>
+           <div className="relative pl-6">
+             <div className="absolute left-0 top-2 bottom-[-1.5rem] w-[2px] border-l-2 border-dashed border-[#F4F2EC]/30" />
+             <div className="text-[10px] font-ui text-[#F4F2EC]/70 uppercase tracking-widest">Became</div>
+             <div className="font-display text-xl">Writer</div>
+           </div>
+           <div className="relative pl-6">
+             <div className="text-[10px] font-ui text-[#F4F2EC]/70 uppercase tracking-widest">Currently</div>
+             <div className="font-display text-2xl">Storyteller</div>
+           </div>
+        </div>
 
-          {/* Scroll indicator */}
-          <motion.div
-            className="absolute bottom-12 left-1/2 -translate-x-1/2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2 }}
-          >
-            <motion.div
-              className="flex flex-col items-center gap-2 text-text-dim"
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <span className="font-ui text-xs uppercase tracking-widest">Scroll</span>
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+        {/* Bottom Center: CTA */}
+        <div className="absolute bottom-28 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">
+           <div className="bg-midnight text-[#F4F2EC] border-2 border-[#F4F2EC] px-6 py-2 font-ui text-xs font-bold uppercase tracking-widest cursor-pointer hover:bg-[#F4F2EC] hover:text-midnight transition-colors">
+             GO ON, SCROLL DOWN
+           </div>
+           <div className="w-16 h-16 mt-2 relative">
+             <svg viewBox="0 0 100 100" fill="none" stroke="#F4F2EC" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+                <path d="M 50 10 L 50 90 M 30 70 L 50 90 L 70 70" />
+             </svg>
+           </div>
+        </div>
+
+        {/* Bottom Right: Audio Icon */}
+        <div className="absolute bottom-28 right-6 md:bottom-32 md:right-16 lg:right-24 z-20">
+           <div className="bg-[#F4F2EC] border-2 border-midnight w-14 h-14 rounded-full flex items-center justify-center relative cursor-pointer shadow-[4px_4px_0_var(--midnight)] hover:-translate-y-1 transition-transform group">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--midnight)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform">
+                 <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                 <line x1="23" y1="9" x2="17" y2="15"></line>
+                 <line x1="17" y1="9" x2="23" y2="15"></line>
               </svg>
-            </motion.div>
-          </motion.div>
+              <div className="absolute -inset-4 pointer-events-none">
+                 <DoodleCircle className="w-full h-full stroke-metro-yellow" delayIndex={1} />
+              </div>
+           </div>
         </div>
       </section>
 

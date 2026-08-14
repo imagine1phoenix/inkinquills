@@ -259,6 +259,28 @@ html {
 .delay-700 { animation-delay: 700ms; }
 .delay-800 { animation-delay: 800ms; }
 
+/* 3D Text Effect */
+.text-3d {
+  text-shadow: 
+    1px 1px 0 var(--midnight),
+    2px 2px 0 var(--midnight),
+    3px 3px 0 var(--midnight),
+    4px 4px 0 var(--midnight),
+    5px 5px 0 var(--midnight),
+    6px 6px 0 var(--midnight),
+    7px 7px 0 var(--midnight),
+    8px 8px 0 var(--midnight),
+    9px 9px 0 var(--midnight),
+    10px 10px 0 var(--midnight),
+    11px 11px 0 var(--midnight),
+    12px 12px 0 var(--midnight),
+    13px 13px 0 var(--midnight),
+    14px 14px 0 var(--midnight),
+    15px 15px 0 var(--midnight),
+    16px 16px 0 var(--midnight),
+    20px 20px 20px rgba(0,0,0,0.5);
+}
+
 /* ============================================
    DECORATIVE ELEMENTS
    ============================================ */

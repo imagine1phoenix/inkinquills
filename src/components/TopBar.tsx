@@ -20,20 +20,30 @@ export default function TopBar() {
   }, [scrollYProgress]);
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-midnight/80 backdrop-blur-md border-b border-text-dim/20">
-      <div className="flex items-center justify-between px-6 py-3 font-ui text-xs md:text-sm font-medium text-text-muted">
-        <div className="flex-1 text-left tracking-widest uppercase font-display text-text-primary">
+    <div className="fixed top-0 left-0 right-0 z-50 flex h-12 border-b-2 border-midnight bg-[#F4F2EC]">
+      {/* Left Block */}
+      <div className="flex-none px-6 flex items-center justify-center bg-midnight text-text-primary border-r-2 border-midnight">
+        <span className="font-display text-lg tracking-wide">
           Inks & Quils
-        </div>
-        <div className="flex-1 text-center hidden md:block">
-          This website exists because a PDF felt boring.
-        </div>
-        <div className="flex-1 text-right">
-          You&apos;ve seen <span className="text-text-primary font-bold">{percentage}%</span>
-        </div>
+        </span>
       </div>
+
+      {/* Center Block */}
+      <div className="flex-1 px-6 flex items-center justify-center text-midnight">
+        <span className="font-display text-base hidden md:block">
+          Started as readers. Ended up telling stories.
+        </span>
+      </div>
+
+      {/* Right Block */}
+      <div className="flex-none px-6 flex items-center justify-center border-l-2 border-midnight text-midnight font-display text-sm gap-2">
+        <span>You&apos;ve seen</span>
+        <span className="font-bold w-8 text-right">{percentage}%</span>
+      </div>
+
+      {/* Progress Bar Line */}
       <motion.div 
-        className="absolute bottom-0 left-0 right-0 h-[1px] bg-electric-blue origin-left"
+        className="absolute bottom-0 left-0 right-0 h-[2px] bg-electric-blue origin-left"
         style={{ scaleX }}
       />
     </div>
