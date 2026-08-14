@@ -112,6 +112,18 @@ html {
   font-weight: 700;
 }
 
+.drop-cap-editorial p:first-of-type::first-letter {
+  font-family: var(--font-display);
+  font-size: 5em;
+  float: left;
+  line-height: 0.8;
+  margin-right: 0.08em;
+  margin-top: 0.02em;
+  color: var(--electric-blue);
+  font-weight: 700;
+  text-shadow: 4px 4px 0px var(--midnight);
+}
+
 /* ============================================
    ANIMATIONS — Keyframes
    ============================================ */
