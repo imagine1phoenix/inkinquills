@@ -7,12 +7,12 @@ import { DoodleFace, DoodleStar, DoodleArrow, DoodleCrown, DoodleSpark, DoodleEy
 
 // ─── DATA ────────────────────────────────────────────
 const activities = [
-  { icon: "🎤", title: "Open Mic Nights", desc: "Share original work in a judgment-free space." },
-  { icon: "✍️", title: "Writing Workshops", desc: "Flash fiction, poetry forms, finding your voice." },
-  { icon: "📖", title: "Book Discussions", desc: "Deep-dives into books that reshape storytelling." },
-  { icon: "🏕", title: "Writers' Retreats", desc: "Weekend getaways for writing & workshopping." },
-  { icon: "🎓", title: "Guest Lectures", desc: "Published authors share craft & career paths." },
-  { icon: "📝", title: "Peer Review", desc: "Small-group constructive, craft-focused critique." },
+  { doodle: "face", title: "Open Mic Nights", desc: "Share original work in a judgment-free space." },
+  { doodle: "squiggle", title: "Writing Workshops", desc: "Flash fiction, poetry forms, finding your voice." },
+  { doodle: "eye", title: "Book Discussions", desc: "Deep-dives into books that reshape storytelling." },
+  { doodle: "star", title: "Writers' Retreats", desc: "Weekend getaways for writing & workshopping." },
+  { doodle: "crown", title: "Guest Lectures", desc: "Published authors share craft & career paths." },
+  { doodle: "spark", title: "Peer Review", desc: "Small-group constructive, craft-focused critique." },
 ];
 
 const founders = [
@@ -403,9 +403,14 @@ export default function AboutPage() {
                       className={`${bgColors[i]} border-[3px] border-midnight p-6 h-full relative`}
                       style={{ boxShadow: `6px 6px 0 ${shadowColors[i]}` }}
                     >
-                      {/* Emoji sticker */}
-                      <div className="absolute -top-4 -right-3 w-12 h-12 bg-metro-yellow border-[3px] border-midnight rounded-full flex items-center justify-center text-xl shadow-[3px_3px_0_var(--midnight)] z-10">
-                        {act.icon}
+                      {/* Doodle sticker */}
+                      <div className="absolute -top-4 -right-3 w-12 h-12 bg-metro-yellow border-[3px] border-midnight rounded-full flex items-center justify-center shadow-[3px_3px_0_var(--midnight)] z-10 p-2">
+                        {act.doodle === "face" && <DoodleFace className="w-full h-full text-midnight" delayIndex={0} />}
+                        {act.doodle === "squiggle" && <DoodleSquiggle className="w-full h-full text-midnight" delayIndex={0} />}
+                        {act.doodle === "eye" && <DoodleEye className="w-full h-full text-midnight" delayIndex={0} />}
+                        {act.doodle === "star" && <DoodleStar className="w-full h-full text-midnight" delayIndex={0} />}
+                        {act.doodle === "crown" && <DoodleCrown className="w-full h-full text-midnight" delayIndex={0} />}
+                        {act.doodle === "spark" && <DoodleSpark className="w-full h-full text-midnight" delayIndex={0} />}
                       </div>
 
                       <h3 className={`font-display text-xl font-black uppercase mb-3 pr-8 leading-tight ${textColors[i]}`}>
