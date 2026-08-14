@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import ScrollReveal from "@/components/ScrollReveal";
+import { motion } from "framer-motion";
 import eventsData from "@/data/events.json";
 import type { ClubEvent } from "@/data/types";
+import { DoodleCircle } from "@/components/Doodles";
 
 const events: ClubEvent[] = eventsData as ClubEvent[];
 const upcoming = events
@@ -14,180 +13,146 @@ const past = events
   .filter((e) => e.status === "past")
   .sort((a, b) => b.date.localeCompare(a.date));
 
-function formatDate(dateStr: string): { day: string; month: string; year: string } {
-  const d = new Date(dateStr + "T00:00:00");
-  return {
-    day: d.getDate().toString(),
-    month: d.toLocaleDateString("en-US", { month: "short" }),
-    year: d.getFullYear().toString(),
-  };
-}
-
 function formatFullDate(dateStr: string): string {
   const d = new Date(dateStr + "T00:00:00");
   return d.toLocaleDateString("en-US", {
-    weekday: "long",
+    weekday: "short",
     month: "long",
     day: "numeric",
     year: "numeric",
   });
 }
 
-export default function EventsPage() {
+function DeckCard({ event, index, colorIndex }: { event: ClubEvent; index: number; colorIndex: number }) {
+  const isFirst = index === 0;
+  
+  // Colors for the deck
+  const colors = [
+    "bg-electric-blue text-[#F4F2EC]",
+    "bg-[#F4F2EC] text-midnight",
+    "bg-midnight text-[#F4F2EC]"
+  ];
+  const colorClass = colors[colorIndex % colors.length];
+  
+  // Messy rotation pattern (-2 to 2 degrees)
+  const rotations = [-1, 2, -2, 1, 0];
+  const rotation = rotations[index % rotations.length];
+
   return (
-    <div className="min-h-screen bg-midnight">
-      {/* Header */}
-      <section className="py-20 md:py-28 px-6 bg-ink-black text-text-primary text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <p className="font-ui text-xs uppercase tracking-[0.3em] text-metro-yellow mb-4">
-            What&apos;s Happening
-          </p>
-          <h1 className="font-display text-5xl md:text-7xl font-bold mb-4">
-            Events
-          </h1>
-          <p className="font-body text-lg text-text-muted max-w-lg mx-auto">
-            Open mics, workshops, retreats, and gatherings that bring words to
-            life.
-          </p>
-        </motion.div>
-      </section>
+    <div 
+      className={`group relative w-full max-w-4xl mx-auto border-2 border-midnight p-6 md:p-10 shadow-[8px_8px_0_rgba(0,0,0,0.8)] transition-all duration-300 hover:-translate-y-8 hover:shadow-[16px_16px_0_rgba(0,0,0,0.8)] cursor-pointer ${colorClass} ${!isFirst ? '-mt-20 md:-mt-28' : ''}`}
+      style={{ 
+        transform: `rotate(${rotation}deg)`, 
+        zIndex: index, // Stacks properly
+      }}
+    >
+      {/* Hover z-index fix */}
+      <style jsx>{`
+        div:hover {
+          z-index: 50 !important;
+        }
+      `}</style>
 
-      {/* Upcoming Events */}
-      <section className="py-16 md:py-24 px-6">
-        <div className="max-w-4xl mx-auto">
-          <ScrollReveal>
-            <div className="flex items-center gap-4 mb-12">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-metro-yellow opacity-75" />
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-metro-yellow" />
-              </span>
-              <h2 className="font-display text-3xl font-bold text-text-primary">
-                Upcoming
-              </h2>
-            </div>
-          </ScrollReveal>
+      {/* Tape Tab */}
+      <div className="absolute -top-3 right-8 md:right-16 w-12 h-6 bg-[#F4F2EC] border-2 border-midnight -rotate-6 shadow-[2px_2px_0_var(--midnight)]" />
 
-          {/* Timeline */}
-          <div className="relative">
-            {/* Vertical line */}
-            <div className="absolute left-[27px] top-0 bottom-0 w-[2px] bg-text-dim/20 hidden md:block" />
-
-            <div className="space-y-8">
-              {upcoming.map((event, i) => {
-                const date = formatDate(event.date);
-                return (
-                  <ScrollReveal key={event.id} delay={0.1 * i}>
-                    <div className="flex gap-6 md:gap-10 group">
-                      {/* Date badge */}
-                      <div className="hidden md:flex flex-col items-center shrink-0">
-                        <div className="relative z-10 w-14 h-14 rounded-full bg-metro-yellow flex flex-col items-center justify-center text-midnight shadow-offset animate-pulse-glow">
-                          <span className="font-ui text-lg font-bold leading-none">
-                            {date.day}
-                          </span>
-                          <span className="font-ui text-[9px] uppercase font-semibold leading-none">
-                            {date.month}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Card */}
-                      <div className="flex-1 bg-surface-elevated hover:bg-surface rounded-2xl p-6 md:p-8 border border-ink-black hover:border-metro-yellow/50 shadow-offset hover:shadow-offset-lg transition-all duration-300 group-hover:-translate-y-0.5">
-                        <div className="md:hidden flex items-center gap-2 mb-3">
-                          <span className="w-2 h-2 rounded-full bg-metro-yellow" />
-                          <span className="font-ui text-xs text-metro-yellow font-bold">
-                            {formatFullDate(event.date)}
-                          </span>
-                        </div>
-                        <p className="hidden md:block font-ui text-xs text-text-muted mb-2">
-                          {formatFullDate(event.date)}
-                        </p>
-                        <h3 className="font-display text-xl md:text-2xl font-bold text-text-primary mb-2">
-                          {event.title}
-                        </h3>
-                        <p className="font-body text-sm text-text-muted leading-relaxed">
-                          {event.description}
-                        </p>
-                      </div>
-                    </div>
-                  </ScrollReveal>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div className="max-w-4xl mx-auto px-6">
-        <div className="gold-line-center" />
+      {/* Visible Header (when stacked) */}
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-2 md:gap-4 mb-4">
+        <h3 className="font-display text-3xl md:text-4xl font-bold uppercase">{event.title}</h3>
+        <span className="font-ui text-xs md:text-sm font-bold opacity-80 shrink-0 mt-2">{formatFullDate(event.date)}</span>
       </div>
 
-      {/* Past Events */}
-      <section className="py-16 md:py-24 px-6">
-        <div className="max-w-4xl mx-auto">
-          <ScrollReveal>
-            <div className="flex items-center gap-4 mb-12">
-              <h2 className="font-display text-3xl font-bold text-text-primary">
-                Past Events
-              </h2>
-            </div>
-          </ScrollReveal>
-
-          <div className="space-y-12">
-            {past.map((event, i) => (
-              <ScrollReveal key={event.id} delay={0.1 * i}>
-                <PastEventCard event={event} />
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Body (revealed on hover/expanded view) */}
+      <div className="mt-8">
+        <p className="font-body text-base md:text-lg leading-relaxed max-w-3xl">
+          {event.longDescription || event.description}
+        </p>
+      </div>
     </div>
   );
 }
 
-// ============= PAST EVENT CARD =============
-function PastEventCard({ event }: { event: ClubEvent }) {
-  const date = formatDate(event.date);
-
+export default function EventsPage() {
   return (
-    <div className="bg-surface rounded-2xl overflow-hidden border border-ink-black shadow-offset">
-      {/* Photo gallery placeholder */}
-      {event.photos.length > 0 && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-1 p-1">
-          {event.photos.map((_, idx) => (
-            <div
-              key={idx}
-              className="aspect-[4/3] rounded-xl bg-surface-elevated flex items-center justify-center border border-ink-black/50"
-            >
-              <div className="text-center">
-                <span className="text-3xl opacity-20">📸</span>
-                <p className="font-ui text-[10px] text-text-dim/50 mt-1">
-                  Photo {idx + 1}
-                </p>
-              </div>
+    <div className="min-h-screen bg-blueprint pb-32">
+      {/* Top Section */}
+      <div className="pt-24 px-6 md:px-12 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 mb-32">
+        
+        {/* Top Left: Header Sticky Note */}
+        <div className="relative">
+          {/* Section Tag */}
+          <div className="absolute -top-6 -left-4 z-10 bg-electric-blue text-[#F4F2EC] border-2 border-[#F4F2EC] font-ui text-xs font-bold uppercase tracking-widest px-3 py-1">
+            SECTION 02
+          </div>
+          
+          {/* Main Sticky Note */}
+          <div className="bg-[#F4F2EC] border-2 border-midnight p-8 pr-16 shadow-[12px_12px_0_var(--midnight)] -rotate-3 relative">
+            <h1 className="font-display text-7xl md:text-9xl text-midnight font-black tracking-tighter">
+              Events
+            </h1>
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-16 h-6 bg-white/50 backdrop-blur-sm border border-midnight shadow-sm rotate-2" />
+            <div className="absolute bottom-4 right-4 w-12 h-12">
+               <DoodleCircle className="w-full h-full stroke-metro-yellow" delayIndex={1} />
             </div>
-          ))}
+          </div>
         </div>
-      )}
 
-      {/* Content */}
-      <div className="p-6 md:p-8">
-        <div className="flex items-center gap-3 mb-3">
-          <span className="font-ui text-xs text-text-muted">
-            {formatFullDate(event.date)}
-          </span>
+        {/* Top Right: Quick Note */}
+        <div className="relative mt-8 md:mt-0">
+          <div className="bg-[#F4F2EC] border-2 border-midnight p-6 shadow-[8px_8px_0_var(--midnight)] rotate-2 max-w-xs relative">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-5 bg-white/50 backdrop-blur-sm border border-midnight shadow-sm -rotate-2" />
+            <p className="font-ui text-xs uppercase tracking-widest text-electric-blue mb-4 font-bold">
+              A Quick Note
+            </p>
+            <p className="font-display text-2xl leading-tight text-midnight">
+              Upcoming events are on top.<br/>
+              Scroll down to dig into the <span className="underline decoration-wavy decoration-electric-blue">archives</span>.
+            </p>
+          </div>
         </div>
-        <h3 className="font-display text-xl md:text-2xl font-bold text-text-primary mb-2">
-          {event.title}
-        </h3>
-        <p className="font-body text-sm text-text-muted leading-relaxed">
-          {event.longDescription || event.description}
-        </p>
+
+      </div>
+
+      {/* Decks Section */}
+      <div className="px-6 md:px-12 flex flex-col gap-40">
+        
+        {/* Upcoming Deck */}
+        <section>
+          <div className="max-w-4xl mx-auto mb-12">
+            <h2 className="font-display text-4xl text-[#F4F2EC] bg-midnight inline-block px-4 py-2 border-2 border-[#F4F2EC] -rotate-1">
+              UPCOMING
+            </h2>
+          </div>
+          <div className="flex flex-col">
+            {upcoming.length > 0 ? (
+              upcoming.map((event, i) => (
+                <DeckCard key={event.id} event={event} index={i} colorIndex={i} />
+              ))
+            ) : (
+              <div className="max-w-4xl mx-auto w-full bg-[#F4F2EC] border-2 border-midnight p-10 text-center shadow-[8px_8px_0_var(--midnight)]">
+                <p className="font-display text-2xl text-midnight">No upcoming events right now. Stay tuned!</p>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* Divider */}
+        <div className="max-w-4xl mx-auto w-full border-t-2 border-dashed border-[#F4F2EC]/40 my-8" />
+
+        {/* Past Deck */}
+        <section>
+          <div className="max-w-4xl mx-auto mb-12">
+            <h2 className="font-display text-4xl text-midnight bg-[#F4F2EC] inline-block px-4 py-2 border-2 border-midnight rotate-1">
+              ARCHIVE
+            </h2>
+          </div>
+          <div className="flex flex-col">
+            {past.map((event, i) => (
+              <DeckCard key={event.id} event={event} index={i} colorIndex={i + upcoming.length} />
+            ))}
+          </div>
+        </section>
+        
       </div>
     </div>
   );

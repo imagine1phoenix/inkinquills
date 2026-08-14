@@ -75,7 +75,7 @@ const titleLetter = {
 };
 
 export default function LandingPage() {
-  const clubName = "Inks & Quils";
+  const clubName = "Inks & Quills";
 
   return (
     <div>
@@ -89,7 +89,7 @@ export default function LandingPage() {
         {/* Central 3D Text */}
         <div className="relative z-10 text-center select-none">
            <h1 className="font-display text-8xl md:text-[12rem] leading-[0.8] text-[#F4F2EC] text-3d -rotate-2 hover:scale-105 transition-transform duration-500 cursor-default">
-             Inks &<br />Quils
+             Inks &<br />Quills
            </h1>
         </div>
 
