@@ -11,7 +11,7 @@ const sectionCards = [
     href: "/stories",
     title: "Stories & Poems",
     description: "Original work by our members — fiction, poetry, and everything between.",
-    icon: "✍",
+    doodle: "squiggle",
     theme: "bg-electric-blue text-[#F4F2EC]",
     shadow: "var(--metro-yellow)",
   },
@@ -19,7 +19,7 @@ const sectionCards = [
     href: "/events",
     title: "Events",
     description: "Open mics, workshops, retreats, and gatherings that bring words to life.",
-    icon: "✦",
+    doodle: "spark",
     theme: "bg-metro-yellow text-midnight",
     shadow: "var(--electric-blue)",
   },
@@ -27,7 +27,7 @@ const sectionCards = [
     href: "/library",
     title: "The Library",
     description: "Our curated bookshelf — reviews and recommendations from avid readers.",
-    icon: "📖",
+    doodle: "eye",
     theme: "bg-midnight text-[#F4F2EC]",
     shadow: "var(--metro-yellow)",
   },
@@ -35,7 +35,7 @@ const sectionCards = [
     href: "/about",
     title: "About Us",
     description: "Who we are, what we do, and why stories matter to us.",
-    icon: "◈",
+    doodle: "face",
     theme: "bg-[#F4F2EC] text-midnight",
     shadow: "var(--midnight)",
   },
@@ -271,8 +271,11 @@ export default function LandingPage() {
                       {/* Top Tape */}
                       <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-6 bg-white/90 border-[3px] border-midnight shadow-sm rotate-[3deg] z-10" />
 
-                      <div className="absolute top-4 right-4 text-5xl md:text-6xl opacity-20 pointer-events-none select-none">
-                        {card.icon}
+                      <div className="absolute top-4 right-4 w-16 h-16 opacity-30 pointer-events-none select-none">
+                        {card.doodle === "squiggle" && <DoodleSquiggle className="w-full h-full" delayIndex={0} />}
+                        {card.doodle === "spark" && <DoodleSpark className="w-full h-full" delayIndex={0} />}
+                        {card.doodle === "eye" && <DoodleEye className="w-full h-full" delayIndex={0} />}
+                        {card.doodle === "face" && <DoodleFace className="w-full h-full" delayIndex={0} />}
                       </div>
 
                       <h3 className="font-display text-3xl font-black uppercase mb-4 mt-6 leading-none">
