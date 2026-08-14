@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import eventsData from "@/data/events.json";
 import type { ClubEvent } from "@/data/types";
-import { DoodleCircle } from "@/components/Doodles";
+import { DoodleCircle, DoodleCrown, DoodleStar, DoodleFace, DoodleSquiggle, DoodleEye, DoodleSpark, DoodleSwirl } from "@/components/Doodles";
 
 const events: ClubEvent[] = eventsData as ClubEvent[];
 const upcoming = events
@@ -157,6 +157,9 @@ export default function EventsPage() {
             <div className="absolute bottom-4 right-4 w-12 h-12">
                <DoodleCircle className="w-full h-full stroke-metro-yellow" delayIndex={1} />
             </div>
+            <div className="absolute -top-12 -right-8 w-16 h-16 text-electric-blue rotate-12">
+               <DoodleCrown className="w-full h-full" delayIndex={1.5} />
+            </div>
           </div>
         </div>
 
@@ -180,10 +183,17 @@ export default function EventsPage() {
       <div className="px-6 md:px-12 flex flex-col gap-40">
         
         {/* Upcoming Deck */}
-        <section>
-          <div className="max-w-4xl mx-auto mb-12">
-            <h2 className="font-display text-4xl text-[#F4F2EC] bg-midnight inline-block px-4 py-2 border-2 border-[#F4F2EC] -rotate-1">
-              UPCOMING
+        <section className="mb-24 md:mb-32 relative">
+          <div className="absolute top-1/4 -left-12 w-32 h-32 text-metro-yellow/20 -rotate-45 hidden lg:block pointer-events-none">
+            <DoodleSpark className="w-full h-full" delayIndex={1} />
+          </div>
+          <div className="flex items-center gap-4 mb-16 md:mb-20 max-w-4xl mx-auto">
+            <div className="gold-line" />
+            <h2 className="font-display text-2xl font-bold text-metro-yellow uppercase tracking-widest relative">
+              Upcoming
+              <div className="absolute -top-6 -right-12 w-12 h-12 text-electric-blue/50 rotate-12">
+                <DoodleEye className="w-full h-full" delayIndex={2} />
+              </div>
             </h2>
           </div>
           <div className="flex flex-col">
@@ -200,13 +210,21 @@ export default function EventsPage() {
         </section>
 
         {/* Divider */}
-        <div className="max-w-4xl mx-auto w-full border-t-2 border-dashed border-[#F4F2EC]/40 my-8" />
+        <div className="max-w-4xl mx-auto w-full border-t-2 border-dashed border-[#F4F2EC]/40 my-8 relative">
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-16 text-[#F4F2EC]/20">
+              <DoodleSquiggle className="w-full h-full" delayIndex={0} />
+           </div>
+        </div>
 
         {/* Past Deck */}
-        <section>
-          <div className="max-w-4xl mx-auto mb-12">
-            <h2 className="font-display text-4xl text-midnight bg-[#F4F2EC] inline-block px-4 py-2 border-2 border-midnight rotate-1">
-              ARCHIVE
+        <section className="relative">
+          <div className="absolute top-1/3 -right-20 w-48 h-48 text-electric-blue/10 rotate-12 hidden lg:block pointer-events-none">
+            <DoodleSwirl className="w-full h-full" delayIndex={1.5} />
+          </div>
+          <div className="flex items-center gap-4 mb-16 md:mb-20 max-w-4xl mx-auto">
+            <div className="gold-line" />
+            <h2 className="font-display text-2xl font-bold text-metro-yellow uppercase tracking-widest">
+              Archive
             </h2>
           </div>
           <div className="flex flex-col">

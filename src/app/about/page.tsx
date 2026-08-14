@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import ScrollReveal from "@/components/ScrollReveal";
-import { DoodleArrow, DoodleCircle } from "@/components/Doodles";
+import Image from "next/image";
+import { DoodleFace, DoodleStar, DoodleArrow, DoodleCrown, DoodleSpark, DoodleEye, DoodleSwirl, DoodleCircle, DoodleSquiggle } from "@/components/Doodles";
 
 const activities = [
   {
@@ -57,15 +58,23 @@ export default function AboutPage() {
             Who We Are
           </p>
           <h1 className="font-display text-5xl md:text-7xl font-bold mb-4 relative inline-block">
-            About the Club
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[150%]">
-              <DoodleCircle className="w-full h-full" delayIndex={1} />
+            <div className="absolute -top-12 -left-12 w-20 h-20 text-electric-blue/40 -rotate-12 hidden md:block">
+              <DoodleEye className="w-full h-full" delayIndex={1} />
             </div>
+            We write because
+            <br />
+            we have to.
           </h1>
           <p className="font-body text-lg text-text-muted max-w-lg mx-auto">
             A space for the curious, the creative, and the quietly obsessed with
             words.
           </p>
+          <div className="absolute top-20 right-10 w-16 h-16 text-electric-blue/50 rotate-45 hidden md:block">
+            <DoodleStar className="w-full h-full" delayIndex={1.5} />
+          </div>
+          <div className="absolute bottom-10 left-10 w-24 h-24 text-metro-yellow/30 -rotate-12 hidden md:block">
+            <DoodleFace className="w-full h-full" delayIndex={2} />
+          </div>
         </motion.div>
       </section>
 
@@ -131,6 +140,9 @@ export default function AboutPage() {
             </ScrollReveal>
           </div>
         </div>
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-32 h-64 text-electric-blue/10 opacity-50 hidden lg:block pointer-events-none">
+          <DoodleSquiggle className="w-full h-full rotate-90" delayIndex={0} />
+        </div>
       </section>
 
       {/* What We Do */}
@@ -144,6 +156,24 @@ export default function AboutPage() {
               <div className="gold-line-center" />
             </div>
           </ScrollReveal>
+
+          {/* Mission Image Area */}
+          <div className="relative mb-16 max-w-2xl mx-auto">
+            <div className="absolute -inset-4 bg-metro-yellow/20 rounded-2xl -rotate-2"></div>
+            <div className="relative aspect-square md:aspect-[4/3] w-full bg-surface-elevated rounded-2xl overflow-hidden border border-ink-black shadow-offset">
+              <div className="absolute inset-0 bg-ink-black flex items-center justify-center p-8 text-center">
+                <p className="font-display text-xl text-text-muted/50 font-bold rotate-[-5deg]">
+                  [Insert beautifully chaotic photo of the club in session here]
+                </p>
+                <div className="absolute top-10 right-10 w-24 h-24 text-electric-blue/40 rotate-12 hidden md:block">
+                  <DoodleSpark className="w-full h-full" delayIndex={1.5} />
+                </div>
+                <div className="absolute bottom-10 left-10 w-32 h-32 text-metro-yellow/30 -rotate-45 hidden md:block">
+                  <DoodleSwirl className="w-full h-full" delayIndex={2} />
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {activities.map((activity, i) => (

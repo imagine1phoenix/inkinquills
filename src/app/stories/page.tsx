@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ScrollReveal from "@/components/ScrollReveal";
 import storiesData from "@/data/stories.json";
 import type { Story } from "@/data/types";
+import { DoodleArrow, DoodleCrown, DoodleStar, DoodleSquiggle, DoodleEye, DoodleSpark, DoodleSwirl } from "@/components/Doodles";
 
 const stories: Story[] = storiesData as Story[];
 
@@ -48,12 +49,18 @@ export default function StoriesPage() {
           <p className="font-ui text-xs uppercase tracking-[0.3em] text-metro-yellow mb-4">
             Our Members&apos; Work
           </p>
-          <h1 className="font-display text-5xl md:text-7xl font-bold mb-4">
+          <h1 className="font-display text-5xl md:text-7xl font-bold mb-4 relative inline-block">
             Stories & Poems
+            <div className="absolute -top-6 -left-12 w-16 h-16 text-electric-blue -rotate-12 hidden md:block">
+              <DoodleStar className="w-full h-full" delayIndex={1} />
+            </div>
           </h1>
-          <p className="font-body text-lg text-text-muted max-w-lg mx-auto">
+          <p className="font-body text-lg text-text-muted max-w-lg mx-auto relative">
             Original writing by our members — fiction, poetry, and everything
             between.
+            <div className="absolute -bottom-10 right-0 w-24 h-12 text-metro-yellow/50 rotate-12 hidden md:block">
+              <DoodleSquiggle className="w-full h-full" delayIndex={2} />
+            </div>
           </p>
         </motion.div>
       </section>
@@ -138,6 +145,18 @@ export default function StoriesPage() {
               </div>
             </div>
           ))}
+        </div>
+        <div className="absolute left-10 top-1/3 w-32 h-32 text-electric-blue/10 rotate-45 hidden lg:block pointer-events-none">
+           <DoodleArrow className="w-full h-full" delayIndex={0} />
+        </div>
+        <div className="absolute right-10 bottom-1/4 w-40 h-40 text-metro-yellow/10 -rotate-12 hidden lg:block pointer-events-none">
+           <DoodleCrown className="w-full h-full" delayIndex={0.5} />
+        </div>
+        <div className="absolute -left-16 bottom-1/3 w-48 h-48 text-electric-blue/5 -rotate-45 hidden lg:block pointer-events-none">
+           <DoodleSwirl className="w-full h-full" delayIndex={1} />
+        </div>
+        <div className="absolute top-20 right-20 w-24 h-24 text-metro-yellow/20 rotate-12 hidden lg:block pointer-events-none">
+           <DoodleSpark className="w-full h-full" delayIndex={1.5} />
         </div>
       </section>
 

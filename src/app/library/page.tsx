@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import booksData from "@/data/books.json";
 import type { Book } from "@/data/types";
+import { DoodleFace, DoodleCrown, DoodleStar, DoodleSquiggle, DoodleEye, DoodleSpark, DoodleSwirl } from "@/components/Doodles";
 
 const books: Book[] = booksData as Book[];
 
@@ -40,17 +41,32 @@ export default function LibraryPage() {
           <p className="font-ui text-xs uppercase tracking-[0.3em] text-metro-yellow mb-4">
             Our Curated Collection
           </p>
-          <h1 className="font-display text-5xl md:text-7xl font-bold text-text-primary mb-4">
+          <h1 className="font-display text-5xl md:text-7xl font-bold text-text-primary mb-4 relative inline-block">
             The Book Wall
+            <div className="absolute -top-10 -right-16 w-20 h-20 text-electric-blue rotate-12">
+               <DoodleCrown className="w-full h-full" delayIndex={1} />
+            </div>
           </h1>
           <p className="font-body text-lg text-text-muted max-w-lg mx-auto">
             Pull a book from the shelf. Every spine holds a story we love.
           </p>
+          <div className="absolute top-10 left-10 w-24 h-24 text-metro-yellow/40 -rotate-12 hidden md:block">
+            <DoodleFace className="w-full h-full" delayIndex={2} />
+          </div>
+          <div className="absolute bottom-10 right-20 w-16 h-16 text-electric-blue/50 rotate-45 hidden md:block">
+            <DoodleStar className="w-full h-full" delayIndex={1.5} />
+          </div>
         </motion.div>
       </section>
 
       {/* Bookshelf */}
-      <section className="pb-24 px-4 md:px-8">
+      <section className="pb-24 px-4 md:px-8 relative">
+        <div className="absolute top-1/4 -left-16 w-40 h-40 text-electric-blue/10 rotate-12 hidden lg:block pointer-events-none">
+          <DoodleSwirl className="w-full h-full" delayIndex={0} />
+        </div>
+        <div className="absolute bottom-1/4 -right-16 w-32 h-32 text-metro-yellow/10 -rotate-12 hidden lg:block pointer-events-none">
+          <DoodleEye className="w-full h-full" delayIndex={0.5} />
+        </div>
         <div className="max-w-6xl mx-auto space-y-2">
           {shelves.map((shelfBooks, shelfIdx) => (
             <motion.div
@@ -279,7 +295,10 @@ function BookDetail({
         {/* Content */}
         <div className="px-8 md:px-12 py-10 space-y-8">
           {/* Title + metadata */}
-          <div>
+          <div className="relative">
+            <div className="absolute -top-4 right-0 w-16 h-8 text-metro-yellow/50 rotate-6">
+              <DoodleSquiggle className="w-full h-full" delayIndex={0.5} />
+            </div>
             <h2 className="font-display text-3xl font-bold text-text-primary mb-1">
               {book.title}
             </h2>

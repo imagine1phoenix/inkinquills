@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
-import { DoodleArrow, DoodleCircle, DoodleUnderline } from "@/components/Doodles";
+import { DoodleArrow, DoodleCircle, DoodleUnderline, DoodleStar, DoodleSquiggle, DoodleFace, DoodleCrown, DoodleEye, DoodleSwirl, DoodleSpark } from "@/components/Doodles";
 
 const heroQuotes = [
   "We are all stories in the end. Just make it a good one.",
@@ -88,9 +88,15 @@ export default function LandingPage() {
 
         {/* Central 3D Text */}
         <div className="relative z-10 text-center select-none">
+           <div className="absolute -top-12 -left-12 w-24 h-24 rotate-12 text-[#F4F2EC] opacity-80">
+             <DoodleStar className="w-full h-full" delayIndex={0.5} />
+           </div>
            <h1 className="font-display text-8xl md:text-[12rem] leading-[0.8] text-[#F4F2EC] text-3d -rotate-2 hover:scale-105 transition-transform duration-500 cursor-default">
              Inks &<br />Quills
            </h1>
+           <div className="absolute -bottom-16 -right-8 w-32 h-16 -rotate-6 text-[#F4F2EC] opacity-80">
+             <DoodleSquiggle className="w-full h-full" delayIndex={1} />
+           </div>
         </div>
 
         {/* Top Left: Est Card */}
@@ -115,6 +121,9 @@ export default function LandingPage() {
             </svg>
             <div className="absolute -bottom-6 left-0 text-[10px] font-ui">20:00</div>
             <div className="absolute -bottom-6 right-0 text-[10px] font-ui">00:00</div>
+            <div className="absolute -top-8 -right-8 w-12 h-12 text-metro-yellow">
+               <DoodleFace className="w-full h-full" delayIndex={2} />
+            </div>
           </div>
         </div>
 
@@ -138,6 +147,12 @@ export default function LandingPage() {
 
         {/* Bottom Center: CTA */}
         <div className="absolute bottom-28 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">
+           <div className="absolute -top-12 -left-16 w-20 h-20 text-metro-yellow/50 -rotate-12 hidden md:block">
+             <DoodleEye className="w-full h-full" delayIndex={1.5} />
+           </div>
+           <div className="absolute -top-4 -right-16 w-16 h-16 text-electric-blue/50 rotate-12 hidden md:block">
+             <DoodleSpark className="w-full h-full" delayIndex={2} />
+           </div>
            <div className="bg-midnight text-[#F4F2EC] border-2 border-[#F4F2EC] px-6 py-2 font-ui text-xs font-bold uppercase tracking-widest cursor-pointer hover:bg-[#F4F2EC] hover:text-midnight transition-colors">
              GO ON, SCROLL DOWN
            </div>
@@ -164,8 +179,14 @@ export default function LandingPage() {
       </section>
 
       {/* ============= FEATURED PIECE ============= */}
-      <section className="py-24 md:py-32 px-6 bg-surface-elevated">
-        <div className="max-w-3xl mx-auto text-center">
+      <section className="py-24 md:py-32 px-6 bg-surface-elevated relative overflow-hidden">
+        <div className="absolute top-10 left-10 w-24 h-24 text-midnight/10 -rotate-12">
+           <DoodleCrown className="w-full h-full" delayIndex={0} />
+        </div>
+        <div className="absolute bottom-10 right-10 w-32 h-16 text-metro-yellow/20 rotate-12">
+           <DoodleSquiggle className="w-full h-full" delayIndex={0} />
+        </div>
+        <div className="max-w-3xl mx-auto text-center relative z-10">
           <ScrollReveal>
             <p className="font-ui text-xs uppercase tracking-[0.3em] text-metro-yellow mb-8">
               Featured Poem
@@ -203,11 +224,14 @@ export default function LandingPage() {
       </section>
 
       {/* ============= SECTION CARDS ============= */}
-      <section className="py-24 md:py-32 px-6 bg-surface">
-        <div className="max-w-6xl mx-auto">
+      <section className="py-24 md:py-32 px-6 bg-surface relative">
+        <div className="max-w-6xl mx-auto relative z-10">
           <ScrollReveal>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-text-primary mb-16">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-text-primary mb-16 relative inline-block">
               Explore
+              <div className="absolute -top-6 -right-12 w-16 h-16 text-electric-blue -rotate-12">
+                <DoodleStar className="w-full h-full" delayIndex={0} />
+              </div>
             </h2>
           </ScrollReveal>
 
@@ -241,7 +265,13 @@ export default function LandingPage() {
       </section>
 
       {/* ============= CALL TO ACTION ============= */}
-      <section className="py-24 md:py-32 px-6 bg-midnight text-text-primary text-center">
+      <section className="py-24 md:py-32 px-6 bg-midnight text-text-primary text-center relative overflow-hidden">
+        <div className="absolute top-20 left-10 w-48 h-48 text-electric-blue/10 -rotate-12 pointer-events-none">
+          <DoodleSwirl className="w-full h-full" delayIndex={0} />
+        </div>
+        <div className="absolute bottom-20 right-10 w-32 h-32 text-metro-yellow/10 rotate-12 pointer-events-none">
+          <DoodleFace className="w-full h-full" delayIndex={1} />
+        </div>
         <ScrollReveal>
           <p className="font-ui text-xs uppercase tracking-[0.3em] text-metro-yellow mb-6">
             Our Signature Feature
