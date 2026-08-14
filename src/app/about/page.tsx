@@ -147,21 +147,6 @@ export default function AboutPage() {
           </div>
         </motion.div>
 
-        {/* Scroll hint */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
-        >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-6 h-10 border-2 border-[#F4F2EC]/40 rounded-full flex items-start justify-center pt-2"
-          >
-            <div className="w-1 h-2 bg-[#F4F2EC]/60 rounded-full" />
-          </motion.div>
-        </motion.div>
 
         {/* DOODLE EXPLOSION — Cover */}
         <div className="absolute bottom-16 left-6 w-12 h-12 text-[#F4F2EC]/30 -rotate-12 pointer-events-none">
