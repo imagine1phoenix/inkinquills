@@ -49,7 +49,7 @@ export default function StoriesPage() {
           <p className="font-ui text-xs uppercase tracking-[0.3em] text-metro-yellow mb-4">
             Our Members&apos; Work
           </p>
-          <h1 className="font-display text-5xl md:text-7xl font-bold mb-4 relative inline-block">
+          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-bold mb-4 relative inline-block">
             Stories & Poems
             <div className="absolute -top-6 -left-12 w-16 h-16 text-electric-blue -rotate-12 hidden md:block">
               <DoodleStar className="w-full h-full" delayIndex={1} />

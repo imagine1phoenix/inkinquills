@@ -41,9 +41,9 @@ export default function LibraryPage() {
           <p className="font-ui text-xs uppercase tracking-[0.3em] text-metro-yellow mb-4">
             Our Curated Collection
           </p>
-          <h1 className="font-display text-5xl md:text-7xl font-bold text-text-primary mb-4 relative inline-block">
+          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-bold text-text-primary mb-4 relative inline-block">
             The Book Wall
-            <div className="absolute -top-10 -right-16 w-20 h-20 text-electric-blue rotate-12">
+            <div className="absolute -top-10 -right-16 w-20 h-20 text-electric-blue rotate-12 hidden md:block">
                <DoodleCrown className="w-full h-full" delayIndex={1} />
             </div>
           </h1>

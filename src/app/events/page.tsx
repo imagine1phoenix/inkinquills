@@ -60,7 +60,7 @@ function DeckCard({ event, index, colorIndex, onClick }: { event: ClubEvent; ind
 
       {/* Visible Header (when stacked) */}
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-2 md:gap-4 mb-4">
-        <h3 className="font-display text-3xl md:text-4xl font-bold uppercase">{event.title}</h3>
+        <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold uppercase">{event.title}</h3>
         <span className="font-ui text-xs md:text-sm font-bold opacity-80 shrink-0 mt-2">{formatFullDate(event.date)}</span>
       </div>
 
@@ -149,15 +149,15 @@ export default function EventsPage() {
           </div>
           
           {/* Main Sticky Note */}
-          <div className="bg-[#F4F2EC] border-2 border-midnight p-8 pr-16 shadow-[12px_12px_0_var(--midnight)] -rotate-3 relative">
-            <h1 className="font-display text-7xl md:text-9xl text-midnight font-black tracking-tighter">
+          <div className="bg-[#F4F2EC] border-2 border-midnight p-6 sm:p-8 pr-12 md:pr-16 shadow-[8px_8px_0_var(--midnight)] md:shadow-[12px_12px_0_var(--midnight)] -rotate-3 relative">
+            <h1 className="font-display text-6xl sm:text-7xl md:text-9xl text-midnight font-black tracking-tighter">
               Events
             </h1>
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-16 h-6 bg-white/50 backdrop-blur-sm border border-midnight shadow-sm rotate-2" />
-            <div className="absolute bottom-4 right-4 w-12 h-12">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-12 sm:w-16 h-4 sm:h-6 bg-white/50 backdrop-blur-sm border border-midnight shadow-sm rotate-2" />
+            <div className="absolute bottom-4 right-4 w-8 h-8 sm:w-12 sm:h-12">
                <DoodleCircle className="w-full h-full stroke-metro-yellow" delayIndex={1} />
             </div>
-            <div className="absolute -top-12 -right-8 w-16 h-16 text-electric-blue rotate-12">
+            <div className="absolute -top-8 sm:-top-12 -right-4 sm:-right-8 w-12 h-12 sm:w-16 sm:h-16 text-electric-blue rotate-12">
                <DoodleCrown className="w-full h-full" delayIndex={1.5} />
             </div>
           </div>

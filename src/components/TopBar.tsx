@@ -36,7 +36,7 @@ export default function TopBar() {
       </div>
 
       {/* Right Block */}
-      <div className="flex-none px-6 flex items-center justify-center border-l-2 border-midnight text-midnight font-display text-sm gap-2">
+      <div className="hidden sm:flex flex-none px-6 items-center justify-center border-l-2 border-midnight text-midnight font-display text-sm gap-2">
         <span>You&apos;ve seen</span>
         <span className="font-bold w-8 text-right">{percentage}%</span>
       </div>
