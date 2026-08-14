@@ -1,21 +1,16 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Source_Serif_4, Inter } from "next/font/google";
+import { Schoolbell, Inter } from "next/font/google";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import Spotlight from "@/components/Spotlight";
+import TopBar from "@/components/TopBar";
 import "./globals.css";
 
-const playfair = Playfair_Display({
+const schoolbell = Schoolbell({
   variable: "--font-display",
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500", "600", "700", "800", "900"],
-});
-
-const sourceSerif = Source_Serif_4({
-  variable: "--font-body",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["300", "400", "500", "600"],
+  weight: ["400"],
 });
 
 const inter = Inter({
@@ -49,15 +44,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${sourceSerif.variable} ${inter.variable} h-full antialiased`}
+      className={`${schoolbell.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-parchment text-ink">
+      <body className="min-h-full flex flex-col bg-midnight text-text-primary">
+        <Spotlight />
+        <TopBar />
+        <main className="flex-1 pt-16 pb-32 relative z-10">{children}</main>
         <Navigation />
-        <main className="flex-1 pt-[72px]">{children}</main>
         <Footer />
       </body>
     </html>

@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ScrollReveal from "@/components/ScrollReveal";
-import SectionHeading from "@/components/SectionHeading";
 import storiesData from "@/data/stories.json";
 import type { Story } from "@/data/types";
 
@@ -38,21 +37,21 @@ export default function StoriesPage() {
   const sortedMonths = Object.keys(grouped).sort((a, b) => b.localeCompare(a));
 
   return (
-    <div className="min-h-screen bg-parchment">
+    <div className="min-h-screen bg-midnight">
       {/* Header */}
-      <section className="py-20 md:py-28 px-6 bg-charcoal text-parchment text-center">
+      <section className="py-20 md:py-28 px-6 bg-ink-black text-text-primary text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <p className="font-ui text-xs uppercase tracking-[0.3em] text-gold mb-4">
+          <p className="font-ui text-xs uppercase tracking-[0.3em] text-metro-yellow mb-4">
             Our Members&apos; Work
           </p>
           <h1 className="font-display text-5xl md:text-7xl font-bold mb-4">
             Stories & Poems
           </h1>
-          <p className="font-body text-lg text-parchment/50 max-w-lg mx-auto">
+          <p className="font-body text-lg text-text-muted max-w-lg mx-auto">
             Original writing by our members — fiction, poetry, and everything
             between.
           </p>
@@ -60,7 +59,7 @@ export default function StoriesPage() {
       </section>
 
       {/* Filter bar */}
-      <div className="sticky top-[72px] z-30 bg-parchment/90 backdrop-blur-md border-b border-ink/5">
+      <div className="sticky top-[72px] z-30 bg-midnight/90 backdrop-blur-md border-b border-text-dim/20">
         <div className="max-w-4xl mx-auto flex items-center justify-center gap-2 px-6 py-4">
           {(["all", "story", "poem"] as FilterType[]).map((f) => (
             <button
@@ -68,8 +67,8 @@ export default function StoriesPage() {
               onClick={() => setFilter(f)}
               className={`font-ui text-sm font-medium px-5 py-2 rounded-full transition-all duration-300 ${
                 filter === f
-                  ? "bg-ink text-parchment"
-                  : "text-ink-light hover:text-ink hover:bg-ink/5"
+                  ? "bg-metro-yellow text-midnight shadow-offset"
+                  : "text-text-muted hover:text-text-primary hover:bg-surface-elevated"
               }`}
             >
               {f === "all" ? "All" : f === "story" ? "Stories" : "Poems"}
@@ -86,7 +85,7 @@ export default function StoriesPage() {
               <ScrollReveal>
                 <div className="flex items-center gap-4 mb-8">
                   <div className="gold-line" />
-                  <h3 className="font-display text-lg font-semibold text-ink-light">
+                  <h3 className="font-display text-lg font-semibold text-metro-yellow">
                     {formatMonth(month)}
                   </h3>
                 </div>
@@ -99,36 +98,36 @@ export default function StoriesPage() {
                       onClick={() => setSelectedStory(story)}
                       className="w-full text-left group"
                     >
-                      <div className="bg-parchment-dark/50 hover:bg-parchment-dark rounded-2xl p-6 md:p-8 border border-ink/5 hover:border-gold/20 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+                      <div className="bg-surface-elevated hover:bg-surface rounded-2xl p-6 md:p-8 border border-ink-black hover:border-metro-yellow/50 transition-all duration-300 shadow-offset hover:shadow-offset-lg hover:-translate-y-0.5">
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-3 mb-2">
                               <span
                                 className={`font-ui text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full ${
                                   story.type === "poem"
-                                    ? "bg-burgundy/10 text-burgundy"
-                                    : "bg-gold/10 text-gold-dim"
+                                    ? "bg-electric-blue/20 text-electric-blue"
+                                    : "bg-metro-yellow/20 text-metro-yellow"
                                 }`}
                               >
                                 {story.type}
                               </span>
                               {story.featured && (
-                                <span className="font-ui text-[10px] font-bold uppercase tracking-widest text-gold">
+                                <span className="font-ui text-[10px] font-bold uppercase tracking-widest text-metro-yellow">
                                   ✦ Featured
                                 </span>
                               )}
                             </div>
-                            <h4 className="font-display text-xl md:text-2xl font-bold text-ink group-hover:text-burgundy transition-colors mb-1">
+                            <h4 className="font-display text-xl md:text-2xl font-bold text-text-primary group-hover:text-metro-yellow transition-colors mb-1">
                               {story.title}
                             </h4>
-                            <p className="font-ui text-sm text-ink-light">
+                            <p className="font-ui text-sm text-text-muted">
                               by {story.author}
                             </p>
-                            <p className="font-body text-sm text-ink-light/70 mt-3 line-clamp-2 leading-relaxed">
+                            <p className="font-body text-sm text-text-muted/70 mt-3 line-clamp-2 leading-relaxed">
                               {story.body.substring(0, 180)}...
                             </p>
                           </div>
-                          <span className="text-ink-light/30 group-hover:text-gold transition-colors text-xl mt-2 shrink-0">
+                          <span className="text-text-dim/30 group-hover:text-metro-yellow transition-colors text-xl mt-2 shrink-0">
                             →
                           </span>
                         </div>
@@ -173,7 +172,7 @@ function StoryModal({
     >
       {/* Backdrop */}
       <motion.div
-        className="fixed inset-0 bg-charcoal/80 backdrop-blur-sm"
+        className="fixed inset-0 bg-midnight/90 backdrop-blur-sm"
         onClick={onClose}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -182,19 +181,19 @@ function StoryModal({
 
       {/* Content */}
       <motion.article
-        className="relative z-10 w-full max-w-2xl bg-parchment rounded-2xl shadow-2xl my-8 mx-4 overflow-hidden"
+        className="relative z-10 w-full max-w-2xl bg-surface rounded-2xl shadow-offset-lg border border-ink-black my-8 mx-4 overflow-hidden"
         initial={{ opacity: 0, y: 40, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 40, scale: 0.97 }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
         {/* Header */}
-        <div className="bg-charcoal text-parchment px-8 md:px-12 py-10">
+        <div className="bg-surface-elevated text-text-primary border-b border-ink-black px-8 md:px-12 py-10">
           <span
             className={`font-ui text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full ${
               story.type === "poem"
-                ? "bg-burgundy/20 text-burgundy"
-                : "bg-gold/20 text-gold"
+                ? "bg-electric-blue/20 text-electric-blue"
+                : "bg-metro-yellow/20 text-metro-yellow"
             }`}
           >
             {story.type}
@@ -202,7 +201,7 @@ function StoryModal({
           <h2 className="font-display text-3xl md:text-4xl font-bold mt-4 mb-2">
             {story.title}
           </h2>
-          <p className="font-ui text-sm text-parchment/50">
+          <p className="font-ui text-sm text-text-muted">
             by {story.author} · {formatMonth(story.date)}
           </p>
         </div>
@@ -210,7 +209,7 @@ function StoryModal({
         {/* Body */}
         <div className="px-8 md:px-12 py-10">
           <div
-            className={`font-body text-base md:text-lg leading-[1.9] text-ink ${
+            className={`font-body text-base md:text-lg leading-[1.9] text-text-primary ${
               story.type === "story" ? "drop-cap" : ""
             }`}
           >
@@ -225,7 +224,7 @@ function StoryModal({
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-parchment/10 hover:bg-parchment/20 text-parchment transition-colors"
+          className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-midnight/50 hover:bg-midnight hover:text-metro-yellow text-text-muted transition-colors"
           aria-label="Close"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>

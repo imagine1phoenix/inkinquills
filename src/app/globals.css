@@ -2,49 +2,53 @@
 
 /* ============================================
    INKS & QUILS — Design System
-   "Ink & Parchment" Theme
+   "Bold Editorial" Theme
    ============================================ */
 
 :root {
   /* Core palette */
-  --ink: oklch(0.20 0.04 260);
-  --ink-light: oklch(0.35 0.03 260);
-  --parchment: oklch(0.96 0.01 80);
-  --parchment-dark: oklch(0.92 0.015 80);
-  --gold: oklch(0.72 0.14 75);
-  --gold-dim: oklch(0.60 0.12 75);
-  --burgundy: oklch(0.42 0.16 15);
-  --mist: oklch(0.90 0.02 240);
-  --charcoal: oklch(0.15 0.01 260);
-  --charcoal-light: oklch(0.22 0.015 260);
+  --midnight: #0B0B0B;
+  --ink-black: #051024;
+  --metro-yellow: #FFCC00;
+  --brass-gold: #D4A017;
+  --electric-blue: #012CEB;
+  
+  /* Text Neutrals */
+  --text-primary: #E8E8E8;
+  --text-muted: #888888;
+  --text-dim: #555555;
+  
+  /* Surfaces */
+  --surface: #111111;
+  --surface-elevated: #1A1A1A;
 
   /* Semantic */
-  --background: var(--parchment);
-  --foreground: var(--ink);
-  --accent: var(--gold);
-  --accent-hover: var(--gold-dim);
-  --surface: var(--parchment-dark);
-  --surface-dark: var(--charcoal);
-  --text-muted: var(--ink-light);
+  --background: var(--midnight);
+  --foreground: var(--text-primary);
+  --accent: var(--metro-yellow);
+  --accent-hover: var(--brass-gold);
 }
 
 @theme inline {
-  --color-ink: var(--ink);
-  --color-ink-light: var(--ink-light);
-  --color-parchment: var(--parchment);
-  --color-parchment-dark: var(--parchment-dark);
-  --color-gold: var(--gold);
-  --color-gold-dim: var(--gold-dim);
-  --color-burgundy: var(--burgundy);
-  --color-mist: var(--mist);
-  --color-charcoal: var(--charcoal);
-  --color-charcoal-light: var(--charcoal-light);
+  --color-midnight: var(--midnight);
+  --color-ink-black: var(--ink-black);
+  --color-metro-yellow: var(--metro-yellow);
+  --color-brass-gold: var(--brass-gold);
+  --color-electric-blue: var(--electric-blue);
+  
+  --color-text-primary: var(--text-primary);
+  --color-text-muted: var(--text-muted);
+  --color-text-dim: var(--text-dim);
+  
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  --font-display: "Playfair Display", "Georgia", serif;
-  --font-body: "Source Serif 4", "Georgia", serif;
+  /* Fonts */
+  --font-display: "Schoolbell", cursive, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
   --font-ui: "Inter", system-ui, sans-serif;
 
   /* Animation durations */
@@ -65,14 +69,14 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-ui);
+  font-family: var(--font-body);
   overflow-x: hidden;
 }
 
 /* Selection color */
 ::selection {
-  background: var(--gold);
-  color: var(--ink);
+  background: var(--metro-yellow);
+  color: var(--midnight);
 }
 
 /* Smooth scrolling */
@@ -104,7 +108,7 @@ html {
   line-height: 0.8;
   margin-right: 0.08em;
   margin-top: 0.05em;
-  color: var(--burgundy);
+  color: var(--metro-yellow);
   font-weight: 700;
 }
 
@@ -179,12 +183,27 @@ html {
 
 @keyframes pulseGlow {
   0%, 100% {
-    box-shadow: 0 0 0 0 oklch(0.72 0.14 75 / 0.4);
+    box-shadow: 0 0 0 0 oklch(0.85 0.18 85 / 0.4); /* yellow-ish glow */
   }
   50% {
-    box-shadow: 0 0 20px 4px oklch(0.72 0.14 75 / 0.15);
+    box-shadow: 0 0 20px 4px oklch(0.85 0.18 85 / 0.15);
   }
 }
+
+@keyframes glitchShift {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(-1px, -1px); }
+  60% { transform: translate(2px, 1px); }
+  80% { transform: translate(1px, -1px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
 
 /* ============================================
    UTILITY CLASSES
@@ -214,15 +233,20 @@ html {
   background: linear-gradient(
     90deg,
     transparent 25%,
-    oklch(0.72 0.14 75 / 0.15) 50%,
+    var(--metro-yellow) 50%,
     transparent 75%
   );
   background-size: 200% 100%;
   animation: shimmer 3s infinite;
+  opacity: 0.2;
 }
 
 .animate-pulse-glow {
   animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.hover-glitch:hover {
+  animation: glitchShift 0.2s ease-in-out infinite;
 }
 
 /* Stagger delay utilities */
@@ -243,22 +267,59 @@ html {
 .gold-line {
   width: 60px;
   height: 2px;
-  background: linear-gradient(90deg, var(--gold), transparent);
+  background: linear-gradient(90deg, var(--metro-yellow), transparent);
 }
 
 .gold-line-center {
   width: 80px;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  background: linear-gradient(90deg, transparent, var(--metro-yellow), transparent);
   margin-inline: auto;
 }
 
-/* Glassmorphism nav */
+/* Dark Canvas Nav */
 .glass {
-  background: oklch(0.96 0.01 80 / 0.8);
+  background: oklch(0.04 0 0 / 0.9); /* midnight with opacity */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid oklch(0.72 0.14 75 / 0.2);
+  border-bottom: 1px solid var(--ink-black);
+}
+
+/* Hard Shadows */
+.shadow-offset {
+  box-shadow: 4px 4px 0 var(--ink-black);
+}
+
+.shadow-offset-lg {
+  box-shadow: 6px 6px 0 var(--ink-black);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--metro-yellow);
+  color: var(--midnight);
+  border-radius: 6px;
+  box-shadow: 4px 4px 0 var(--ink-black);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--ink-black);
+}
+
+.btn-primary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--ink-black);
+}
+
+.btn-secondary {
+  background-color: var(--brass-gold);
+  color: var(--midnight);
+  border: 1px solid var(--ink-black);
+  border-radius: 6px;
+  box-shadow: 6px 6px 0 var(--ink-black);
+  transition: all 0.2s ease;
 }
 
 /* ============================================
@@ -270,16 +331,16 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--parchment-dark);
+  background: var(--surface);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--ink-light);
+  background: var(--text-dim);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--ink);
+  background: var(--metro-yellow);
 }
 
 /* ============================================

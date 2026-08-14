@@ -29,7 +29,7 @@ export default function LibraryPage() {
   }, [selectedBook]);
 
   return (
-    <div className="min-h-screen bg-charcoal">
+    <div className="min-h-screen bg-midnight">
       {/* Header */}
       <section className="py-20 md:py-28 px-6 text-center">
         <motion.div
@@ -37,13 +37,13 @@ export default function LibraryPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <p className="font-ui text-xs uppercase tracking-[0.3em] text-gold mb-4">
+          <p className="font-ui text-xs uppercase tracking-[0.3em] text-metro-yellow mb-4">
             Our Curated Collection
           </p>
-          <h1 className="font-display text-5xl md:text-7xl font-bold text-parchment mb-4">
+          <h1 className="font-display text-5xl md:text-7xl font-bold text-text-primary mb-4">
             The Book Wall
           </h1>
-          <p className="font-body text-lg text-parchment/40 max-w-lg mx-auto">
+          <p className="font-body text-lg text-text-muted max-w-lg mx-auto">
             Pull a book from the shelf. Every spine holds a story we love.
           </p>
         </motion.div>
@@ -107,12 +107,12 @@ function Shelf({
       </div>
 
       {/* Shelf board */}
-      <div className="relative h-4 bg-gradient-to-b from-amber-900/80 to-amber-950/90 rounded-b-sm shadow-[0_4px_12px_rgba(0,0,0,0.4)]">
-        <div className="absolute inset-x-0 top-0 h-[2px] bg-amber-700/50" />
+      <div className="relative h-4 bg-gradient-to-b from-ink-black to-midnight rounded-b-sm border-b border-text-dim/20 shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
+        <div className="absolute inset-x-0 top-0 h-[2px] bg-text-dim/30" />
       </div>
 
       {/* Shelf shadow */}
-      <div className="h-6 bg-gradient-to-b from-black/20 to-transparent" />
+      <div className="h-6 bg-gradient-to-b from-midnight/80 to-transparent" />
     </div>
   );
 }
@@ -217,7 +217,7 @@ function BookDetail({
 
       {/* Side panel */}
       <motion.div
-        className="relative z-10 h-full w-full max-w-lg bg-parchment overflow-y-auto shadow-2xl"
+        className="relative z-10 h-full w-full max-w-lg bg-surface overflow-y-auto shadow-2xl border-l border-ink-black"
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
         exit={{ x: "100%" }}
@@ -280,52 +280,52 @@ function BookDetail({
         <div className="px-8 md:px-12 py-10 space-y-8">
           {/* Title + metadata */}
           <div>
-            <h2 className="font-display text-3xl font-bold text-ink mb-1">
+            <h2 className="font-display text-3xl font-bold text-text-primary mb-1">
               {book.title}
             </h2>
-            <p className="font-body text-base text-ink-light">
+            <p className="font-body text-base text-text-muted">
               {book.author}
               {book.year && (
-                <span className="text-ink-light/50"> · {book.year}</span>
+                <span className="text-text-dim"> · {book.year}</span>
               )}
             </p>
-            <span className="inline-block mt-3 font-ui text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-gold/10 text-gold-dim">
+            <span className="inline-block mt-3 font-ui text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-metro-yellow/20 text-metro-yellow">
               {book.genre}
             </span>
           </div>
 
           {/* Synopsis */}
           <div>
-            <h4 className="font-ui text-xs uppercase tracking-widest text-gold mb-3">
+            <h4 className="font-ui text-xs uppercase tracking-widest text-metro-yellow mb-3">
               Synopsis
             </h4>
-            <p className="font-body text-sm text-ink-light leading-[1.8]">
+            <p className="font-body text-sm text-text-muted leading-[1.8]">
               {book.synopsis}
             </p>
           </div>
 
           {/* Our review */}
           <div>
-            <h4 className="font-ui text-xs uppercase tracking-widest text-gold mb-3">
+            <h4 className="font-ui text-xs uppercase tracking-widest text-metro-yellow mb-3">
               Our Review
             </h4>
-            <p className="font-body text-sm text-ink leading-[1.8]">
+            <p className="font-body text-sm text-text-primary leading-[1.8]">
               {book.review}
             </p>
           </div>
 
           {/* Recommended by */}
-          <div className="flex items-center gap-3 pt-4 border-t border-ink/10">
-            <div className="w-8 h-8 rounded-full bg-charcoal flex items-center justify-center">
-              <span className="font-display text-sm text-gold font-bold">
+          <div className="flex items-center gap-3 pt-4 border-t border-text-dim/20">
+            <div className="w-8 h-8 rounded-full bg-ink-black flex items-center justify-center">
+              <span className="font-display text-sm text-metro-yellow font-bold">
                 {book.recommendedBy.charAt(0)}
               </span>
             </div>
             <div>
-              <p className="font-ui text-xs text-ink-light/60">
+              <p className="font-ui text-xs text-text-muted">
                 Recommended by
               </p>
-              <p className="font-ui text-sm font-medium text-ink">
+              <p className="font-ui text-sm font-medium text-text-primary">
                 {book.recommendedBy}
               </p>
             </div>

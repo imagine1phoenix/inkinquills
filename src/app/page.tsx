@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
+import { DoodleArrow, DoodleCircle, DoodleUnderline } from "@/components/Doodles";
 
 const heroQuotes = [
   "We are all stories in the end. Just make it a good one.",
@@ -79,11 +80,11 @@ export default function LandingPage() {
   return (
     <div>
       {/* ============= HERO ============= */}
-      <section className="relative min-h-[100vh] flex flex-col items-center justify-center overflow-hidden bg-charcoal text-parchment px-6">
+      <section className="relative min-h-[100vh] flex flex-col items-center justify-center overflow-hidden bg-midnight text-text-primary px-6">
         {/* Background ink splashes (decorative) */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div
-            className="absolute top-[20%] left-[10%] w-64 h-64 rounded-full bg-burgundy/10 blur-3xl"
+            className="absolute top-[20%] left-[10%] w-64 h-64 rounded-full bg-metro-yellow/10 blur-3xl"
             animate={{
               scale: [1, 1.2, 1],
               x: [0, 20, 0],
@@ -92,7 +93,7 @@ export default function LandingPage() {
             transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
-            className="absolute bottom-[20%] right-[15%] w-80 h-80 rounded-full bg-gold/8 blur-3xl"
+            className="absolute bottom-[20%] right-[15%] w-80 h-80 rounded-full bg-brass-gold/10 blur-3xl"
             animate={{
               scale: [1, 1.15, 1],
               x: [0, -15, 0],
@@ -101,7 +102,7 @@ export default function LandingPage() {
             transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
-            className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-ink-light/5 blur-3xl"
+            className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-electric-blue/10 blur-3xl"
             animate={{ scale: [1, 1.3, 1] }}
             transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
           />
@@ -111,7 +112,7 @@ export default function LandingPage() {
         <div className="relative z-10 text-center max-w-4xl">
           {/* Decorative flourish */}
           <motion.div
-            className="text-gold/60 text-2xl mb-6 tracking-[0.5em] font-display"
+            className="text-metro-yellow/60 text-2xl mb-6 tracking-[0.5em] font-display"
             initial={{ opacity: 0, letterSpacing: "1em" }}
             animate={{ opacity: 1, letterSpacing: "0.5em" }}
             transition={{ duration: 1.2, delay: 0.1 }}
@@ -134,22 +135,26 @@ export default function LandingPage() {
                 style={{
                   background:
                     i < 4 || i > 6
-                      ? "linear-gradient(135deg, var(--parchment), var(--gold))"
+                      ? "linear-gradient(135deg, var(--color-text-primary), var(--color-metro-yellow))"
                       : undefined,
                   WebkitBackgroundClip: i < 4 || i > 6 ? "text" : undefined,
                   WebkitTextFillColor:
                     i < 4 || i > 6 ? "transparent" : undefined,
-                  color: i >= 4 && i <= 6 ? "var(--gold)" : undefined,
+                  color: i >= 4 && i <= 6 ? "var(--color-metro-yellow)" : undefined,
                 }}
               >
                 {char}
               </motion.span>
             ))}
+            {/* Doodle Underline */}
+            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[120%] h-[40px]">
+              <DoodleUnderline className="w-full h-full" delayIndex={2} />
+            </div>
           </motion.h1>
 
           {/* Tagline */}
           <motion.p
-            className="font-body text-xl md:text-2xl text-parchment/60 max-w-xl mx-auto leading-relaxed"
+            className="font-body text-xl md:text-2xl text-text-muted max-w-xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 0.8 }}
@@ -175,7 +180,7 @@ export default function LandingPage() {
             transition={{ delay: 2 }}
           >
             <motion.div
-              className="flex flex-col items-center gap-2 text-parchment/30"
+              className="flex flex-col items-center gap-2 text-text-dim"
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
@@ -195,10 +200,10 @@ export default function LandingPage() {
       </section>
 
       {/* ============= FEATURED PIECE ============= */}
-      <section className="py-24 md:py-32 px-6 bg-parchment">
+      <section className="py-24 md:py-32 px-6 bg-surface-elevated">
         <div className="max-w-3xl mx-auto text-center">
           <ScrollReveal>
-            <p className="font-ui text-xs uppercase tracking-[0.3em] text-gold mb-8">
+            <p className="font-ui text-xs uppercase tracking-[0.3em] text-metro-yellow mb-8">
               Featured Poem
             </p>
           </ScrollReveal>
@@ -206,7 +211,7 @@ export default function LandingPage() {
           <div className="space-y-1">
             {featuredPoem.lines.map((line, i) => (
               <ScrollReveal key={i} delay={0.1 * i}>
-                <p className="font-body text-xl md:text-2xl text-ink leading-relaxed italic">
+                <p className="font-body text-xl md:text-2xl text-text-primary leading-relaxed italic">
                   {line}
                 </p>
               </ScrollReveal>
@@ -216,7 +221,7 @@ export default function LandingPage() {
           <ScrollReveal delay={0.6}>
             <div className="mt-8 space-y-1">
               <div className="gold-line-center" />
-              <p className="mt-4 font-display text-sm text-ink-light">
+              <p className="mt-4 font-display text-sm text-text-muted">
                 &ldquo;{featuredPoem.title}&rdquo; — {featuredPoem.author}
               </p>
             </div>
@@ -225,7 +230,7 @@ export default function LandingPage() {
           <ScrollReveal delay={0.8}>
             <Link
               href="/stories"
-              className="inline-block mt-8 font-ui text-sm font-medium text-burgundy hover:text-ink transition-colors border-b border-burgundy/30 hover:border-ink/30 pb-0.5"
+              className="inline-block mt-8 font-ui text-sm font-bold text-metro-yellow hover:text-text-primary transition-colors border-b border-metro-yellow/30 hover:border-text-primary/30 pb-0.5"
             >
               Read more from our writers →
             </Link>
@@ -234,10 +239,10 @@ export default function LandingPage() {
       </section>
 
       {/* ============= SECTION CARDS ============= */}
-      <section className="py-24 md:py-32 px-6 bg-mist/50">
+      <section className="py-24 md:py-32 px-6 bg-surface">
         <div className="max-w-6xl mx-auto">
           <ScrollReveal>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-ink mb-16">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-text-primary mb-16">
               Explore
             </h2>
           </ScrollReveal>
@@ -246,15 +251,15 @@ export default function LandingPage() {
             {sectionCards.map((card, i) => (
               <ScrollReveal key={card.href} delay={0.1 * i}>
                 <Link href={card.href} className="group block h-full">
-                  <div className="h-full bg-parchment rounded-2xl p-8 border border-ink/5 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 group-hover:border-gold/30">
+                  <div className="h-full bg-surface-elevated rounded-2xl p-8 border border-ink-black shadow-offset hover:shadow-offset-lg hover:-translate-y-2 transition-all duration-300 group-hover:border-metro-yellow/50">
                     <span className="text-4xl mb-4 block">{card.icon}</span>
-                    <h3 className="font-display text-xl font-bold text-ink mb-2 group-hover:text-burgundy transition-colors">
+                    <h3 className="font-display text-xl font-bold text-text-primary mb-2 group-hover:text-metro-yellow transition-colors">
                       {card.title}
                     </h3>
-                    <p className="font-body text-sm text-ink-light leading-relaxed">
+                    <p className="font-body text-sm text-text-muted leading-relaxed">
                       {card.description}
                     </p>
-                    <div className="mt-4 flex items-center gap-1 text-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="mt-4 flex items-center gap-1 text-metro-yellow opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <span className="font-ui text-xs font-medium">Explore</span>
                       <motion.span
                         className="inline-block"
@@ -272,21 +277,29 @@ export default function LandingPage() {
       </section>
 
       {/* ============= CALL TO ACTION ============= */}
-      <section className="py-24 md:py-32 px-6 bg-charcoal text-parchment text-center">
+      <section className="py-24 md:py-32 px-6 bg-midnight text-text-primary text-center">
         <ScrollReveal>
-          <p className="font-ui text-xs uppercase tracking-[0.3em] text-gold mb-6">
+          <p className="font-ui text-xs uppercase tracking-[0.3em] text-metro-yellow mb-6">
             Our Signature Feature
           </p>
-          <h2 className="font-display text-4xl md:text-6xl font-bold mb-6">
+          <h2 className="font-display text-4xl md:text-6xl font-bold mb-6 relative inline-block">
             The Book Wall
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[150%]">
+              <DoodleCircle className="w-full h-full" delayIndex={1} />
+            </div>
           </h2>
-          <p className="font-body text-lg text-parchment/60 max-w-lg mx-auto mb-10 leading-relaxed">
-            Browse our curated bookshelf. Pull a book from the shelf. Read our
-            review. Find your next obsession.
-          </p>
+          <div className="relative">
+            <p className="font-body text-lg text-text-muted max-w-lg mx-auto mb-10 leading-relaxed">
+              Browse our curated bookshelf. Pull a book from the shelf. Read our
+              review. Find your next obsession.
+            </p>
+            <div className="absolute -top-4 -right-16 w-24 h-24 hidden md:block">
+              <DoodleArrow className="w-full h-full rotate-90" delayIndex={2} />
+            </div>
+          </div>
           <Link
             href="/library"
-            className="inline-flex items-center gap-3 bg-gold text-ink font-ui font-semibold text-sm px-8 py-4 rounded-full hover:bg-gold-dim transition-colors duration-300 animate-pulse-glow"
+            className="inline-flex items-center gap-3 btn-primary font-ui font-semibold text-sm px-8 py-4 animate-pulse-glow"
           >
             Enter the Library
             <motion.span
@@ -317,7 +330,7 @@ function RotatingQuote({ quotes }: { quotes: string[] }) {
     <div className="h-16 flex items-center justify-center overflow-hidden">
       <motion.p
         key={index}
-        className="font-body text-sm md:text-base text-parchment/40 italic max-w-md"
+        className="font-body text-sm md:text-base text-text-dim italic max-w-md"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}

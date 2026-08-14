@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import ScrollReveal from "@/components/ScrollReveal";
+import { DoodleArrow, DoodleCircle } from "@/components/Doodles";
 
 const activities = [
   {
@@ -44,21 +45,24 @@ const activities = [
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-parchment">
+    <div className="min-h-screen bg-midnight">
       {/* Header */}
-      <section className="py-20 md:py-28 px-6 bg-charcoal text-parchment text-center">
+      <section className="py-20 md:py-28 px-6 bg-ink-black text-text-primary text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <p className="font-ui text-xs uppercase tracking-[0.3em] text-gold mb-4">
+          <p className="font-ui text-xs uppercase tracking-[0.3em] text-metro-yellow mb-4">
             Who We Are
           </p>
-          <h1 className="font-display text-5xl md:text-7xl font-bold mb-4">
+          <h1 className="font-display text-5xl md:text-7xl font-bold mb-4 relative inline-block">
             About the Club
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[150%]">
+              <DoodleCircle className="w-full h-full" delayIndex={1} />
+            </div>
           </h1>
-          <p className="font-body text-lg text-parchment/50 max-w-lg mx-auto">
+          <p className="font-body text-lg text-text-muted max-w-lg mx-auto">
             A space for the curious, the creative, and the quietly obsessed with
             words.
           </p>
@@ -69,12 +73,15 @@ export default function AboutPage() {
       <section className="py-20 md:py-28 px-6">
         <div className="max-w-3xl mx-auto text-center">
           <ScrollReveal>
-            <p className="font-ui text-xs uppercase tracking-[0.3em] text-gold mb-8">
+            <p className="font-ui text-xs uppercase tracking-[0.3em] text-metro-yellow mb-8">
               Our Mission
             </p>
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
-            <blockquote className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-ink leading-tight">
+            <blockquote className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary leading-tight relative">
+              <div className="absolute -top-12 -left-12 w-20 h-20 hidden md:block">
+                <DoodleArrow className="w-full h-full -scale-x-100 rotate-45" delayIndex={2} />
+              </div>
               To create a space where every story finds its voice and every
               reader finds their story.
             </blockquote>
@@ -86,16 +93,16 @@ export default function AboutPage() {
       </section>
 
       {/* Story */}
-      <section className="py-16 md:py-24 px-6 bg-mist/30">
+      <section className="py-16 md:py-24 px-6 bg-surface">
         <div className="max-w-3xl mx-auto">
           <ScrollReveal>
-            <h2 className="font-display text-3xl font-bold text-ink mb-8">
+            <h2 className="font-display text-3xl font-bold text-text-primary mb-8">
               Our Story
             </h2>
           </ScrollReveal>
           <div className="space-y-6">
             <ScrollReveal delay={0.1}>
-              <p className="font-body text-base md:text-lg text-ink-light leading-[1.9]">
+              <p className="font-body text-base md:text-lg text-text-muted leading-[1.9]">
                 Inks & Quils started the way most good things do — with a
                 conversation that went on too long. A handful of students who
                 kept recommending books to each other in the dining hall decided
@@ -104,7 +111,7 @@ export default function AboutPage() {
               </p>
             </ScrollReveal>
             <ScrollReveal delay={0.2}>
-              <p className="font-body text-base md:text-lg text-ink-light leading-[1.9]">
+              <p className="font-body text-base md:text-lg text-text-muted leading-[1.9]">
                 What began as an informal reading circle quickly grew into
                 something more ambitious. Members started sharing their own
                 writing — nervously at first, then with increasing confidence.
@@ -113,7 +120,7 @@ export default function AboutPage() {
               </p>
             </ScrollReveal>
             <ScrollReveal delay={0.3}>
-              <p className="font-body text-base md:text-lg text-ink-light leading-[1.9]">
+              <p className="font-body text-base md:text-lg text-text-muted leading-[1.9]">
                 Today, the club is home to poets and novelists, essayists and
                 screenwriters, people who read three books a week and people who
                 are still working through their first novel. What unites us
@@ -131,7 +138,7 @@ export default function AboutPage() {
         <div className="max-w-6xl mx-auto">
           <ScrollReveal>
             <div className="text-center mb-16">
-              <h2 className="font-display text-4xl md:text-5xl font-bold text-ink mb-4">
+              <h2 className="font-display text-4xl md:text-5xl font-bold text-text-primary mb-4">
                 What We Do
               </h2>
               <div className="gold-line-center" />
@@ -141,12 +148,12 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {activities.map((activity, i) => (
               <ScrollReveal key={activity.title} delay={0.08 * i}>
-                <div className="h-full bg-parchment-dark/50 rounded-2xl p-8 border border-ink/5 hover:border-gold/20 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <div className="h-full bg-surface-elevated rounded-2xl p-8 border border-ink-black hover:border-metro-yellow/50 shadow-offset hover:shadow-offset-lg hover:-translate-y-1 transition-all duration-300">
                   <span className="text-3xl mb-4 block">{activity.icon}</span>
-                  <h3 className="font-display text-lg font-bold text-ink mb-2">
+                  <h3 className="font-display text-lg font-bold text-text-primary mb-2">
                     {activity.title}
                   </h3>
-                  <p className="font-body text-sm text-ink-light leading-relaxed">
+                  <p className="font-body text-sm text-text-muted leading-relaxed">
                     {activity.description}
                   </p>
                 </div>
@@ -157,7 +164,7 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="py-20 md:py-28 px-6 bg-charcoal text-parchment">
+      <section className="py-20 md:py-28 px-6 bg-ink-black text-text-primary border-t border-text-dim/20">
         <div className="max-w-4xl mx-auto text-center">
           <ScrollReveal>
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-12">
@@ -185,10 +192,10 @@ export default function AboutPage() {
             ].map((item, i) => (
               <ScrollReveal key={item.value} delay={0.15 * i}>
                 <div className="space-y-3">
-                  <h3 className="font-display text-xl font-bold text-gold">
+                  <h3 className="font-display text-xl font-bold text-metro-yellow">
                     {item.value}
                   </h3>
-                  <p className="font-body text-sm text-parchment/50 leading-relaxed">
+                  <p className="font-body text-sm text-text-muted leading-relaxed">
                     {item.detail}
                   </p>
                 </div>

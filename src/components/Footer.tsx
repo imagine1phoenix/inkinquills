@@ -9,15 +9,15 @@ const footerLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-charcoal text-parchment/70 mt-auto">
+    <footer className="bg-ink-black text-text-muted mt-auto">
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand */}
           <div className="space-y-4">
-            <h3 className="font-display text-2xl font-bold text-parchment">
+            <h3 className="font-display text-3xl font-bold text-metro-yellow">
               Inks & Quils
             </h3>
-            <p className="font-body text-sm leading-relaxed text-parchment/50 max-w-xs">
+            <p className="font-body text-sm leading-relaxed text-text-dim max-w-xs">
               A community of readers, writers, and dreamers. We believe every
               story deserves to be told and every voice deserves to be heard.
             </p>
@@ -25,7 +25,7 @@ export default function Footer() {
 
           {/* Links */}
           <div className="space-y-4">
-            <h4 className="font-ui text-xs font-semibold uppercase tracking-widest text-gold">
+            <h4 className="font-ui text-xs font-semibold uppercase tracking-widest text-metro-yellow">
               Explore
             </h4>
             <ul className="space-y-2">
@@ -33,7 +33,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="font-ui text-sm text-parchment/50 hover:text-gold transition-colors duration-200"
+                    className="font-ui text-sm text-text-dim hover:text-metro-yellow transition-colors duration-200"
                   >
                     {link.label}
                   </Link>
@@ -44,10 +44,10 @@ export default function Footer() {
 
           {/* Contact / Social placeholder */}
           <div className="space-y-4">
-            <h4 className="font-ui text-xs font-semibold uppercase tracking-widest text-gold">
+            <h4 className="font-ui text-xs font-semibold uppercase tracking-widest text-metro-yellow">
               Connect
             </h4>
-            <p className="font-ui text-sm text-parchment/50">
+            <p className="font-ui text-sm text-text-dim">
               Find us at the Student Activities Center, Room 204.
             </p>
             <div className="flex items-center gap-4">
@@ -55,7 +55,7 @@ export default function Footer() {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-parchment/40 hover:text-gold transition-colors"
+                className="text-text-dim/70 hover:text-metro-yellow transition-colors"
                 aria-label="Instagram"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -64,7 +64,7 @@ export default function Footer() {
               </a>
               <a
                 href="mailto:inksnquils@college.edu"
-                className="text-parchment/40 hover:text-gold transition-colors"
+                className="text-text-dim/70 hover:text-metro-yellow transition-colors"
                 aria-label="Email"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
@@ -76,11 +76,11 @@ export default function Footer() {
         </div>
 
         {/* Bottom line */}
-        <div className="mt-12 pt-8 border-t border-parchment/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="font-ui text-xs text-parchment/30">
+        <div className="mt-12 pt-8 border-t border-text-dim/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="font-ui text-xs text-text-dim/50">
             © {new Date().getFullYear()} Inks & Quils Literary Club. All rights reserved.
           </p>
-          <p className="font-body text-xs italic text-parchment/20">
+          <p className="font-display text-sm italic text-text-dim">
             &ldquo;We are all stories in the end.&rdquo;
           </p>
         </div>
