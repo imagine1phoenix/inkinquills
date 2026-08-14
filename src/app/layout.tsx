@@ -52,7 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-full flex flex-col bg-midnight text-text-primary">
         <Spotlight />
         <TopBar />
-        <main className="flex-1 pt-16 pb-32 relative z-10">{children}</main>
+        <main className="flex-1 pt-16 pb-32 relative">{children}</main>
         <Navigation />
         <Footer />
       </body>
