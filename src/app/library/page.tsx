@@ -20,7 +20,7 @@ export default function LibraryPage() {
   }, [selectedBook]);
 
   return (
-    <div className="min-h-screen bg-midnight">
+    <div className="min-h-screen bg-blueprint">
       {/* ============= HEADER ============= */}
       <section className="relative pt-28 md:pt-36 pb-16 px-6 overflow-hidden">
         {/* Background ambient glow */}

@@ -80,7 +80,7 @@ export default function LandingPage() {
   return (
     <div>
       {/* ============= HERO ============= */}
-      <section className="relative min-h-[100vh] w-full flex items-center justify-center overflow-hidden bg-electric-blue text-text-primary px-6" style={{ background: 'linear-gradient(135deg, #012CEB 0%, #001066 100%)' }}>
+      <section className="relative min-h-[100vh] w-full flex items-center justify-center overflow-hidden bg-blueprint text-text-primary px-6">
         {/* Background Smoky / Cloudy Effect */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-60">
           <motion.div
