@@ -75,7 +75,7 @@ export default function Navigation() {
 
             <div className="relative w-full h-full max-w-[100vw] max-h-[100vh] flex items-center justify-center perspective-[1000px]">
               
-              <h2 className="absolute top-10 left-10 font-display text-4xl md:text-8xl font-black text-[#F4F2EC] uppercase text-3d -rotate-6 opacity-30 select-none">
+              <h2 className="absolute top-8 left-8 md:top-16 md:left-16 z-50 font-display text-5xl md:text-9xl font-black text-metro-yellow uppercase drop-shadow-[8px_8px_0_var(--midnight)] -rotate-6 select-none pointer-events-none">
                 Where to?
               </h2>
 
