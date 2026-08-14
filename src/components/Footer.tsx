@@ -15,7 +15,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <h3 className="font-display text-3xl font-bold text-metro-yellow">
-              Inks & Quills
+              Ink in Quills
             </h3>
             <p className="font-body text-sm leading-relaxed text-text-dim max-w-xs">
               A community of readers, writers, and dreamers. We believe every
@@ -78,7 +78,7 @@ export default function Footer() {
         {/* Bottom line */}
         <div className="mt-12 pt-8 border-t border-text-dim/20 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="font-ui text-xs text-text-dim/50">
-            © {new Date().getFullYear()} Inks & Quills Literary Club. All rights reserved.
+            © {new Date().getFullYear()} Ink in Quills Literary Club. All rights reserved.
           </p>
           <p className="font-display text-sm italic text-text-dim">
             &ldquo;We are all stories in the end.&rdquo;

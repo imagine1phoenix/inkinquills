@@ -24,7 +24,7 @@ export default function TopBar() {
       {/* Left Block */}
       <div className="flex-none px-6 flex items-center justify-center bg-midnight text-text-primary border-r-2 border-midnight">
         <span className="font-display text-lg tracking-wide">
-          Inks & Quills
+          Ink in Quills
         </span>
       </div>
 

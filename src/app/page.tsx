@@ -75,7 +75,7 @@ const titleLetter = {
 };
 
 export default function LandingPage() {
-  const clubName = "Inks & Quills";
+  const clubName = "Ink in Quills";
 
   return (
     <div>
@@ -92,7 +92,7 @@ export default function LandingPage() {
              <DoodleStar className="w-full h-full" delayIndex={0.5} />
            </div>
            <h1 className="font-display text-6xl sm:text-8xl md:text-[12rem] leading-[0.8] text-[#F4F2EC] text-3d -rotate-2 hover:scale-105 transition-transform duration-500 cursor-default">
-             Inks &<br />Quills
+             Ink in<br />Quills
            </h1>
            <div className="absolute -bottom-16 -right-8 w-32 h-16 -rotate-6 text-[#F4F2EC] opacity-80">
              <DoodleSquiggle className="w-full h-full" delayIndex={1} />

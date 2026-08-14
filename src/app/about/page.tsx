@@ -112,7 +112,7 @@ export default function AboutPage() {
           <div className="space-y-6">
             <ScrollReveal delay={0.1}>
               <p className="font-body text-base md:text-lg text-text-muted leading-[1.9]">
-                Inks & Quills started the way most good things do — with a
+                Ink in Quills started the way most good things do — with a
                 conversation that went on too long. A handful of students who
                 kept recommending books to each other in the dining hall decided
                 that conversations about literature deserved their own time and

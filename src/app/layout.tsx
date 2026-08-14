@@ -22,22 +22,21 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Inks & Quills — Literary Club",
-    template: "%s | Inks & Quills",
+    default: "Ink in Quills — Literary Club",
+    template: "%s | Ink in Quills",
   },
   description:
-    "A community of readers, writers, and dreamers. Explore stories, poems, book reviews, and events from the Inks & Quills Literary Club.",
+    "A community of readers, writers, and dreamers. Explore stories, poems, book reviews, and events from the Ink in Quills Literary Club.",
   keywords: [
     "literary club",
-    "writing",
-    "poetry",
-    "stories",
-    "book club",
     "creative writing",
-    "college club",
+    "poetry",
+    "book reviews",
+    "student club",
   ],
+  authors: [{ name: "Ink in Quills" }],
   openGraph: {
-    title: "Inks & Quills — Literary Club",
+    title: "Ink in Quills — Literary Club",
     description:
       "A community of readers, writers, and dreamers. Explore stories, poems, book reviews, and events.",
     type: "website",
