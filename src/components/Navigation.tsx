@@ -4,116 +4,151 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { DoodleCrown, DoodleSpark, DoodleEye, DoodleSwirl, DoodleStar, DoodleSquiggle } from "@/components/Doodles";
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/stories", label: "Stories" },
-  { href: "/events", label: "Events" },
-  { href: "/library", label: "Library" },
-  { href: "/about", label: "About" },
-  { href: "/auditions", label: "Auditions" },
-  { href: "/members", label: "Members" },
+  { href: "/", label: "Home", color: "bg-electric-blue", textColor: "text-[#F4F2EC]", rot: -12, x: "-35vw", y: "-30vh", doodle: DoodleStar },
+  { href: "/stories", label: "Stories", color: "bg-metro-yellow", textColor: "text-midnight", rot: 8, x: "25vw", y: "-35vh", doodle: DoodleSwirl },
+  { href: "/events", label: "Events", color: "bg-[#F4F2EC]", textColor: "text-midnight", rot: -20, x: "-40vw", y: "10vh", doodle: DoodleSpark },
+  { href: "/library", label: "Library", color: "bg-midnight", textColor: "text-[#F4F2EC]", rot: 15, x: "35vw", y: "5vh", doodle: DoodleEye },
+  { href: "/about", label: "About", color: "bg-metro-yellow", textColor: "text-midnight", rot: -5, x: "-20vw", y: "35vh", doodle: DoodleCrown },
+  { href: "/auditions", label: "Auditions", color: "bg-electric-blue", textColor: "text-[#F4F2EC]", rot: 25, x: "20vw", y: "35vh", doodle: DoodleSquiggle },
+  { href: "/members", label: "Members", color: "bg-[#F4F2EC]", textColor: "text-midnight", rot: -10, x: "0vw", y: "-10vh", doodle: DoodleStar },
 ];
 
 export default function Navigation() {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  // Close mobile menu on route change
   useEffect(() => {
-    setMobileOpen(false);
+    setIsOpen(false);
   }, [pathname]);
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    document.body.style.overflow = isOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
-  }, [mobileOpen]);
+  }, [isOpen]);
+
+  // Handle window resize for mobile vs desktop positions (simplification: we'll just use responsive vw/vh in the framer motion variants)
+  // For mobile, the spread should be tighter.
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <>
-      <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] bg-surface-elevated/90 backdrop-blur-md border border-ink-black rounded-full px-2 py-2 shadow-2xl flex items-center gap-1 md:gap-2">
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => {
-            const isActive = pathname === link.href;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`relative px-4 py-2 font-ui text-sm font-bold tracking-widest uppercase rounded-full transition-colors duration-200 z-10 ${
-                  isActive ? "text-text-primary" : "text-text-muted hover:text-text-primary"
-                }`}
-              >
-                {link.label}
-                {isActive && (
-                  <motion.div
-                    layoutId="navPill"
-                    className="absolute inset-0 bg-electric-blue rounded-full -z-10 shadow-offset"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
-                )}
-              </Link>
-            );
-          })}
-        </div>
+      {/* 
+        THE TRIGGER
+        A chaotic floating tape sticker in the bottom right corner 
+      */}
+      <motion.button
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed bottom-6 right-6 md:bottom-12 md:right-12 z-[70] bg-metro-yellow border-[4px] border-midnight px-4 py-2 md:px-6 md:py-4 shadow-[8px_8px_0_var(--midnight)] group"
+        whileHover={{ scale: 1.1, rotate: isOpen ? 0 : -5 }}
+        whileTap={{ scale: 0.9 }}
+        animate={{ rotate: isOpen ? 0 : 3 }}
+      >
+        <div className="absolute -top-3 -left-3 w-8 h-4 bg-white/90 border-[2px] border-midnight rotate-[-15deg] shadow-sm pointer-events-none" />
+        <span className="font-display text-3xl md:text-5xl font-black uppercase text-midnight block leading-none">
+          {isOpen ? "CLOSE" : "MENU"}
+        </span>
+      </motion.button>
 
-        {/* Mobile active item & Hamburger */}
-        <div className="md:hidden flex items-center gap-4 pl-4 pr-2">
-           <span className="font-ui text-sm font-bold tracking-widest uppercase text-text-primary">
-             {navLinks.find(l => l.href === pathname)?.label || "Menu"}
-           </span>
-           <button
-             onClick={() => setMobileOpen(!mobileOpen)}
-             className="w-10 h-10 flex flex-col items-center justify-center gap-1.5 rounded-full bg-electric-blue text-text-primary"
-             aria-label="Toggle navigation menu"
-           >
-             <motion.span
-               className="block w-4 h-[2px] bg-text-primary origin-center"
-               animate={mobileOpen ? { rotate: 45, y: 3.5 } : { rotate: 0, y: 0 }}
-             />
-             <motion.span
-               className="block w-4 h-[2px] bg-text-primary"
-               animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
-             />
-             <motion.span
-               className="block w-4 h-[2px] bg-text-primary origin-center"
-               animate={mobileOpen ? { rotate: -45, y: -3.5 } : { rotate: 0, y: 0 }}
-             />
-           </button>
-        </div>
-      </nav>
-
-      {/* Mobile overlay */}
+      {/* 
+        THE OVERLAY & MOOD BOARD
+      */}
       <AnimatePresence>
-        {mobileOpen && (
+        {isOpen && (
           <motion.div
-            className="fixed inset-0 z-[55] bg-midnight/95 backdrop-blur-xl flex flex-col items-center justify-center md:hidden"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-[60] bg-blueprint border-[8px] border-midnight overflow-hidden flex items-center justify-center"
+            initial={{ opacity: 0, clipPath: "circle(0% at 100% 100%)" }}
+            animate={{ opacity: 1, clipPath: "circle(150% at 100% 100%)" }}
+            exit={{ opacity: 0, clipPath: "circle(0% at 100% 100%)" }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="flex flex-col items-center gap-6">
-              {navLinks.map((link, i) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + i * 0.05, duration: 0.4 }}
-                >
-                  <Link
-                    href={link.href}
-                    className={`font-display text-4xl font-bold tracking-tight transition-colors px-6 py-2 rounded-full ${
-                      pathname === link.href
-                        ? "bg-electric-blue text-text-primary"
-                        : "text-text-muted hover:text-text-primary"
-                    }`}
+            {/* Ambient Background Noise */}
+            <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 2px, transparent 2px)', backgroundSize: '24px 24px' }} />
+
+            <div className="relative w-full h-full max-w-[100vw] max-h-[100vh] flex items-center justify-center perspective-[1000px]">
+              
+              <h2 className="absolute top-10 left-10 font-display text-4xl md:text-8xl font-black text-[#F4F2EC] uppercase text-3d -rotate-6 opacity-30 select-none">
+                Where to?
+              </h2>
+
+              {navLinks.map((link, i) => {
+                const Doodle = link.doodle;
+                // On mobile, halve the scatter distance so it fits on screen
+                const targetX = isMobile ? `calc(${link.x} * 0.5)` : link.x;
+                const targetY = isMobile ? `calc(${link.y} * 0.8)` : link.y;
+
+                return (
+                  <motion.div
+                    key={link.href}
+                    className="absolute"
+                    initial={{ scale: 0, x: 0, y: 0, rotate: 0 }}
+                    animate={{ 
+                      scale: 1, 
+                      x: targetX, 
+                      y: targetY, 
+                      rotate: link.rot 
+                    }}
+                    exit={{ scale: 0, x: 0, y: 0, rotate: 0 }}
+                    transition={{ 
+                      duration: 0.6, 
+                      delay: i * 0.05, 
+                      type: "spring", 
+                      bounce: 0.4 
+                    }}
+                    style={{ zIndex: navLinks.length - i }}
+                    whileHover={{ 
+                      scale: 1.15, 
+                      rotate: 0, 
+                      zIndex: 100,
+                      transition: { duration: 0.2 } 
+                    }}
                   >
-                    {link.label}
-                  </Link>
-                </motion.div>
-              ))}
+                    <Link
+                      href={link.href}
+                      className={`block ${link.color} ${link.textColor} border-[4px] border-midnight p-6 md:p-10 shadow-[10px_10px_0_var(--midnight)] relative group`}
+                    >
+                      {/* Top Tape */}
+                      <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-16 h-6 bg-white/90 border-[3px] border-midnight shadow-sm rotate-[4deg] z-10 transition-transform group-hover:rotate-0" />
+                      
+                      {/* Active Indicator */}
+                      {pathname === link.href && (
+                         <div className="absolute -top-4 -right-4 w-12 h-12 bg-[#F4F2EC] border-[3px] border-midnight rounded-full flex items-center justify-center text-midnight shadow-[4px_4px_0_var(--midnight)] rotate-12 z-20 font-ui text-xs font-bold uppercase tracking-widest">
+                           Here
+                         </div>
+                      )}
+
+                      <div className="absolute top-4 right-4 w-12 h-12 opacity-20 pointer-events-none group-hover:opacity-60 transition-opacity">
+                         <Doodle className="w-full h-full" delayIndex={0} />
+                      </div>
+
+                      <h3 className="font-display text-4xl md:text-6xl font-black uppercase mt-4">
+                        {link.label}
+                      </h3>
+                      
+                      <div className="mt-8 flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span className="font-ui text-sm font-bold tracking-widest uppercase border-[2px] border-current px-3 py-1">
+                          Go
+                        </span>
+                        <motion.span
+                          className="inline-block text-3xl font-display font-bold"
+                          initial={{ x: 0 }}
+                          whileHover={{ x: 10 }}
+                        >
+                          →
+                        </motion.span>
+                      </div>
+                    </Link>
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.div>
         )}
