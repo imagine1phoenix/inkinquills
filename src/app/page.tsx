@@ -6,38 +6,38 @@ import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
 import { DoodleArrow, DoodleCircle, DoodleUnderline, DoodleStar, DoodleSquiggle, DoodleFace, DoodleCrown, DoodleEye, DoodleSwirl, DoodleSpark } from "@/components/Doodles";
 
-const heroQuotes = [
-  "We are all stories in the end. Just make it a good one.",
-  "A word after a word after a word is power.",
-  "There is no greater agony than bearing an untold story inside you.",
-  "The first draft is just you telling yourself the story.",
-  "Literature is the most agreeable way of ignoring life.",
-];
-
 const sectionCards = [
   {
     href: "/stories",
     title: "Stories & Poems",
     description: "Original work by our members — fiction, poetry, and everything between.",
     icon: "✍",
+    theme: "bg-electric-blue text-[#F4F2EC]",
+    shadow: "var(--metro-yellow)",
   },
   {
     href: "/events",
     title: "Events",
     description: "Open mics, workshops, retreats, and gatherings that bring words to life.",
     icon: "✦",
+    theme: "bg-metro-yellow text-midnight",
+    shadow: "var(--electric-blue)",
   },
   {
     href: "/library",
     title: "The Library",
     description: "Our curated bookshelf — reviews and recommendations from avid readers.",
     icon: "📖",
+    theme: "bg-midnight text-[#F4F2EC]",
+    shadow: "var(--metro-yellow)",
   },
   {
     href: "/about",
     title: "About Us",
     description: "Who we are, what we do, and why stories matter to us.",
     icon: "◈",
+    theme: "bg-[#F4F2EC] text-midnight",
+    shadow: "var(--midnight)",
   },
 ];
 
@@ -53,34 +53,13 @@ const featuredPoem = {
   title: "Margins",
 };
 
-// Letter stagger animation for the hero title
-const titleContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.04,
-      delayChildren: 0.3,
-    },
-  },
-};
-
-const titleLetter = {
-  hidden: { opacity: 0, y: 50 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const },
-  },
-};
-
 export default function LandingPage() {
   const clubName = "Ink in Quills";
 
   return (
     <div>
       {/* ============= HERO ============= */}
-      <section className="relative min-h-[100vh] w-full flex items-center justify-center overflow-hidden bg-blueprint text-text-primary px-6">
+      <section className="relative min-h-[100vh] w-full flex items-center justify-center overflow-hidden bg-blueprint text-text-primary px-6 border-b-[4px] border-midnight">
         {/* Background Smoky / Cloudy Effect */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-60">
           <motion.div
@@ -190,160 +169,197 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ============= FEATURED PIECE ============= */}
-      <section className="py-24 md:py-32 px-6 bg-surface-elevated relative overflow-hidden">
-        <div className="absolute top-10 left-10 w-24 h-24 text-midnight/10 -rotate-12">
+      {/* ============= FEATURED PIECE (ZINE STYLE) ============= */}
+      <section className="py-24 md:py-32 px-6 bg-metro-yellow relative overflow-hidden border-b-[4px] border-midnight">
+        <div className="absolute top-10 left-10 w-32 h-32 text-midnight/20 rotate-[-15deg]">
            <DoodleCrown className="w-full h-full" delayIndex={0} />
         </div>
-        <div className="absolute bottom-10 right-10 w-32 h-16 text-metro-yellow/20 rotate-12">
+        <div className="absolute bottom-10 right-10 w-40 h-24 text-electric-blue/30 rotate-[20deg]">
            <DoodleSquiggle className="w-full h-full" delayIndex={0} />
         </div>
-        <div className="max-w-3xl mx-auto text-center relative z-10">
-          <ScrollReveal>
-            <p className="font-ui text-xs uppercase tracking-[0.3em] text-metro-yellow mb-8">
-              Featured Poem
-            </p>
-          </ScrollReveal>
+        <div className="absolute top-1/2 -left-16 w-48 h-48 text-[#F4F2EC]/40 -rotate-[35deg]">
+           <DoodleEye className="w-full h-full" delayIndex={1.5} />
+        </div>
 
-          <div className="space-y-1">
-            {featuredPoem.lines.map((line, i) => (
-              <ScrollReveal key={i} delay={0.1 * i}>
-                <p className="font-body text-xl md:text-2xl text-text-primary leading-relaxed italic">
-                  {line}
-                </p>
-              </ScrollReveal>
-            ))}
+        <div className="max-w-4xl mx-auto relative z-10">
+          
+          <div className="mb-12 flex justify-center">
+            <div className="bg-midnight border-[4px] border-midnight px-6 py-2 shadow-[8px_8px_0_var(--electric-blue)] -rotate-2 inline-block">
+              <span className="font-ui text-sm font-bold tracking-[0.3em] uppercase text-[#F4F2EC]">
+                Featured Poem
+              </span>
+            </div>
           </div>
 
-          <ScrollReveal delay={0.6}>
-            <div className="mt-8 space-y-1">
-              <div className="gold-line-center" />
-              <p className="mt-4 font-display text-sm text-text-muted">
-                &ldquo;{featuredPoem.title}&rdquo; — {featuredPoem.author}
-              </p>
+          <div className="relative bg-[#F4F2EC] border-[4px] border-midnight p-8 md:p-16 shadow-[16px_16px_0_var(--midnight)] rotate-1">
+            {/* Top Tape */}
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-32 h-8 bg-white/80 border-[3px] border-midnight shadow-sm -rotate-[3deg] z-10" />
+            
+            {/* Giant quote mark */}
+            <div className="absolute -top-8 -left-6 font-display text-[120px] leading-none text-electric-blue rotate-12 select-none">
+              "
             </div>
-          </ScrollReveal>
 
-          <ScrollReveal delay={0.8}>
-            <Link
-              href="/stories"
-              className="inline-block mt-8 font-ui text-sm font-bold text-metro-yellow hover:text-text-primary transition-colors border-b border-metro-yellow/30 hover:border-text-primary/30 pb-0.5"
-            >
-              Read more from our writers →
-            </Link>
-          </ScrollReveal>
+            <div className="space-y-2 relative z-10">
+              {featuredPoem.lines.map((line, i) => (
+                <ScrollReveal key={i} delay={0.1 * i}>
+                  <p className="font-display text-3xl md:text-5xl lg:text-6xl text-midnight leading-[1.1] font-bold uppercase mix-blend-multiply">
+                    {line}
+                  </p>
+                </ScrollReveal>
+              ))}
+            </div>
+
+            <ScrollReveal delay={0.6}>
+              <div className="mt-12 md:mt-16 pt-8 border-t-[4px] border-dashed border-midnight flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6">
+                <div>
+                  <h3 className="font-display text-2xl md:text-3xl font-black text-midnight uppercase bg-metro-yellow inline-block px-2">
+                    {featuredPoem.title}
+                  </h3>
+                  <p className="font-ui text-sm md:text-base font-bold uppercase tracking-widest text-midnight mt-2">
+                    BY {featuredPoem.author}
+                  </p>
+                </div>
+
+                <Link
+                  href="/stories"
+                  className="group relative inline-block bg-electric-blue border-[3px] border-midnight px-6 py-3 font-ui text-xs md:text-sm font-bold uppercase tracking-widest text-[#F4F2EC] transition-transform hover:-translate-y-1 hover:translate-x-1 hover:shadow-[-6px_6px_0_var(--midnight)]"
+                >
+                  Read more →
+                </Link>
+              </div>
+            </ScrollReveal>
+          </div>
         </div>
       </section>
 
-      {/* ============= SECTION CARDS ============= */}
-      <section className="py-24 md:py-32 px-6 bg-surface relative">
+      {/* ============= SECTION CARDS (ZINE STYLE) ============= */}
+      <section className="py-24 md:py-32 px-6 bg-midnight relative border-b-[4px] border-midnight overflow-hidden">
+        {/* Subtle dot pattern */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
+          backgroundImage: 'radial-gradient(#F4F2EC 2px, transparent 2px)',
+          backgroundSize: '24px 24px'
+        }} />
+
         <div className="max-w-6xl mx-auto relative z-10">
           <ScrollReveal>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-text-primary mb-16 relative inline-block">
-              Explore
-              <div className="absolute -top-6 -right-12 w-16 h-16 text-electric-blue -rotate-12">
-                <DoodleStar className="w-full h-full" delayIndex={0} />
+            <div className="flex justify-center mb-16 md:mb-24">
+              <div className="relative inline-block">
+                <h2 className="font-display text-6xl md:text-[8rem] font-black text-[#F4F2EC] uppercase leading-none text-3d -rotate-2">
+                  Explore
+                </h2>
+                <div className="absolute -top-12 -right-16 w-24 h-24 text-metro-yellow rotate-12">
+                  <DoodleStar className="w-full h-full" delayIndex={0} />
+                </div>
               </div>
-            </h2>
+            </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {sectionCards.map((card, i) => (
-              <ScrollReveal key={card.href} delay={0.1 * i}>
-                <Link href={card.href} className="group block h-full">
-                  <div className="h-full bg-surface-elevated rounded-2xl p-8 border border-ink-black shadow-offset hover:shadow-offset-lg hover:-translate-y-2 transition-all duration-300 group-hover:border-metro-yellow/50">
-                    <span className="text-4xl mb-4 block">{card.icon}</span>
-                    <h3 className="font-display text-xl font-bold text-text-primary mb-2 group-hover:text-metro-yellow transition-colors">
-                      {card.title}
-                    </h3>
-                    <p className="font-body text-sm text-text-muted leading-relaxed">
-                      {card.description}
-                    </p>
-                    <div className="mt-4 flex items-center gap-1 text-metro-yellow opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <span className="font-ui text-xs font-medium">Explore</span>
-                      <motion.span
-                        className="inline-block"
-                        whileHover={{ x: 4 }}
-                      >
-                        →
-                      </motion.span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-6">
+            {sectionCards.map((card, i) => {
+              const rotation = (i % 2 === 0 ? 1 : -1) * (i * 1.5 + 2);
+              return (
+                <ScrollReveal key={card.href} delay={0.1 * i}>
+                  <Link href={card.href} className="group block h-full">
+                    <div 
+                      className={`h-full ${card.theme} p-8 border-[4px] border-midnight transition-transform duration-300 relative`}
+                      style={{ 
+                        rotate: `${rotation}deg`,
+                        boxShadow: `8px 8px 0 ${card.shadow}`
+                      }}
+                    >
+                      {/* Top Tape */}
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-6 bg-white/90 border-[3px] border-midnight shadow-sm rotate-[3deg] z-10" />
+
+                      <div className="absolute top-4 right-4 text-5xl md:text-6xl opacity-20 pointer-events-none select-none">
+                        {card.icon}
+                      </div>
+
+                      <h3 className="font-display text-3xl font-black uppercase mb-4 mt-6 leading-none">
+                        {card.title}
+                      </h3>
+                      
+                      <div className={`w-12 h-1 mb-4 ${card.theme.includes('bg-midnight') || card.theme.includes('bg-electric-blue') ? 'bg-[#F4F2EC]' : 'bg-midnight'}`} />
+                      
+                      <p className="font-body text-base font-bold leading-relaxed opacity-90">
+                        {card.description}
+                      </p>
+                      
+                      <div className="mt-8 flex items-center justify-between">
+                        <span className="font-ui text-xs font-bold tracking-widest uppercase border-[2px] border-current px-2 py-1">
+                          Go
+                        </span>
+                        <motion.span
+                          className="inline-block text-2xl font-display font-bold"
+                          whileHover={{ x: 8 }}
+                        >
+                          →
+                        </motion.span>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </ScrollReveal>
-            ))}
+                  </Link>
+                </ScrollReveal>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* ============= CALL TO ACTION ============= */}
-      <section className="py-24 md:py-32 px-6 bg-midnight text-text-primary text-center relative overflow-hidden">
-        <div className="absolute top-20 left-10 w-48 h-48 text-electric-blue/10 -rotate-12 pointer-events-none">
+      {/* ============= CALL TO ACTION (ZINE STYLE) ============= */}
+      <section className="py-24 md:py-36 px-6 bg-electric-blue relative overflow-hidden">
+        <div className="absolute top-20 left-10 w-48 h-48 text-[#F4F2EC]/20 rotate-[35deg] pointer-events-none">
           <DoodleSwirl className="w-full h-full" delayIndex={0} />
         </div>
-        <div className="absolute bottom-20 right-10 w-32 h-32 text-metro-yellow/10 rotate-12 pointer-events-none">
+        <div className="absolute bottom-20 right-10 w-40 h-40 text-metro-yellow/20 -rotate-12 pointer-events-none">
           <DoodleFace className="w-full h-full" delayIndex={1} />
         </div>
+        <div className="absolute top-[40%] right-[20%] w-20 h-20 text-midnight/20 rotate-[70deg] pointer-events-none">
+          <DoodleCircle className="w-full h-full" delayIndex={2} />
+        </div>
+
         <ScrollReveal>
-          <p className="font-ui text-xs uppercase tracking-[0.3em] text-metro-yellow mb-6">
-            Our Signature Feature
-          </p>
-          <h2 className="font-display text-4xl md:text-6xl font-bold mb-6 relative inline-block">
-            The Book Wall
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[150%]">
-              <DoodleCircle className="w-full h-full" delayIndex={1} />
+          <div className="max-w-5xl mx-auto flex flex-col items-center text-center relative z-10">
+            
+            <div className="bg-metro-yellow border-[4px] border-midnight px-4 py-2 shadow-[6px_6px_0_var(--midnight)] rotate-2 mb-12 inline-block">
+              <span className="font-ui text-sm font-bold tracking-[0.3em] uppercase text-midnight">
+                Our Signature Feature
+              </span>
             </div>
-          </h2>
-          <div className="relative">
-            <p className="font-body text-lg text-text-muted max-w-lg mx-auto mb-10 leading-relaxed">
-              Browse our curated bookshelf. Pull a book from the shelf. Read our
-              review. Find your next obsession.
-            </p>
-            <div className="absolute -top-4 -right-16 w-24 h-24 hidden md:block">
-              <DoodleArrow className="w-full h-full rotate-90" delayIndex={2} />
+
+            <div className="relative inline-block mb-12">
+              <h2 className="font-display text-[4rem] sm:text-[7rem] md:text-[9rem] font-black text-[#F4F2EC] uppercase leading-[0.8] text-3d -rotate-2 select-none">
+                The Book Wall
+              </h2>
+              <div className="absolute -top-12 -left-12 w-24 h-24 hidden md:block text-metro-yellow rotate-45">
+                <DoodleSpark className="w-full h-full" delayIndex={1} />
+              </div>
             </div>
-          </div>
-          <Link
-            href="/library"
-            className="inline-flex items-center gap-3 btn-primary font-ui font-semibold text-sm px-8 py-4 animate-pulse-glow"
-          >
-            Enter the Library
-            <motion.span
-              animate={{ x: [0, 4, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+
+            <div className="relative mb-16 bg-[#F4F2EC] border-[4px] border-midnight p-6 max-w-2xl shadow-[12px_12px_0_var(--midnight)] -rotate-1">
+              <div className="absolute -top-3 left-1/4 w-12 h-6 bg-white/90 border-[2px] border-midnight shadow-sm rotate-[5deg] z-10" />
+              <div className="absolute -bottom-3 right-1/4 w-12 h-6 bg-white/90 border-[2px] border-midnight shadow-sm -rotate-[4deg] z-10" />
+              <p className="font-body text-xl md:text-2xl text-midnight font-bold leading-relaxed uppercase tracking-wide">
+                Browse our curated bookshelf. Pull a book from the shelf. Read our review. Find your next obsession.
+              </p>
+            </div>
+
+            <Link
+              href="/library"
+              className="group relative inline-block bg-midnight border-[4px] border-metro-yellow px-12 py-6 font-display text-3xl font-black uppercase text-[#F4F2EC] transition-transform hover:-translate-y-2 hover:translate-x-2 hover:shadow-[-8px_8px_0_var(--metro-yellow)] rotate-2"
             >
-              →
-            </motion.span>
-          </Link>
+              Enter the Library
+              <motion.span
+                className="inline-block ml-4"
+                animate={{ x: [0, 10, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                →
+              </motion.span>
+            </Link>
+
+          </div>
         </ScrollReveal>
       </section>
-    </div>
-  );
-}
-
-// ============= ROTATING QUOTE COMPONENT =============
-function RotatingQuote({ quotes }: { quotes: string[] }) {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev: number) => (prev + 1) % quotes.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [quotes.length]);
-
-  return (
-    <div className="h-16 flex items-center justify-center overflow-hidden">
-      <motion.p
-        key={index}
-        className="font-body text-sm md:text-base text-text-dim italic max-w-md"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.6 }}
-      >
-        &ldquo;{quotes[index]}&rdquo;
-      </motion.p>
     </div>
   );
 }
