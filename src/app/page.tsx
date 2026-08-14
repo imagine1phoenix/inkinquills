@@ -81,9 +81,37 @@ export default function LandingPage() {
     <div>
       {/* ============= HERO ============= */}
       <section className="relative min-h-[100vh] w-full flex items-center justify-center overflow-hidden bg-electric-blue text-text-primary px-6" style={{ background: 'linear-gradient(135deg, #012CEB 0%, #001066 100%)' }}>
-        {/* Background Silhouette Glow */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
-           <div className="w-[800px] h-[800px] bg-midnight blur-[100px] rounded-full" />
+        {/* Background Smoky / Cloudy Effect */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-60">
+          <motion.div
+            className="absolute top-[10%] left-[10%] w-[60vw] h-[60vw] md:w-[40vw] md:h-[40vw] bg-white/10 blur-[100px] sm:blur-[120px] rounded-full mix-blend-overlay"
+            animate={{ 
+              x: [0, 100, -50, 0], 
+              y: [0, -100, 50, 0],
+              scale: [1, 1.2, 0.9, 1] 
+            }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.div
+            className="absolute bottom-[10%] right-[10%] w-[70vw] h-[70vw] md:w-[50vw] md:h-[50vw] bg-midnight/30 blur-[100px] sm:blur-[120px] rounded-full mix-blend-multiply"
+            animate={{ 
+              x: [0, -80, 60, 0], 
+              y: [0, 80, -40, 0],
+              scale: [1, 1.1, 0.8, 1] 
+            }}
+            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[50vw] md:w-[60vw] md:h-[30vw] bg-[#F4F2EC]/10 blur-[120px] sm:blur-[140px] rounded-[100%]"
+            animate={{ 
+              rotate: [0, 180, 360],
+              scale: [1, 1.3, 1]
+            }}
+            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          />
+          <div className="absolute inset-0 flex items-center justify-center mix-blend-multiply">
+             <div className="w-[80vw] h-[80vw] md:w-[800px] md:h-[800px] bg-midnight blur-[100px] sm:blur-[120px] rounded-full opacity-60" />
+          </div>
         </div>
 
         {/* Central 3D Text */}
@@ -91,7 +119,7 @@ export default function LandingPage() {
            <div className="absolute -top-12 -left-12 w-24 h-24 rotate-12 text-[#F4F2EC] opacity-80">
              <DoodleStar className="w-full h-full" delayIndex={0.5} />
            </div>
-           <h1 className="font-display text-6xl sm:text-8xl md:text-[12rem] leading-[0.8] text-[#F4F2EC] text-3d -rotate-2 hover:scale-105 transition-transform duration-500 cursor-default">
+           <h1 className="font-display text-[7.5rem] leading-[0.8] sm:text-8xl md:text-[12rem] sm:leading-[0.8] text-[#F4F2EC] text-3d -rotate-2 hover:scale-105 transition-transform duration-500 cursor-default whitespace-nowrap">
              Ink in<br />Quills
            </h1>
            <div className="absolute -bottom-16 -right-8 w-32 h-16 -rotate-6 text-[#F4F2EC] opacity-80">
@@ -145,23 +173,7 @@ export default function LandingPage() {
            </div>
         </div>
 
-        {/* Bottom Center: CTA */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">
-           <div className="absolute -top-8 -left-10 sm:-top-12 sm:-left-16 w-12 h-12 sm:w-20 sm:h-20 text-metro-yellow/50 -rotate-12">
-             <DoodleEye className="w-full h-full" delayIndex={1.5} />
-           </div>
-           <div className="absolute -top-2 -right-10 sm:-top-4 sm:-right-16 w-10 h-10 sm:w-16 sm:h-16 text-electric-blue/50 rotate-12">
-             <DoodleSpark className="w-full h-full" delayIndex={2} />
-           </div>
-           <div className="bg-midnight text-[#F4F2EC] border-2 border-[#F4F2EC] px-4 py-2 sm:px-6 font-ui text-[10px] sm:text-xs font-bold uppercase tracking-widest cursor-pointer hover:bg-[#F4F2EC] hover:text-midnight transition-colors">
-             GO ON, SCROLL DOWN
-           </div>
-           <div className="w-8 h-8 sm:w-16 sm:h-16 mt-2 relative">
-             <svg viewBox="0 0 100 100" fill="none" stroke="#F4F2EC" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
-                <path d="M 50 10 L 50 90 M 30 70 L 50 90 L 70 70" />
-             </svg>
-           </div>
-        </div>
+
 
         {/* Bottom Right: Audio Icon */}
         <div className="absolute bottom-28 right-4 sm:bottom-32 sm:right-6 md:bottom-32 md:right-16 lg:right-24 z-20">

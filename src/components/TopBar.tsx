@@ -29,8 +29,8 @@ export default function TopBar() {
       </div>
 
       {/* Center Block */}
-      <div className="flex-1 px-6 flex items-center justify-center text-midnight">
-        <span className="font-display text-base hidden md:block">
+      <div className="flex-1 px-2 sm:px-6 flex items-center justify-center text-midnight">
+        <span className="font-display text-[10px] sm:text-sm md:text-base text-center leading-tight">
           Started as readers. Ended up telling stories.
         </span>
       </div>
