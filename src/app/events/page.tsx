@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import eventsData from "@/data/events.json";
 import type { ClubEvent } from "@/data/types";
 import { DoodleCircle } from "@/components/Doodles";
@@ -23,7 +24,7 @@ function formatFullDate(dateStr: string): string {
   });
 }
 
-function DeckCard({ event, index, colorIndex }: { event: ClubEvent; index: number; colorIndex: number }) {
+function DeckCard({ event, index, colorIndex, onClick }: { event: ClubEvent; index: number; colorIndex: number; onClick: () => void }) {
   const isFirst = index === 0;
   
   // Colors for the deck
@@ -40,6 +41,7 @@ function DeckCard({ event, index, colorIndex }: { event: ClubEvent; index: numbe
 
   return (
     <div 
+      onClick={onClick}
       className={`group relative w-full max-w-4xl mx-auto border-2 border-midnight p-6 md:p-10 shadow-[8px_8px_0_rgba(0,0,0,0.8)] transition-all duration-300 hover:-translate-y-8 hover:shadow-[16px_16px_0_rgba(0,0,0,0.8)] cursor-pointer ${colorClass} ${!isFirst ? '-mt-20 md:-mt-28' : ''}`}
       style={{ 
         transform: `rotate(${rotation}deg)`, 
@@ -73,8 +75,69 @@ function DeckCard({ event, index, colorIndex }: { event: ClubEvent; index: numbe
 }
 
 export default function EventsPage() {
+  const [selectedEvent, setSelectedEvent] = useState<ClubEvent | null>(null);
+
   return (
-    <div className="min-h-screen bg-blueprint pb-32">
+    <div className="min-h-screen bg-blueprint pb-32 relative">
+      {/* Modal Overlay */}
+      <AnimatePresence>
+        {selectedEvent && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12 bg-midnight/80 backdrop-blur-sm overflow-y-auto"
+            onClick={() => setSelectedEvent(null)}
+          >
+            <motion.div 
+              initial={{ y: 50, rotate: 2, scale: 0.9 }}
+              animate={{ y: 0, rotate: 0, scale: 1 }}
+              exit={{ y: 50, opacity: 0, scale: 0.95 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-[#F4F2EC] border-2 border-midnight w-full max-w-3xl shadow-[16px_16px_0_var(--electric-blue)] relative my-auto"
+            >
+              {/* Close button */}
+              <button 
+                onClick={() => setSelectedEvent(null)}
+                className="absolute top-4 right-4 w-10 h-10 border-2 border-midnight flex items-center justify-center hover:bg-metro-yellow transition-colors font-display text-xl z-10"
+              >
+                X
+              </button>
+
+              <div className="p-8 md:p-12">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b-2 border-midnight pb-6 mb-8">
+                  <h2 className="font-display text-4xl md:text-5xl font-black text-midnight uppercase leading-none">
+                    {selectedEvent.title}
+                  </h2>
+                  <div className="bg-electric-blue text-[#F4F2EC] font-ui text-sm font-bold px-3 py-1 border-2 border-midnight shrink-0 shadow-[4px_4px_0_var(--midnight)]">
+                    {formatFullDate(selectedEvent.date)}
+                  </div>
+                </div>
+
+                <p className="font-body text-lg text-midnight leading-relaxed mb-10">
+                  {selectedEvent.longDescription || selectedEvent.description}
+                </p>
+
+                {/* Photo Grid Placeholder */}
+                {selectedEvent.photos && selectedEvent.photos.length > 0 && (
+                  <div className="space-y-4">
+                    <h3 className="font-display text-2xl text-midnight font-bold">Photos</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      {selectedEvent.photos.map((_, idx) => (
+                        <div key={idx} className="aspect-square bg-midnight/5 border-2 border-midnight flex items-center justify-center shadow-[4px_4px_0_var(--midnight)] relative overflow-hidden group">
+                          <span className="text-4xl opacity-50 group-hover:scale-110 transition-transform">📸</span>
+                          <div className="absolute inset-0 bg-electric-blue/10 pointer-events-none" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Top Section */}
       <div className="pt-24 px-6 md:px-12 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 mb-32">
         
@@ -126,7 +189,7 @@ export default function EventsPage() {
           <div className="flex flex-col">
             {upcoming.length > 0 ? (
               upcoming.map((event, i) => (
-                <DeckCard key={event.id} event={event} index={i} colorIndex={i} />
+                <DeckCard key={event.id} event={event} index={i} colorIndex={i} onClick={() => setSelectedEvent(event)} />
               ))
             ) : (
               <div className="max-w-4xl mx-auto w-full bg-[#F4F2EC] border-2 border-midnight p-10 text-center shadow-[8px_8px_0_var(--midnight)]">
@@ -148,7 +211,7 @@ export default function EventsPage() {
           </div>
           <div className="flex flex-col">
             {past.map((event, i) => (
-              <DeckCard key={event.id} event={event} index={i} colorIndex={i + upcoming.length} />
+              <DeckCard key={event.id} event={event} index={i} colorIndex={i + upcoming.length} onClick={() => setSelectedEvent(event)} />
             ))}
           </div>
         </section>
