@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ScrollReveal from "@/components/ScrollReveal";
 import storiesData from "@/data/stories.json";
 import type { Story } from "@/data/types";
-import { DoodleArrow, DoodleCrown, DoodleStar, DoodleSquiggle, DoodleEye, DoodleSpark, DoodleSwirl } from "@/components/Doodles";
+import { DoodleArrow, DoodleCrown, DoodleStar, DoodleSquiggle, DoodleEye, DoodleSpark, DoodleSwirl, DoodleFace, DoodleCircle } from "@/components/Doodles";
 
 const stories: Story[] = storiesData as Story[];
 
@@ -78,12 +78,27 @@ export default function StoriesPage() {
             </p>
           </motion.div>
           
-          {/* Header Doodles */}
+          {/* DOODLE EXPLOSION — Header */}
           <div className="absolute -bottom-10 -left-4 w-24 h-24 text-electric-blue -rotate-12 z-0 hidden sm:block">
              <DoodleStar className="w-full h-full" delayIndex={1} />
           </div>
           <div className="absolute top-1/2 -right-16 w-20 h-20 text-metro-yellow rotate-12 z-0 hidden md:block">
              <DoodleSquiggle className="w-full h-full" delayIndex={1.5} />
+          </div>
+          <div className="absolute top-[20%] left-[5%] w-14 h-14 text-[#F4F2EC]/20 rotate-[30deg] z-0 pointer-events-none">
+             <DoodleSwirl className="w-full h-full" delayIndex={0.8} />
+          </div>
+          <div className="absolute bottom-[15%] right-[8%] w-12 h-12 text-metro-yellow/20 -rotate-[25deg] z-0 pointer-events-none">
+             <DoodleFace className="w-full h-full" delayIndex={2} />
+          </div>
+          <div className="absolute top-[35%] left-[15%] w-10 h-10 text-[#F4F2EC]/15 rotate-[55deg] z-0 pointer-events-none">
+             <DoodleEye className="w-full h-full" delayIndex={2.5} />
+          </div>
+          <div className="absolute top-[70%] right-[20%] w-16 h-16 text-[#F4F2EC]/12 -rotate-[40deg] z-0 pointer-events-none">
+             <DoodleCrown className="w-full h-full" delayIndex={1.2} />
+          </div>
+          <div className="absolute top-[50%] left-[25%] w-8 h-8 text-metro-yellow/15 rotate-[70deg] z-0 pointer-events-none">
+             <DoodleCircle className="w-full h-full" delayIndex={0.5} />
           </div>
         </div>
       </section>
@@ -138,18 +153,60 @@ export default function StoriesPage() {
           ))}
         </div>
 
-        {/* Background Ambient Doodles */}
-        <div className="absolute left-10 top-1/3 w-32 h-32 text-electric-blue/10 rotate-45 hidden lg:block pointer-events-none">
+        {/* DOODLE EXPLOSION — Stories List */}
+        <div className="absolute left-10 top-1/3 w-32 h-32 text-electric-blue/10 rotate-45 pointer-events-none">
            <DoodleArrow className="w-full h-full" delayIndex={0} />
         </div>
-        <div className="absolute right-10 bottom-1/4 w-40 h-40 text-metro-yellow/10 -rotate-12 hidden lg:block pointer-events-none">
+        <div className="absolute right-10 bottom-1/4 w-40 h-40 text-metro-yellow/10 -rotate-12 pointer-events-none">
            <DoodleCrown className="w-full h-full" delayIndex={0.5} />
         </div>
-        <div className="absolute -left-16 bottom-1/3 w-48 h-48 text-electric-blue/5 -rotate-45 hidden lg:block pointer-events-none">
+        <div className="absolute -left-16 bottom-1/3 w-48 h-48 text-electric-blue/5 -rotate-45 pointer-events-none">
            <DoodleSwirl className="w-full h-full" delayIndex={1} />
         </div>
-        <div className="absolute top-20 right-20 w-24 h-24 text-metro-yellow/20 rotate-12 hidden lg:block pointer-events-none">
+        <div className="absolute top-20 right-20 w-24 h-24 text-metro-yellow/20 rotate-12 pointer-events-none">
            <DoodleSpark className="w-full h-full" delayIndex={1.5} />
+        </div>
+        <div className="absolute top-[8%] left-[5%] w-16 h-16 text-[#F4F2EC]/18 rotate-[20deg] pointer-events-none">
+           <DoodleStar className="w-full h-full" delayIndex={2} />
+        </div>
+        <div className="absolute top-[15%] right-[4%] w-14 h-14 text-[#F4F2EC]/15 -rotate-[35deg] pointer-events-none">
+           <DoodleFace className="w-full h-full" delayIndex={0.8} />
+        </div>
+        <div className="absolute top-[25%] left-[2%] w-10 h-10 text-metro-yellow/15 rotate-[60deg] pointer-events-none">
+           <DoodleEye className="w-full h-full" delayIndex={2.5} />
+        </div>
+        <div className="absolute top-[35%] right-[6%] w-20 h-10 text-[#F4F2EC]/10 -rotate-[10deg] pointer-events-none">
+           <DoodleSquiggle className="w-full h-full" delayIndex={3} />
+        </div>
+        <div className="absolute top-[45%] left-[8%] w-12 h-12 text-[#F4F2EC]/12 rotate-[50deg] pointer-events-none">
+           <DoodleCircle className="w-full h-full" delayIndex={1.2} />
+        </div>
+        <div className="absolute top-[55%] right-[3%] w-16 h-16 text-metro-yellow/12 -rotate-[55deg] pointer-events-none">
+           <DoodleStar className="w-full h-full" delayIndex={0.3} />
+        </div>
+        <div className="absolute top-[65%] left-[4%] w-14 h-14 text-[#F4F2EC]/15 rotate-[75deg] pointer-events-none">
+           <DoodleSwirl className="w-full h-full" delayIndex={1.8} />
+        </div>
+        <div className="absolute top-[75%] right-[8%] w-10 h-10 text-metro-yellow/18 -rotate-[30deg] pointer-events-none">
+           <DoodleFace className="w-full h-full" delayIndex={2.2} />
+        </div>
+        <div className="absolute top-[85%] left-[6%] w-18 h-18 text-[#F4F2EC]/10 rotate-[40deg] pointer-events-none">
+           <DoodleCrown className="w-full h-full" delayIndex={0.5} />
+        </div>
+        <div className="absolute bottom-[5%] right-[15%] w-12 h-12 text-electric-blue/15 -rotate-[65deg] pointer-events-none">
+           <DoodleArrow className="w-full h-full" delayIndex={1.5} />
+        </div>
+        <div className="absolute top-[5%] left-[30%] w-8 h-8 text-[#F4F2EC]/12 rotate-[85deg] pointer-events-none">
+           <DoodleSpark className="w-full h-full" delayIndex={2.8} />
+        </div>
+        <div className="absolute top-[40%] right-[25%] w-10 h-10 text-metro-yellow/10 -rotate-[45deg] pointer-events-none">
+           <DoodleEye className="w-full h-full" delayIndex={3.2} />
+        </div>
+        <div className="absolute bottom-[15%] left-[20%] w-16 h-8 text-[#F4F2EC]/8 rotate-[15deg] pointer-events-none">
+           <DoodleSquiggle className="w-full h-full" delayIndex={0.2} />
+        </div>
+        <div className="absolute top-[50%] left-[35%] w-8 h-8 text-metro-yellow/8 rotate-[-70deg] pointer-events-none">
+           <DoodleCircle className="w-full h-full" delayIndex={1} />
         </div>
       </section>
 
