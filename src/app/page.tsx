@@ -108,55 +108,55 @@ export default function LandingPage() {
         </div>
 
         {/* Top Right: Graph Lockup */}
-        <div className="absolute top-16 right-4 sm:top-24 sm:right-6 md:top-32 md:right-16 lg:right-24 z-20 flex items-start gap-4">
-          <div className="text-right font-display text-lg sm:text-xl md:text-2xl leading-tight">
+        <div className="absolute top-36 right-4 sm:top-24 sm:right-6 md:top-32 md:right-16 lg:right-24 z-20 flex items-start gap-2 sm:gap-4 scale-75 origin-top-right sm:scale-100">
+          <div className="text-right font-display text-sm sm:text-xl md:text-2xl leading-tight">
             Creative by night,<br />
             more creative by <span className="bg-[#F4F2EC] text-electric-blue border-2 border-midnight px-1 sm:px-2 py-0.5 sm:py-1 shadow-[4px_4px_0_var(--electric-blue)] inline-block mt-1">midnight.</span>
           </div>
           {/* Simple SVG Graph */}
-          <div className="w-24 h-16 border-l-2 border-b-2 border-[#F4F2EC] relative hidden lg:block">
+          <div className="w-16 h-10 sm:w-24 sm:h-16 border-l-2 border-b-2 border-[#F4F2EC] relative mt-1 sm:mt-0">
             <svg viewBox="0 0 100 100" className="absolute bottom-0 left-0 w-full h-full overflow-visible">
                <path d="M 0 80 Q 50 80 100 20" fill="none" stroke="#F4F2EC" strokeWidth="4" strokeLinecap="round" />
                <circle cx="100" cy="20" r="6" fill="#F4F2EC" />
             </svg>
-            <div className="absolute -bottom-6 left-0 text-[10px] font-ui">20:00</div>
-            <div className="absolute -bottom-6 right-0 text-[10px] font-ui">00:00</div>
-            <div className="absolute -top-8 -right-8 w-12 h-12 text-metro-yellow">
+            <div className="absolute -bottom-6 left-0 text-[8px] sm:text-[10px] font-ui">20:00</div>
+            <div className="absolute -bottom-6 right-0 text-[8px] sm:text-[10px] font-ui">00:00</div>
+            <div className="absolute -top-6 -right-6 sm:-top-8 sm:-right-8 w-8 h-8 sm:w-12 sm:h-12 text-metro-yellow">
                <DoodleFace className="w-full h-full" delayIndex={2} />
             </div>
           </div>
         </div>
 
         {/* Bottom Left: Timeline */}
-        <div className="absolute bottom-32 left-6 md:bottom-40 md:left-16 lg:left-24 z-20 flex flex-col gap-6 hidden sm:flex">
-           <div className="relative pl-6">
-             <div className="absolute left-0 top-2 bottom-[-1.5rem] w-[2px] border-l-2 border-dashed border-[#F4F2EC]/30" />
-             <div className="text-[10px] font-ui text-[#F4F2EC]/70 uppercase tracking-widest">Started As</div>
-             <div className="font-display text-xl">Reader</div>
+        <div className="absolute bottom-28 left-4 sm:bottom-32 sm:left-6 md:bottom-40 md:left-16 lg:left-24 z-20 flex flex-col gap-3 sm:gap-6">
+           <div className="relative pl-4 sm:pl-6">
+             <div className="absolute left-0 top-1 sm:top-2 bottom-[-1rem] sm:bottom-[-1.5rem] w-[1px] sm:w-[2px] border-l sm:border-l-2 border-dashed border-[#F4F2EC]/30" />
+             <div className="text-[8px] sm:text-[10px] font-ui text-[#F4F2EC]/70 uppercase tracking-widest">Started As</div>
+             <div className="font-display text-sm sm:text-xl">Reader</div>
            </div>
-           <div className="relative pl-6">
-             <div className="absolute left-0 top-2 bottom-[-1.5rem] w-[2px] border-l-2 border-dashed border-[#F4F2EC]/30" />
-             <div className="text-[10px] font-ui text-[#F4F2EC]/70 uppercase tracking-widest">Became</div>
-             <div className="font-display text-xl">Writer</div>
+           <div className="relative pl-4 sm:pl-6">
+             <div className="absolute left-0 top-1 sm:top-2 bottom-[-1rem] sm:bottom-[-1.5rem] w-[1px] sm:w-[2px] border-l sm:border-l-2 border-dashed border-[#F4F2EC]/30" />
+             <div className="text-[8px] sm:text-[10px] font-ui text-[#F4F2EC]/70 uppercase tracking-widest">Became</div>
+             <div className="font-display text-sm sm:text-xl">Writer</div>
            </div>
-           <div className="relative pl-6">
-             <div className="text-[10px] font-ui text-[#F4F2EC]/70 uppercase tracking-widest">Currently</div>
-             <div className="font-display text-2xl">Storyteller</div>
+           <div className="relative pl-4 sm:pl-6">
+             <div className="text-[8px] sm:text-[10px] font-ui text-[#F4F2EC]/70 uppercase tracking-widest">Currently</div>
+             <div className="font-display text-base sm:text-2xl">Storyteller</div>
            </div>
         </div>
 
         {/* Bottom Center: CTA */}
-        <div className="absolute bottom-28 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">
-           <div className="absolute -top-12 -left-16 w-20 h-20 text-metro-yellow/50 -rotate-12 hidden md:block">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">
+           <div className="absolute -top-8 -left-10 sm:-top-12 sm:-left-16 w-12 h-12 sm:w-20 sm:h-20 text-metro-yellow/50 -rotate-12">
              <DoodleEye className="w-full h-full" delayIndex={1.5} />
            </div>
-           <div className="absolute -top-4 -right-16 w-16 h-16 text-electric-blue/50 rotate-12 hidden md:block">
+           <div className="absolute -top-2 -right-10 sm:-top-4 sm:-right-16 w-10 h-10 sm:w-16 sm:h-16 text-electric-blue/50 rotate-12">
              <DoodleSpark className="w-full h-full" delayIndex={2} />
            </div>
-           <div className="bg-midnight text-[#F4F2EC] border-2 border-[#F4F2EC] px-6 py-2 font-ui text-xs font-bold uppercase tracking-widest cursor-pointer hover:bg-[#F4F2EC] hover:text-midnight transition-colors">
+           <div className="bg-midnight text-[#F4F2EC] border-2 border-[#F4F2EC] px-4 py-2 sm:px-6 font-ui text-[10px] sm:text-xs font-bold uppercase tracking-widest cursor-pointer hover:bg-[#F4F2EC] hover:text-midnight transition-colors">
              GO ON, SCROLL DOWN
            </div>
-           <div className="w-16 h-16 mt-2 relative">
+           <div className="w-8 h-8 sm:w-16 sm:h-16 mt-2 relative">
              <svg viewBox="0 0 100 100" fill="none" stroke="#F4F2EC" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
                 <path d="M 50 10 L 50 90 M 30 70 L 50 90 L 70 70" />
              </svg>
@@ -164,14 +164,14 @@ export default function LandingPage() {
         </div>
 
         {/* Bottom Right: Audio Icon */}
-        <div className="absolute bottom-28 right-6 md:bottom-32 md:right-16 lg:right-24 z-20">
-           <div className="bg-[#F4F2EC] border-2 border-midnight w-14 h-14 rounded-full flex items-center justify-center relative cursor-pointer shadow-[4px_4px_0_var(--midnight)] hover:-translate-y-1 transition-transform group">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--midnight)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform">
+        <div className="absolute bottom-28 right-4 sm:bottom-32 sm:right-6 md:bottom-32 md:right-16 lg:right-24 z-20">
+           <div className="bg-[#F4F2EC] border-2 border-midnight w-10 h-10 sm:w-14 sm:h-14 rounded-full flex items-center justify-center relative cursor-pointer shadow-[4px_4px_0_var(--midnight)] hover:-translate-y-1 transition-transform group">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--midnight)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform">
                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
                  <line x1="23" y1="9" x2="17" y2="15"></line>
                  <line x1="17" y1="9" x2="23" y2="15"></line>
               </svg>
-              <div className="absolute -inset-4 pointer-events-none">
+              <div className="absolute -inset-2 sm:-inset-4 pointer-events-none">
                  <DoodleCircle className="w-full h-full stroke-metro-yellow" delayIndex={1} />
               </div>
            </div>
