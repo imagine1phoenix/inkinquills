@@ -91,7 +91,7 @@ export default function LandingPage() {
            <div className="absolute -top-12 -left-12 w-24 h-24 rotate-12 text-[#F4F2EC] opacity-80">
              <DoodleStar className="w-full h-full" delayIndex={0.5} />
            </div>
-           <h1 className="font-display text-8xl md:text-[12rem] leading-[0.8] text-[#F4F2EC] text-3d -rotate-2 hover:scale-105 transition-transform duration-500 cursor-default">
+           <h1 className="font-display text-6xl sm:text-8xl md:text-[12rem] leading-[0.8] text-[#F4F2EC] text-3d -rotate-2 hover:scale-105 transition-transform duration-500 cursor-default">
              Inks &<br />Quills
            </h1>
            <div className="absolute -bottom-16 -right-8 w-32 h-16 -rotate-6 text-[#F4F2EC] opacity-80">
@@ -100,18 +100,18 @@ export default function LandingPage() {
         </div>
 
         {/* Top Left: Est Card */}
-        <div className="absolute top-24 left-6 md:top-32 md:left-16 lg:left-24 z-20">
-          <div className="bg-[#F4F2EC] text-midnight border-2 border-midnight p-3 md:p-4 shadow-[6px_6px_0_var(--electric-blue)] font-body text-sm font-bold text-center -rotate-3 hover:rotate-0 transition-transform cursor-default">
+        <div className="absolute top-16 left-4 sm:top-24 sm:left-6 md:top-32 md:left-16 lg:left-24 z-20">
+          <div className="bg-[#F4F2EC] text-midnight border-2 border-midnight p-2 sm:p-3 md:p-4 shadow-[4px_4px_0_var(--electric-blue)] md:shadow-[6px_6px_0_var(--electric-blue)] font-body text-xs sm:text-sm font-bold text-center -rotate-3 hover:rotate-0 transition-transform cursor-default">
             EST. 2026<br />
-            <span className="font-normal text-xs border-t border-midnight/20 mt-1 pt-1 block">Literary Club</span>
+            <span className="font-normal text-[10px] sm:text-xs border-t border-midnight/20 mt-1 pt-1 block">Literary Club</span>
           </div>
         </div>
 
         {/* Top Right: Graph Lockup */}
-        <div className="absolute top-24 right-6 md:top-32 md:right-16 lg:right-24 z-20 flex items-start gap-4">
-          <div className="text-right font-display text-xl md:text-2xl leading-tight">
+        <div className="absolute top-16 right-4 sm:top-24 sm:right-6 md:top-32 md:right-16 lg:right-24 z-20 flex items-start gap-4">
+          <div className="text-right font-display text-lg sm:text-xl md:text-2xl leading-tight">
             Creative by night,<br />
-            more creative by <span className="bg-[#F4F2EC] text-electric-blue border-2 border-midnight px-2 py-1 shadow-[4px_4px_0_var(--electric-blue)] inline-block mt-1">midnight.</span>
+            more creative by <span className="bg-[#F4F2EC] text-electric-blue border-2 border-midnight px-1 sm:px-2 py-0.5 sm:py-1 shadow-[4px_4px_0_var(--electric-blue)] inline-block mt-1">midnight.</span>
           </div>
           {/* Simple SVG Graph */}
           <div className="w-24 h-16 border-l-2 border-b-2 border-[#F4F2EC] relative hidden lg:block">
