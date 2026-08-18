@@ -24,7 +24,7 @@ function formatFullDate(dateStr: string): string {
   });
 }
 
-function DeckCard({ event, index, colorIndex, onClick }: { event: ClubEvent; index: number; colorIndex: number; onClick: () => void }) {
+function DeckCard({ event, index, colorIndex, stacked = true, onClick }: { event: ClubEvent; index: number; colorIndex: number; stacked?: boolean; onClick: () => void }) {
   const isFirst = index === 0;
   const isDemonSlayer = event.title === "Breathe of Literature" || event.description.toLowerCase().includes("demon slayer");
   const isInfinityWar = event.title === "INK-FINITY WAR";
@@ -55,7 +55,7 @@ function DeckCard({ event, index, colorIndex, onClick }: { event: ClubEvent; ind
   return (
     <div 
       onClick={onClick}
-      className={`group relative w-full max-w-4xl mx-auto border-[3px] border-midnight p-6 md:p-10 shadow-[8px_8px_0_rgba(0,0,0,0.8)] transition-all duration-300 hover:-translate-y-8 hover:shadow-[16px_16px_0_rgba(0,0,0,0.8)] cursor-pointer ${colorClass} ${!isFirst ? '-mt-20 md:-mt-28' : ''}`}
+      className={`group relative w-full max-w-4xl mx-auto border-[3px] border-midnight p-6 md:p-10 shadow-[8px_8px_0_rgba(0,0,0,0.8)] transition-all duration-300 hover:-translate-y-8 hover:shadow-[16px_16px_0_rgba(0,0,0,0.8)] cursor-pointer ${colorClass} ${stacked && !isFirst ? '-mt-20 md:-mt-28' : ''}`}
       style={{ 
         transform: `rotate(${rotation}deg)`, 
         zIndex: index, // Stacks properly
@@ -96,7 +96,23 @@ export default function EventsPage() {
   const [selectedEvent, setSelectedEvent] = useState<ClubEvent | null>(null);
 
   return (
-    <div className="min-h-screen bg-blueprint pb-32 relative">
+    <div className="min-h-screen bg-blueprint pb-32 relative overflow-hidden">
+      <style jsx global>{`
+        @keyframes marquee {
+          0% { transform: translateX(0%); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+          display: inline-block;
+          white-space: nowrap;
+          animation: marquee 15s linear infinite;
+        }
+        .animate-marquee-reverse {
+          display: inline-block;
+          white-space: nowrap;
+          animation: marquee 15s linear infinite reverse;
+        }
+      `}</style>
       {/* Modal Overlay */}
       <AnimatePresence>
         {selectedEvent && (() => {
@@ -318,23 +334,6 @@ export default function EventsPage() {
               ))
             ) : (
               <div className="max-w-4xl mx-auto w-full relative group perspective-[1000px]">
-                <style jsx>{`
-                  @keyframes marquee {
-                    0% { transform: translateX(0%); }
-                    100% { transform: translateX(-50%); }
-                  }
-                  .animate-marquee {
-                    display: inline-block;
-                    white-space: nowrap;
-                    animation: marquee 15s linear infinite;
-                  }
-                  .animate-marquee-reverse {
-                    display: inline-block;
-                    white-space: nowrap;
-                    animation: marquee 15s linear infinite reverse;
-                  }
-                `}</style>
-
                 <div className="absolute inset-0 bg-metro-yellow/20 -rotate-3 rounded-[40px] blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                 
                 <div className="relative bg-[#111] border-[6px] border-metro-yellow p-12 md:p-20 shadow-[16px_16px_0_#eab308] overflow-hidden transform transition-all duration-500 group-hover:rotate-1">
@@ -382,28 +381,52 @@ export default function EventsPage() {
           </div>
         </section>
 
-        {/* Divider */}
-        <div className="max-w-4xl mx-auto w-full border-t-2 border-dashed border-[#F4F2EC]/40 my-8 relative">
-           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-16 text-[#F4F2EC]/20">
-              <DoodleSquiggle className="w-full h-full" delayIndex={0} />
-           </div>
-        </div>
+        {/* The Vault (Archive) */}
+        <section className="relative mt-20 pt-32 pb-40 border-t-[8px] border-black overflow-hidden bg-[#111] mx-[-1.5rem] md:mx-[-3rem]">
+          {/* Warning Tape Background */}
+          <div className="absolute top-0 left-0 w-[150%] h-12 bg-metro-yellow -rotate-1 flex items-center font-display font-black text-2xl text-black tracking-widest border-b-4 border-black z-10 overflow-hidden transform origin-top-left -ml-4 shadow-[0_4px_20px_rgba(0,0,0,0.5)] whitespace-nowrap">
+             <div className="animate-marquee">
+               /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT ///
+             </div>
+          </div>
 
-        {/* Past Deck */}
-        <section className="relative">
-          <div className="absolute top-1/3 -right-20 w-48 h-48 text-electric-blue/10 rotate-12 hidden lg:block pointer-events-none">
-            <DoodleSwirl className="w-full h-full" delayIndex={1.5} />
-          </div>
-          <div className="flex items-center gap-4 mb-16 md:mb-20 max-w-4xl mx-auto">
-            <div className="gold-line" />
-            <h2 className="font-display text-2xl font-bold text-metro-yellow uppercase tracking-widest">
-              Archive
-            </h2>
-          </div>
-          <div className="flex flex-col">
-            {past.map((event, i) => (
-              <DeckCard key={event.id} event={event} index={i} colorIndex={i + upcoming.length} onClick={() => setSelectedEvent(event)} />
-            ))}
+          {/* Grid background */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+          
+          <div className="max-w-6xl mx-auto px-6 relative z-10">
+            {/* Header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-32 relative">
+              <div>
+                <h2 className="font-display text-7xl md:text-[8rem] font-black text-[#F4F2EC] uppercase leading-none tracking-tighter drop-shadow-[8px_8px_0_#eab308]">
+                  The <br/> Vault
+                </h2>
+                <div className="h-4 w-full bg-electric-blue mt-8 transform -rotate-1 shadow-[4px_4px_0_#000]" />
+              </div>
+              <div className="font-ui text-metro-yellow font-bold text-xl md:text-2xl mt-12 md:mt-0 rotate-6 bg-black border-4 border-metro-yellow px-6 py-3 shadow-[8px_8px_0_#eab308] group cursor-pointer hover:bg-metro-yellow hover:text-black transition-colors">
+                [ PAST RECORDS ]
+              </div>
+            </div>
+
+            {/* The Timeline */}
+            <div className="flex flex-col relative max-w-5xl mx-auto">
+              {/* Timeline Line */}
+              <div className="absolute top-0 bottom-0 left-6 md:left-8 w-2 bg-metro-yellow/20 rounded-full" />
+              
+              {past.map((event, i) => (
+                <div key={event.id} className="relative mb-24 last:mb-0 group/timeline w-full">
+                  {/* Timeline Node */}
+                  <div className="absolute top-[40px] md:top-[60px] -left-0 md:left-2 w-14 h-14 bg-black border-[4px] border-metro-yellow rounded-full z-20 flex items-center justify-center transform -translate-y-1/2 -translate-x-1/2 shadow-[0_0_20px_#eab308] group-hover/timeline:scale-125 group-hover/timeline:shadow-[0_0_40px_#eab308] transition-all duration-500">
+                    <div className="w-4 h-4 bg-metro-yellow rounded-full animate-ping opacity-50" />
+                    <div className="absolute w-6 h-6 bg-metro-yellow rounded-full" />
+                  </div>
+                  
+                  {/* Card Container */}
+                  <div className="ml-16 md:ml-32">
+                     <DeckCard event={event} index={i} colorIndex={i + upcoming.length} stacked={false} onClick={() => setSelectedEvent(event)} />
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
         
