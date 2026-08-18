@@ -1,16 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { submitAudition } from "@/actions/audition";
 import { DoodleEye, DoodleStar, DoodleArrow, DoodleSquiggle } from "@/components/Doodles";
 
 export default function AuditionsPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    const formData = new FormData(e.currentTarget);
+    startTransition(async () => {
+      const result = await submitAudition(formData);
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        alert(result.error || "Failed to submit. Please try again.");
+      }
+    });
   };
 
   return (
@@ -77,6 +87,7 @@ export default function AuditionsPage() {
                   <label className="font-display text-[#F4F2EC] text-xl uppercase tracking-wider">Codename (Name)</label>
                   <input 
                     type="text" 
+                    name="name"
                     required
                     placeholder="Who are you?"
                     className="bg-[#F4F2EC] border-4 border-black p-4 font-body text-xl font-bold text-midnight placeholder:text-midnight/40 focus:outline-none focus:border-electric-blue focus:ring-0 transition-colors shadow-[4px_4px_0_#000]"
@@ -87,6 +98,7 @@ export default function AuditionsPage() {
                   <label className="font-display text-[#F4F2EC] text-xl uppercase tracking-wider">Frequency (Email)</label>
                   <input 
                     type="email" 
+                    name="email"
                     required
                     placeholder="Where do we send the coordinates?"
                     className="bg-[#F4F2EC] border-4 border-black p-4 font-body text-xl font-bold text-midnight placeholder:text-midnight/40 focus:outline-none focus:border-electric-blue focus:ring-0 transition-colors shadow-[4px_4px_0_#000]"
@@ -97,6 +109,7 @@ export default function AuditionsPage() {
                   <label className="font-display text-[#F4F2EC] text-xl uppercase tracking-wider">Weapon of Choice (Role)</label>
                   <input 
                     type="text" 
+                    name="role"
                     required
                     placeholder="Writer, Designer, Orator, Developer..."
                     className="bg-[#F4F2EC] border-4 border-black p-4 font-body text-xl font-bold text-midnight placeholder:text-midnight/40 focus:outline-none focus:border-electric-blue focus:ring-0 transition-colors shadow-[4px_4px_0_#000]"
@@ -108,6 +121,7 @@ export default function AuditionsPage() {
                   <label className="font-display text-[#F4F2EC] text-xl uppercase tracking-wider">Current Fixation</label>
                   <input 
                     type="text" 
+                    name="fixation"
                     required
                     placeholder="Favorite book, theory, or chaotic thought right now"
                     className="bg-[#F4F2EC] border-4 border-black p-4 font-body text-xl font-bold text-midnight placeholder:text-midnight/40 focus:outline-none focus:border-electric-blue focus:ring-0 transition-colors shadow-[4px_4px_0_#000]"
@@ -117,6 +131,7 @@ export default function AuditionsPage() {
                 <div className="flex flex-col gap-2">
                   <label className="font-display text-[#F4F2EC] text-xl uppercase tracking-wider">The Manifesto</label>
                   <textarea 
+                    name="manifesto"
                     required
                     rows={4}
                     placeholder="Why do you want to join? Tell us a story."
@@ -127,10 +142,11 @@ export default function AuditionsPage() {
                 {/* Submit Button */}
                 <button 
                   type="submit"
-                  className="mt-4 group relative inline-block bg-metro-yellow border-[4px] border-black px-8 py-4 font-display text-xl md:text-2xl font-black uppercase tracking-widest text-black transition-transform hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[8px_8px_0_#000] self-start md:self-end"
+                  disabled={isPending}
+                  className="mt-4 group relative inline-block bg-metro-yellow border-[4px] border-black px-8 py-4 font-display text-xl md:text-2xl font-black uppercase tracking-widest text-black transition-transform hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[8px_8px_0_#000] self-start md:self-end disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <span className="relative z-10 flex items-center gap-2">
-                    Submit Application <span className="group-hover:translate-x-2 transition-transform">→</span>
+                    {isPending ? "Transmitting..." : "Submit Application"} <span className="group-hover:translate-x-2 transition-transform">→</span>
                   </span>
                 </button>
               </motion.form>

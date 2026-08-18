@@ -11,3 +11,13 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Audition {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  role      String
+  fixation  String
+  manifesto String
+  createdAt DateTime @default(now())
+}
