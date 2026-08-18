@@ -2,7 +2,6 @@
   {
     "id": "the-last-page",
     "title": "The Last Page",
-    "author": "Ananya Sharma",
     "type": "story",
     "date": "2026-08",
     "featured": true,
@@ -11,7 +10,6 @@
   {
     "id": "ink-stained-morning",
     "title": "Ink-Stained Morning",
-    "author": "Rohan Mehta",
     "type": "poem",
     "date": "2026-08",
     "featured": false,
@@ -20,7 +18,6 @@
   {
     "id": "the-cartographer-of-forgotten-rooms",
     "title": "The Cartographer of Forgotten Rooms",
-    "author": "Meera Iyer",
     "type": "story",
     "date": "2026-07",
     "featured": false,
@@ -29,7 +26,6 @@
   {
     "id": "margins",
     "title": "Margins",
-    "author": "Priya Nair",
     "type": "poem",
     "date": "2026-07",
     "featured": false,
@@ -38,7 +34,6 @@
   {
     "id": "the-lending-library",
     "title": "The Lending Library of Last Resort",
-    "author": "Arjun Desai",
     "type": "story",
     "date": "2026-06",
     "featured": false,

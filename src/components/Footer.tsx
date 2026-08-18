@@ -23,7 +23,7 @@ export default function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-20 relative z-10">
-        
+
         {/* Massive Logo / Title */}
         <div className="mb-20 flex flex-wrap items-center gap-4 md:gap-8 select-none">
           <div className="bg-metro-yellow border-[4px] border-midnight px-6 py-2 shadow-[8px_8px_0_var(--electric-blue)] -rotate-2">
@@ -42,13 +42,13 @@ export default function Footer() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
-          
+
           {/* Brand Box */}
           <div className="md:col-span-5">
             <div className="relative bg-electric-blue border-[4px] border-midnight p-8 shadow-[8px_8px_0_var(--midnight)] -rotate-1">
               <div className="absolute -top-3 right-8 w-16 h-6 bg-white/90 border-[2px] border-midnight shadow-sm rotate-[4deg] z-10" />
               <p className="font-body text-xl font-bold leading-relaxed text-[#F4F2EC] uppercase tracking-wide">
-                A community of readers, writers, and dreamers. <br/><br/>
+                A community of readers, writers, and dreamers. <br /><br />
                 We believe every story deserves to be told and every voice deserves to be heard.
               </p>
             </div>
@@ -82,16 +82,16 @@ export default function Footer() {
             <h4 className="font-ui text-sm font-black uppercase tracking-widest text-metro-yellow bg-midnight inline-block">
               Connect
             </h4>
-            
+
             <div className="bg-[#F4F2EC] border-[4px] border-midnight p-4 shadow-[6px_6px_0_var(--electric-blue)] rotate-2">
               <p className="font-body text-base font-bold text-midnight uppercase leading-tight">
-                Student Activities Center,<br/> Room 204
+                wherever you see 3 people discussing about kafka
               </p>
             </div>
 
             <div className="flex items-center gap-6 pt-4">
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/_.the_literature_club._/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative w-16 h-16 bg-metro-yellow border-[4px] border-midnight rounded-full flex items-center justify-center shadow-[4px_4px_0_var(--midnight)] hover:-translate-y-1 transition-transform"
@@ -102,7 +102,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="mailto:inksnquils@college.edu"
+                href="mailto:inkinquills@gmail.com"
                 className="group relative w-16 h-16 bg-[#F4F2EC] border-[4px] border-midnight rounded-full flex items-center justify-center shadow-[4px_4px_0_var(--midnight)] hover:-translate-y-1 transition-transform"
                 aria-label="Email"
               >

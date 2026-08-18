@@ -1,53 +1,41 @@
 [
   {
-    "id": "open-mic-sept",
-    "title": "Open Mic Night: First Words",
-    "date": "2026-09-15",
-    "description": "Kick off the semester with our signature open mic. Read your own work, share a favorite passage, or just listen. All voices welcome — no experience needed.",
-    "status": "upcoming",
-    "photos": []
-  },
-  {
-    "id": "workshop-flash-fiction",
-    "title": "Flash Fiction Workshop",
-    "date": "2026-09-28",
-    "description": "Write a complete story in under 500 words. We'll explore constraints, pacing, and the art of saying more with less. Bring a notebook and your wildest ideas.",
-    "status": "upcoming",
-    "photos": []
-  },
-  {
-    "id": "book-swap-oct",
-    "title": "The Great Book Swap",
-    "date": "2026-10-12",
-    "description": "Bring a book you love. Take home a book someone else loves. Write a note inside the cover explaining why it matters to you. Every book leaves with a story attached.",
-    "status": "upcoming",
-    "photos": []
-  },
-  {
     "id": "poetry-slam-july",
-    "title": "Poetry Slam: Monsoon Edition",
-    "date": "2026-07-20",
-    "description": "Our rain-themed poetry slam brought out some of the most vivid, sensory writing we've seen. Twelve poets performed original work to a packed audience in the amphitheatre.",
+    "title": "Breathe of Literature",
+    "date": "2026-09-10",
+    "description": "Battle through the rounds and uncover the blue spider lily knowledge in the literature is half the win. Winner recieved the exclusive demon slayer merch",
     "longDescription": "The monsoon provided the perfect backdrop for an evening of poetry that explored water, memory, and renewal. Highlights included Ananya's piece on her grandmother's rain songs and Rohan's experimental spoken-word piece performed entirely without punctuation.",
     "status": "past",
-    "photos": ["/events/poetry-slam-1.jpg", "/events/poetry-slam-2.jpg", "/events/poetry-slam-3.jpg"]
+    "photos": [
+      "/events/poetry-slam-1.jpg",
+      "/events/poetry-slam-2.jpg",
+      "/events/poetry-slam-3.jpg"
+    ]
   },
   {
     "id": "writers-retreat-june",
-    "title": "Weekend Writers' Retreat",
-    "date": "2026-06-08",
-    "description": "Two days of writing, workshopping, and late-night readings at the hill campus. Fourteen members produced new work in fiction, poetry, and creative non-fiction.",
-    "longDescription": "Our annual retreat to the hill campus gave members the space and silence to work on longer pieces. The weekend produced three new short stories, seven poems, and one very ambitious novella opening chapter that's still being revised.",
+    "title": "INK-FINITY WAR",
+    "date": "2026-03-27",
+    "description": "",
+    "longDescription": "The clues are hidden.\nOnly the sharpest minds will decode it.\nINK-FINITY WAR is an interactive creative-tech experience where strangers become teams and stories are built one dialogue at a time.",
     "status": "past",
-    "photos": ["/events/retreat-1.jpg", "/events/retreat-2.jpg", "/events/retreat-3.jpg", "/events/retreat-4.jpg"]
+    "photos": [
+      "/events/retreat-1.jpg",
+      "/events/retreat-2.jpg",
+      "/events/retreat-3.jpg",
+      "/events/retreat-4.jpg"
+    ]
   },
   {
     "id": "guest-lecture-may",
-    "title": "Guest Lecture: Writing What You Don't Know",
-    "date": "2026-05-15",
-    "description": "Author Nidhi Kapoor joined us for a masterclass on research-driven fiction and the ethics of writing outside your experience.",
-    "longDescription": "Nidhi Kapoor, author of 'The Borrowed Light' and 'Cartographies of Silence,' spent an afternoon discussing how to write characters and settings beyond your direct experience with empathy and rigour. The Q&A session ran forty minutes over time — nobody wanted to leave.",
+    "title": "Multiverse Conclave",
+    "date": "2026-04-23",
+    "description": "Step into an intense strategy-based showdown where worlds collide and every participant holds the power to change fate. Use your wit, negotiation skills, and instincts to survive a battlefield filled with hidden agendas and unpredictable twists.\n",
+    "longDescription": "",
     "status": "past",
-    "photos": ["/events/guest-lecture-1.jpg", "/events/guest-lecture-2.jpg"]
+    "photos": [
+      "/events/guest-lecture-1.jpg",
+      "/events/guest-lecture-2.jpg"
+    ]
   }
 ]

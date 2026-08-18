@@ -49,7 +49,6 @@ const featuredPoem = {
     "in the white space",
     "between someone else's certainties.",
   ],
-  author: "Priya Nair",
   title: "Margins",
 };
 
@@ -109,7 +108,7 @@ export default function LandingPage() {
         {/* Top Left: Est Card */}
         <div className="absolute top-16 left-4 sm:top-24 sm:left-6 md:top-32 md:left-16 lg:left-24 z-20">
           <div className="bg-[#F4F2EC] text-midnight border-2 border-midnight p-2 sm:p-3 md:p-4 shadow-[4px_4px_0_var(--electric-blue)] md:shadow-[6px_6px_0_var(--electric-blue)] font-body text-xs sm:text-sm font-bold text-center -rotate-3 hover:rotate-0 transition-transform cursor-default">
-            EST. 2026<br />
+            EST. 2023<br />
             <span className="font-normal text-[10px] sm:text-xs border-t border-midnight/20 mt-1 pt-1 block">Literary Club</span>
           </div>
         </div>
@@ -154,19 +153,7 @@ export default function LandingPage() {
 
 
 
-        {/* Bottom Right: Audio Icon */}
-        <div className="absolute bottom-28 right-4 sm:bottom-32 sm:right-6 md:bottom-32 md:right-16 lg:right-24 z-20">
-           <div className="bg-[#F4F2EC] border-2 border-midnight w-10 h-10 sm:w-14 sm:h-14 rounded-full flex items-center justify-center relative cursor-pointer shadow-[4px_4px_0_var(--midnight)] hover:-translate-y-1 transition-transform group">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--midnight)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform">
-                 <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                 <line x1="23" y1="9" x2="17" y2="15"></line>
-                 <line x1="17" y1="9" x2="23" y2="15"></line>
-              </svg>
-              <div className="absolute -inset-2 sm:-inset-4 pointer-events-none">
-                 <DoodleCircle className="w-full h-full stroke-metro-yellow" delayIndex={1} />
-              </div>
-           </div>
-        </div>
+
       </section>
 
       {/* ============= FEATURED PIECE (ZINE STYLE) ============= */}
@@ -216,9 +203,7 @@ export default function LandingPage() {
                   <h3 className="font-display text-2xl md:text-3xl font-black text-midnight uppercase bg-metro-yellow inline-block px-2">
                     {featuredPoem.title}
                   </h3>
-                  <p className="font-ui text-sm md:text-base font-bold uppercase tracking-widest text-midnight mt-2">
-                    BY {featuredPoem.author}
-                  </p>
+
                 </div>
 
                 <Link
