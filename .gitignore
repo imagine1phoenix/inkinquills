@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/src/generated/prisma
+
+# Explicitly ignore environment variables containing secrets
+.env
+
+# AI Agent rule files
+AGENTS.md
+CLAUDE.md
