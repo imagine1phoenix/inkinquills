@@ -37,5 +37,29 @@
       "/events/multiverse-1.png",
       "/events/multiverse-2.png"
     ]
+  },
+  {
+    "id": "originals",
+    "title": "Originals",
+    "date": "2026-03-26",
+    "description": "During orientation, we hosted a variety of interactive bonding activities designed to help first-year students connect. By bringing together writers from the Literature Club and singers from the Symphony Club, we created a unique space for new students to make lasting friendships and feel right at home.",
+    "longDescription": "During orientation, we hosted a variety of interactive bonding activities designed to help first-year students connect. By bringing together writers from the Literature Club and singers from the Symphony Club, we created a unique space for new students to make lasting friendships and feel right at home.",
+    "status": "past",
+    "photos": [
+      "/events/originals-1.jpg"
+    ]
+  },
+  {
+    "id": "student-induction-program",
+    "title": "Student Induction Program",
+    "date": "2007-08-18",
+    "description": "During orientation, we hosted a variety of interactive bonding activities designed to help first-year students connect, make lasting friendships, and feel right at home in our club community.",
+    "longDescription": "During orientation, we hosted a variety of interactive bonding activities designed to help first-year students connect, make lasting friendships, and feel right at home in our club community.",
+    "status": "past",
+    "photos": [
+      "/events/SIP-1.png",
+      "/events/SIP-2.png",
+      "/events/SIP-3.png"
+    ]
   }
 ]

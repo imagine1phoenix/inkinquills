@@ -29,6 +29,8 @@ function DeckCard({ event, index, colorIndex, stacked = true, onClick }: { event
   const isDemonSlayer = event.title === "Breathe of Literature" || event.description.toLowerCase().includes("demon slayer");
   const isInfinityWar = event.title === "INK-FINITY WAR";
   const isMultiverse = event.title === "Multiverse Conclave";
+  const isOriginals = event.title.toLowerCase().includes("originals");
+  const isSIP = event.title.toLowerCase().includes("induction");
   
   // Colors for the deck
   const colors = [
@@ -46,6 +48,10 @@ function DeckCard({ event, index, colorIndex, stacked = true, onClick }: { event
     colorClass = "bg-purple-950 text-yellow-400 border-yellow-500 !shadow-[8px_8px_0_#eab308]";
   } else if (isMultiverse) {
     colorClass = "bg-black text-cyan-400 border-fuchsia-500 !shadow-[8px_8px_0_#d946ef]";
+  } else if (isOriginals) {
+    colorClass = "bg-[#18181b] text-metro-yellow border-metro-yellow !shadow-[8px_8px_0_#eab308]";
+  } else if (isSIP) {
+    colorClass = "bg-[#0f172a] text-blue-400 border-blue-500 !shadow-[8px_8px_0_#3b82f6]";
   }
   
   // Messy rotation pattern (-2 to 2 degrees)
@@ -69,7 +75,7 @@ function DeckCard({ event, index, colorIndex, stacked = true, onClick }: { event
       `}</style>
 
       {/* Tape Tab */}
-      <div className={`absolute -top-3 right-8 md:right-16 w-12 h-6 border-2 border-midnight -rotate-6 shadow-[2px_2px_0_var(--midnight)] ${isDemonSlayer ? 'bg-red-600' : isInfinityWar ? 'bg-yellow-500' : isMultiverse ? 'bg-cyan-400' : 'bg-[#F4F2EC]'}`} />
+      <div className={`absolute -top-3 right-8 md:right-16 w-12 h-6 border-2 border-midnight -rotate-6 shadow-[2px_2px_0_var(--midnight)] ${isDemonSlayer ? 'bg-red-600' : isInfinityWar ? 'bg-yellow-500' : isMultiverse ? 'bg-cyan-400' : isOriginals ? 'bg-metro-yellow' : isSIP ? 'bg-blue-500' : 'bg-[#F4F2EC]'}`} />
 
       {/* Visible Header (when stacked) */}
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-2 md:gap-4 mb-4">
@@ -78,6 +84,8 @@ function DeckCard({ event, index, colorIndex, stacked = true, onClick }: { event
           {isDemonSlayer && <span className="text-3xl transform group-hover:scale-125 transition-transform duration-300">⚔️</span>}
           {isInfinityWar && <span className="text-3xl transform group-hover:rotate-180 transition-transform duration-700">♾️</span>}
           {isMultiverse && <span className="text-3xl transform group-hover:animate-[spin_3s_linear_infinite] transition-transform duration-300">🌀</span>}
+          {isOriginals && <span className="text-3xl transform group-hover:rotate-12 transition-transform duration-300">🎸</span>}
+          {isSIP && <span className="text-3xl transform group-hover:scale-125 transition-transform duration-300">🎓</span>}
         </h3>
         <span className="font-ui text-xs md:text-sm font-bold opacity-80 shrink-0 mt-2">{formatFullDate(event.date)}</span>
       </div>
@@ -119,6 +127,8 @@ export default function EventsPage() {
           const isDemonSlayer = selectedEvent.title === "Breathe of Literature" || selectedEvent.description.toLowerCase().includes("demon slayer");
           const isInfinityWar = selectedEvent.title === "INK-FINITY WAR";
           const isMultiverse = selectedEvent.title === "Multiverse Conclave";
+          const isOriginals = selectedEvent.title.toLowerCase().includes("originals");
+          const isSIP = selectedEvent.title.toLowerCase().includes("induction");
           
           let theme: {
             overlay: string;
@@ -178,7 +188,33 @@ export default function EventsPage() {
               photoOverlay: "bg-cyan-400/20 mix-blend-overlay",
               icon: "🌀"
             };
+          } else if (isOriginals) {
+            theme = {
+              overlay: "bg-yellow-950/90",
+              modal: "bg-[#18181b] border-metro-yellow shadow-[16px_16px_0_#eab308] text-yellow-50",
+              closeBtn: "border-metro-yellow bg-black text-metro-yellow hover:bg-metro-yellow hover:text-black",
+              title: "text-metro-yellow tracking-wider drop-shadow-[2px_2px_0_#000] border-metro-yellow",
+              dateBadge: "bg-metro-yellow text-black border-yellow-700 shadow-[4px_4px_0_#a16207]",
+              body: "text-yellow-100 font-medium",
+              photoGrid: "bg-black border-[3px] border-metro-yellow shadow-[4px_4px_0_#eab308]",
+              photoOverlay: "bg-yellow-400/20 mix-blend-overlay",
+              icon: "🎸"
+            };
+          } else if (isSIP) {
+            theme = {
+              overlay: "bg-slate-950/90",
+              modal: "bg-[#0b1329] border-blue-500 shadow-[16px_16px_0_#3b82f6] text-blue-50",
+              closeBtn: "border-blue-500 bg-slate-900 text-blue-400 hover:bg-blue-500 hover:text-white",
+              title: "text-blue-400 tracking-wider drop-shadow-[2px_2px_0_#000] border-blue-500",
+              dateBadge: "bg-blue-600 text-white border-blue-900 shadow-[4px_4px_0_#1e3a8a]",
+              body: "text-blue-100 font-medium",
+              photoGrid: "bg-slate-900 border-[3px] border-blue-500 shadow-[4px_4px_0_#3b82f6]",
+              photoOverlay: "bg-blue-500/20 mix-blend-overlay",
+              icon: "🎓"
+            };
           }
+
+          const isThematic = isDemonSlayer || isInfinityWar || isMultiverse || isOriginals || isSIP;
 
           return (
             <motion.div 
@@ -189,10 +225,10 @@ export default function EventsPage() {
               onClick={() => setSelectedEvent(null)}
             >
               <motion.div 
-                initial={isDemonSlayer || isInfinityWar || isMultiverse ? { scale: 1.2, rotate: -5, opacity: 0 } : { y: 50, rotate: 2, scale: 0.9 }}
+                initial={isThematic ? { scale: 1.2, rotate: -5, opacity: 0 } : { y: 50, rotate: 2, scale: 0.9 }}
                 animate={{ y: 0, rotate: 0, scale: 1, opacity: 1 }}
-                exit={isDemonSlayer || isInfinityWar || isMultiverse ? { scale: 0.8, opacity: 0 } : { y: 50, opacity: 0, scale: 0.95 }}
-                transition={isDemonSlayer || isInfinityWar || isMultiverse ? { type: "spring", stiffness: 300, damping: 20 } : {}}
+                exit={isThematic ? { scale: 0.8, opacity: 0 } : { y: 50, opacity: 0, scale: 0.95 }}
+                transition={isThematic ? { type: "spring", stiffness: 300, damping: 20 } : {}}
                 onClick={(e) => e.stopPropagation()}
                 className={`${theme.modal} border-[4px] w-full max-w-3xl relative my-auto overflow-hidden`}
               >
@@ -205,6 +241,12 @@ export default function EventsPage() {
                 )}
                 {isMultiverse && (
                   <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'linear-gradient(90deg, #22d3ee 1px, transparent 1px), linear-gradient(#22d3ee 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+                )}
+                {isOriginals && (
+                  <div className="absolute inset-0 opacity-15 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 100% 50%, #eab308 0%, transparent 60%)' }} />
+                )}
+                {isSIP && (
+                  <div className="absolute inset-0 opacity-15 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 0% 50%, #3b82f6 0%, transparent 60%)' }} />
                 )}
 
                 {/* Close button */}
@@ -245,6 +287,16 @@ export default function EventsPage() {
                     <div className="w-full h-2 bg-fuchsia-900 mb-8 overflow-hidden relative">
                        <div className="absolute top-0 left-0 h-full bg-cyan-400 w-full animate-pulse opacity-80 mix-blend-screen" />
                        <div className="absolute top-0 left-0 h-full bg-fuchsia-500 w-1/3 animate-[pulse_0.5s_ease-in-out_infinite]" style={{ transform: 'translateX(100%)' }} />
+                    </div>
+                  )}
+                  {isOriginals && (
+                    <div className="w-full h-1 bg-yellow-900 mb-8 overflow-hidden">
+                       <div className="h-full bg-metro-yellow w-full animate-[pulse_1.5s_ease-in-out_infinite]" />
+                    </div>
+                  )}
+                  {isSIP && (
+                    <div className="w-full h-1 bg-blue-900 mb-8 overflow-hidden">
+                       <div className="h-full bg-blue-500 w-full animate-[pulse_1.5s_ease-in-out_infinite]" />
                     </div>
                   )}
 
