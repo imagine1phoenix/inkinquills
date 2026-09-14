@@ -63,46 +63,46 @@ export default function LandingPage() {
         <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-60">
           <motion.div
             className="absolute top-[10%] left-[10%] w-[60vw] h-[60vw] md:w-[40vw] md:h-[40vw] bg-white/10 blur-[100px] sm:blur-[120px] rounded-full mix-blend-overlay"
-            animate={{ 
-              x: [0, 100, -50, 0], 
+            animate={{
+              x: [0, 100, -50, 0],
               y: [0, -100, 50, 0],
-              scale: [1, 1.2, 0.9, 1] 
+              scale: [1, 1.2, 0.9, 1]
             }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           />
           <motion.div
             className="absolute bottom-[10%] right-[10%] w-[70vw] h-[70vw] md:w-[50vw] md:h-[50vw] bg-midnight/30 blur-[100px] sm:blur-[120px] rounded-full mix-blend-multiply"
-            animate={{ 
-              x: [0, -80, 60, 0], 
+            animate={{
+              x: [0, -80, 60, 0],
               y: [0, 80, -40, 0],
-              scale: [1, 1.1, 0.8, 1] 
+              scale: [1, 1.1, 0.8, 1]
             }}
             transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
           />
           <motion.div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[50vw] md:w-[60vw] md:h-[30vw] bg-[#F4F2EC]/10 blur-[120px] sm:blur-[140px] rounded-[100%]"
-            animate={{ 
+            animate={{
               rotate: [0, 180, 360],
               scale: [1, 1.3, 1]
             }}
             transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
           />
           <div className="absolute inset-0 flex items-center justify-center mix-blend-multiply">
-             <div className="w-[80vw] h-[80vw] md:w-[800px] md:h-[800px] bg-midnight blur-[100px] sm:blur-[120px] rounded-full opacity-60" />
+            <div className="w-[80vw] h-[80vw] md:w-[800px] md:h-[800px] bg-midnight blur-[100px] sm:blur-[120px] rounded-full opacity-60" />
           </div>
         </div>
 
         {/* Central 3D Text */}
         <div className="relative z-10 text-center select-none">
-           <div className="absolute -top-12 -left-12 w-24 h-24 rotate-12 text-[#F4F2EC] opacity-80">
-             <DoodleStar className="w-full h-full" delayIndex={0.5} />
-           </div>
-           <h1 className="font-display text-[7.5rem] leading-[0.8] sm:text-8xl md:text-[12rem] sm:leading-[0.8] text-[#F4F2EC] text-3d -rotate-2 hover:scale-105 transition-transform duration-500 cursor-default whitespace-nowrap">
-             Ink in<br />Quills
-           </h1>
-           <div className="absolute -bottom-16 -right-8 w-32 h-16 -rotate-6 text-[#F4F2EC] opacity-80">
-             <DoodleSquiggle className="w-full h-full" delayIndex={1} />
-           </div>
+          <div className="absolute -top-12 -left-12 w-24 h-24 rotate-12 text-[#F4F2EC] opacity-80">
+            <DoodleStar className="w-full h-full" delayIndex={0.5} />
+          </div>
+          <h1 className="font-display text-[7.5rem] leading-[0.8] sm:text-8xl md:text-[12rem] sm:leading-[0.8] text-[#F4F2EC] text-3d -rotate-2 hover:scale-105 transition-transform duration-500 cursor-default whitespace-nowrap">
+            Ink in<br />Quills
+          </h1>
+          <div className="absolute -bottom-16 -right-8 w-32 h-16 -rotate-6 text-[#F4F2EC] opacity-80">
+            <DoodleSquiggle className="w-full h-full" delayIndex={1} />
+          </div>
         </div>
 
         {/* Top Left: Est Card */}
@@ -122,54 +122,68 @@ export default function LandingPage() {
           {/* Simple SVG Graph */}
           <div className="w-16 h-10 sm:w-24 sm:h-16 border-l-2 border-b-2 border-[#F4F2EC] relative mt-1 sm:mt-0">
             <svg viewBox="0 0 100 100" className="absolute bottom-0 left-0 w-full h-full overflow-visible">
-               <path d="M 0 80 Q 50 80 100 20" fill="none" stroke="#F4F2EC" strokeWidth="4" strokeLinecap="round" />
-               <circle cx="100" cy="20" r="6" fill="#F4F2EC" />
+              <path d="M 0 80 Q 50 80 100 20" fill="none" stroke="#F4F2EC" strokeWidth="4" strokeLinecap="round" />
+              <circle cx="100" cy="20" r="6" fill="#F4F2EC" />
             </svg>
             <div className="absolute -bottom-6 left-0 text-[8px] sm:text-[10px] font-ui">20:00</div>
             <div className="absolute -bottom-6 right-0 text-[8px] sm:text-[10px] font-ui">00:00</div>
             <div className="absolute -top-6 -right-6 sm:-top-8 sm:-right-8 w-8 h-8 sm:w-12 sm:h-12 text-metro-yellow">
-               <DoodleFace className="w-full h-full" delayIndex={2} />
+              <DoodleFace className="w-full h-full" delayIndex={2} />
             </div>
           </div>
         </div>
 
         {/* Bottom Left: Timeline */}
         <div className="absolute bottom-28 left-4 sm:bottom-32 sm:left-6 md:bottom-40 md:left-16 lg:left-24 z-20 flex flex-col gap-3 sm:gap-6">
-           <div className="relative pl-4 sm:pl-6">
-             <div className="absolute left-0 top-1 sm:top-2 bottom-[-1rem] sm:bottom-[-1.5rem] w-[1px] sm:w-[2px] border-l sm:border-l-2 border-dashed border-[#F4F2EC]/30" />
-             <div className="text-[8px] sm:text-[10px] font-ui text-[#F4F2EC]/70 uppercase tracking-widest">Started As</div>
-             <div className="font-display text-sm sm:text-xl">Reader</div>
-           </div>
-           <div className="relative pl-4 sm:pl-6">
-             <div className="absolute left-0 top-1 sm:top-2 bottom-[-1rem] sm:bottom-[-1.5rem] w-[1px] sm:w-[2px] border-l sm:border-l-2 border-dashed border-[#F4F2EC]/30" />
-             <div className="text-[8px] sm:text-[10px] font-ui text-[#F4F2EC]/70 uppercase tracking-widest">Became</div>
-             <div className="font-display text-sm sm:text-xl">Writer</div>
-           </div>
-           <div className="relative pl-4 sm:pl-6">
-             <div className="text-[8px] sm:text-[10px] font-ui text-[#F4F2EC]/70 uppercase tracking-widest">Currently</div>
-             <div className="font-display text-base sm:text-2xl">Storyteller</div>
-           </div>
+          <div className="relative pl-4 sm:pl-6">
+            <div className="absolute left-0 top-1 sm:top-2 bottom-[-1rem] sm:bottom-[-1.5rem] w-[1px] sm:w-[2px] border-l sm:border-l-2 border-dashed border-[#F4F2EC]/30" />
+            <div className="text-[8px] sm:text-[10px] font-ui text-[#F4F2EC]/70 uppercase tracking-widest">Started As</div>
+            <div className="font-display text-sm sm:text-xl">Reader</div>
+          </div>
+          <div className="relative pl-4 sm:pl-6">
+            <div className="absolute left-0 top-1 sm:top-2 bottom-[-1rem] sm:bottom-[-1.5rem] w-[1px] sm:w-[2px] border-l sm:border-l-2 border-dashed border-[#F4F2EC]/30" />
+            <div className="text-[8px] sm:text-[10px] font-ui text-[#F4F2EC]/70 uppercase tracking-widest">Became</div>
+            <div className="font-display text-sm sm:text-xl">Writer</div>
+          </div>
+          <div className="relative pl-4 sm:pl-6">
+            <div className="text-[8px] sm:text-[10px] font-ui text-[#F4F2EC]/70 uppercase tracking-widest">Currently</div>
+            <div className="font-display text-base sm:text-2xl">Storyteller</div>
+          </div>
         </div>
-
 
 
 
       </section>
 
+      {/* ============= ANNOUNCEMENT TICKER STRIP ============= */}
+      <section className="relative bg-midnight border-y-[4px] border-metro-yellow py-4 md:py-5 overflow-hidden">
+        <motion.div
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="flex whitespace-nowrap"
+        >
+          {Array.from({ length: 6 }).map((_, i) => (
+            <span key={i} className="font-display text-xl md:text-3xl font-black text-metro-yellow uppercase mx-4 md:mx-8 flex items-center gap-4 md:gap-8">
+              🔥 Auditions Are Live <span className="text-electric-blue">✦</span> Apply Now <span className="text-electric-blue">✦</span> Join Ink & Quills <span className="text-electric-blue">✦</span> Writers Wanted <span className="text-electric-blue">✦</span>
+            </span>
+          ))}
+        </motion.div>
+      </section>
+
       {/* ============= FEATURED PIECE (ZINE STYLE) ============= */}
       <section className="py-24 md:py-32 px-6 bg-metro-yellow relative overflow-hidden border-b-[4px] border-midnight">
         <div className="absolute top-10 left-10 w-32 h-32 text-midnight/20 rotate-[-15deg]">
-           <DoodleCrown className="w-full h-full" delayIndex={0} />
+          <DoodleCrown className="w-full h-full" delayIndex={0} />
         </div>
         <div className="absolute bottom-10 right-10 w-40 h-24 text-electric-blue/30 rotate-[20deg]">
-           <DoodleSquiggle className="w-full h-full" delayIndex={0} />
+          <DoodleSquiggle className="w-full h-full" delayIndex={0} />
         </div>
         <div className="absolute top-1/2 -left-16 w-48 h-48 text-[#F4F2EC]/40 -rotate-[35deg]">
-           <DoodleEye className="w-full h-full" delayIndex={1.5} />
+          <DoodleEye className="w-full h-full" delayIndex={1.5} />
         </div>
 
         <div className="max-w-4xl mx-auto relative z-10">
-          
+
           <div className="mb-12 flex justify-center">
             <div className="bg-midnight border-[4px] border-midnight px-6 py-2 shadow-[8px_8px_0_var(--electric-blue)] -rotate-2 inline-block">
               <span className="font-ui text-sm font-bold tracking-[0.3em] uppercase text-[#F4F2EC]">
@@ -181,7 +195,7 @@ export default function LandingPage() {
           <div className="relative bg-[#F4F2EC] border-[4px] border-midnight p-8 md:p-16 shadow-[16px_16px_0_var(--midnight)] rotate-1">
             {/* Top Tape */}
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-32 h-8 bg-white/80 border-[3px] border-midnight shadow-sm -rotate-[3deg] z-10" />
-            
+
             {/* Giant quote mark */}
             <div className="absolute -top-8 -left-6 font-display text-[120px] leading-none text-electric-blue rotate-12 select-none">
               "
@@ -246,9 +260,9 @@ export default function LandingPage() {
               return (
                 <ScrollReveal key={card.href} delay={0.1 * i}>
                   <Link href={card.href} className="group block h-full">
-                    <div 
+                    <div
                       className={`h-full ${card.theme} p-8 border-[4px] border-midnight transition-transform duration-300 relative`}
-                      style={{ 
+                      style={{
                         rotate: `${rotation}deg`,
                         boxShadow: `8px 8px 0 ${card.shadow}`
                       }}
@@ -266,13 +280,13 @@ export default function LandingPage() {
                       <h3 className="font-display text-3xl font-black uppercase mb-4 mt-6 leading-none">
                         {card.title}
                       </h3>
-                      
+
                       <div className={`w-12 h-1 mb-4 ${card.theme.includes('bg-midnight') || card.theme.includes('bg-electric-blue') ? 'bg-[#F4F2EC]' : 'bg-midnight'}`} />
-                      
+
                       <p className="font-body text-base font-bold leading-relaxed opacity-90">
                         {card.description}
                       </p>
-                      
+
                       <div className="mt-8 flex items-center justify-between">
                         <span className="font-ui text-xs font-bold tracking-widest uppercase border-[2px] border-current px-2 py-1">
                           Go
@@ -307,7 +321,7 @@ export default function LandingPage() {
 
         <ScrollReveal>
           <div className="max-w-5xl mx-auto flex flex-col items-center text-center relative z-10">
-            
+
             <div className="bg-metro-yellow border-[4px] border-midnight px-4 py-2 shadow-[6px_6px_0_var(--midnight)] rotate-2 mb-12 inline-block">
               <span className="font-ui text-sm font-bold tracking-[0.3em] uppercase text-midnight">
                 Our Signature Feature

@@ -31,14 +31,14 @@ function DeckCard({ event, index, colorIndex, stacked = true, onClick }: { event
   const isMultiverse = event.title === "Multiverse Conclave";
   const isOriginals = event.title.toLowerCase().includes("originals");
   const isSIP = event.title.toLowerCase().includes("induction");
-  
+
   // Colors for the deck
   const colors = [
     "bg-electric-blue text-[#F4F2EC]",
     "bg-[#F4F2EC] text-midnight",
     "bg-midnight text-[#F4F2EC]"
   ];
-  
+
   const baseColorClass = colors[colorIndex % colors.length];
   // Special styling for thematic events
   let colorClass = baseColorClass;
@@ -53,17 +53,17 @@ function DeckCard({ event, index, colorIndex, stacked = true, onClick }: { event
   } else if (isSIP) {
     colorClass = "bg-[#0f172a] text-blue-400 border-blue-500 !shadow-[8px_8px_0_#3b82f6]";
   }
-  
+
   // Messy rotation pattern (-2 to 2 degrees)
   const rotations = [-1, 2, -2, 1, 0];
   const rotation = rotations[index % rotations.length];
 
   return (
-    <div 
+    <div
       onClick={onClick}
       className={`group relative w-full max-w-4xl mx-auto border-[3px] border-midnight p-6 md:p-10 shadow-[8px_8px_0_rgba(0,0,0,0.8)] transition-all duration-300 hover:-translate-y-8 hover:shadow-[16px_16px_0_rgba(0,0,0,0.8)] cursor-pointer ${colorClass} ${stacked && !isFirst ? '-mt-20 md:-mt-28' : ''}`}
-      style={{ 
-        transform: `rotate(${rotation}deg)`, 
+      style={{
+        transform: `rotate(${rotation}deg)`,
         zIndex: index, // Stacks properly
       }}
     >
@@ -129,7 +129,7 @@ export default function EventsPage() {
           const isMultiverse = selectedEvent.title === "Multiverse Conclave";
           const isOriginals = selectedEvent.title.toLowerCase().includes("originals");
           const isSIP = selectedEvent.title.toLowerCase().includes("induction");
-          
+
           let theme: {
             overlay: string;
             modal: string;
@@ -217,14 +217,14 @@ export default function EventsPage() {
           const isThematic = isDemonSlayer || isInfinityWar || isMultiverse || isOriginals || isSIP;
 
           return (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className={`fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12 ${theme.overlay} backdrop-blur-sm overflow-y-auto`}
               onClick={() => setSelectedEvent(null)}
             >
-              <motion.div 
+              <motion.div
                 initial={isThematic ? { scale: 1.2, rotate: -5, opacity: 0 } : { y: 50, rotate: 2, scale: 0.9 }}
                 animate={{ y: 0, rotate: 0, scale: 1, opacity: 1 }}
                 exit={isThematic ? { scale: 0.8, opacity: 0 } : { y: 50, opacity: 0, scale: 0.95 }}
@@ -250,7 +250,7 @@ export default function EventsPage() {
                 )}
 
                 {/* Close button */}
-                <button 
+                <button
                   onClick={() => setSelectedEvent(null)}
                   className={`absolute top-4 right-4 w-10 h-10 border-[3px] flex items-center justify-center transition-colors font-display text-xl z-20 ${theme.closeBtn}`}
                 >
@@ -270,33 +270,33 @@ export default function EventsPage() {
                   <p className={`font-body text-lg leading-relaxed mb-10 ${theme.body} whitespace-pre-wrap`}>
                     {selectedEvent.longDescription || selectedEvent.description}
                   </p>
-                  
+
                   {isDemonSlayer && (
                     <div className="w-full h-1 bg-red-900 mb-8 overflow-hidden">
-                       <div className="h-full bg-red-500 w-1/2 animate-[pulse_1s_ease-in-out_infinite]" style={{ width: '100%' }} />
+                      <div className="h-full bg-red-500 w-1/2 animate-[pulse_1s_ease-in-out_infinite]" style={{ width: '100%' }} />
                     </div>
                   )}
                   {isInfinityWar && (
                     <div className="w-full h-2 flex gap-1 mb-8">
-                       {['bg-blue-500', 'bg-yellow-500', 'bg-red-500', 'bg-purple-500', 'bg-green-500', 'bg-orange-500'].map((c, i) => (
-                         <div key={i} className={`flex-1 ${c} animate-pulse shadow-[0_0_8px_currentColor]`} style={{ animationDelay: `${i * 0.2}s`}} />
-                       ))}
+                      {['bg-blue-500', 'bg-yellow-500', 'bg-red-500', 'bg-purple-500', 'bg-green-500', 'bg-orange-500'].map((c, i) => (
+                        <div key={i} className={`flex-1 ${c} animate-pulse shadow-[0_0_8px_currentColor]`} style={{ animationDelay: `${i * 0.2}s` }} />
+                      ))}
                     </div>
                   )}
                   {isMultiverse && (
                     <div className="w-full h-2 bg-fuchsia-900 mb-8 overflow-hidden relative">
-                       <div className="absolute top-0 left-0 h-full bg-cyan-400 w-full animate-pulse opacity-80 mix-blend-screen" />
-                       <div className="absolute top-0 left-0 h-full bg-fuchsia-500 w-1/3 animate-[pulse_0.5s_ease-in-out_infinite]" style={{ transform: 'translateX(100%)' }} />
+                      <div className="absolute top-0 left-0 h-full bg-cyan-400 w-full animate-pulse opacity-80 mix-blend-screen" />
+                      <div className="absolute top-0 left-0 h-full bg-fuchsia-500 w-1/3 animate-[pulse_0.5s_ease-in-out_infinite]" style={{ transform: 'translateX(100%)' }} />
                     </div>
                   )}
                   {isOriginals && (
                     <div className="w-full h-1 bg-yellow-900 mb-8 overflow-hidden">
-                       <div className="h-full bg-metro-yellow w-full animate-[pulse_1.5s_ease-in-out_infinite]" />
+                      <div className="h-full bg-metro-yellow w-full animate-[pulse_1.5s_ease-in-out_infinite]" />
                     </div>
                   )}
                   {isSIP && (
                     <div className="w-full h-1 bg-blue-900 mb-8 overflow-hidden">
-                       <div className="h-full bg-blue-500 w-full animate-[pulse_1.5s_ease-in-out_infinite]" />
+                      <div className="h-full bg-blue-500 w-full animate-[pulse_1.5s_ease-in-out_infinite]" />
                     </div>
                   )}
 
@@ -337,14 +337,14 @@ export default function EventsPage() {
 
       {/* Top Section */}
       <div className="pt-24 px-6 md:px-12 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 mb-32">
-        
+
         {/* Top Left: Header Sticky Note */}
         <div className="relative">
           {/* Section Tag */}
           <div className="absolute -top-6 -left-4 z-10 bg-electric-blue text-[#F4F2EC] border-2 border-[#F4F2EC] font-ui text-xs font-bold uppercase tracking-widest px-3 py-1">
             SECTION 02
           </div>
-          
+
           {/* Main Sticky Note */}
           <div className="bg-[#F4F2EC] border-2 border-midnight p-6 sm:p-8 pr-12 md:pr-16 shadow-[8px_8px_0_var(--midnight)] md:shadow-[12px_12px_0_var(--midnight)] -rotate-3 relative">
             <h1 className="font-display text-6xl sm:text-7xl md:text-9xl text-midnight font-black tracking-tighter">
@@ -352,10 +352,10 @@ export default function EventsPage() {
             </h1>
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-12 sm:w-16 h-4 sm:h-6 bg-white/50 backdrop-blur-sm border border-midnight shadow-sm rotate-2" />
             <div className="absolute bottom-4 right-4 w-8 h-8 sm:w-12 sm:h-12">
-               <DoodleCircle className="w-full h-full stroke-metro-yellow" delayIndex={1} />
+              <DoodleCircle className="w-full h-full stroke-metro-yellow" delayIndex={1} />
             </div>
             <div className="absolute -top-8 sm:-top-12 -right-4 sm:-right-8 w-12 h-12 sm:w-16 sm:h-16 text-electric-blue rotate-12">
-               <DoodleCrown className="w-full h-full" delayIndex={1.5} />
+              <DoodleCrown className="w-full h-full" delayIndex={1.5} />
             </div>
           </div>
         </div>
@@ -368,7 +368,7 @@ export default function EventsPage() {
               A Quick Note
             </p>
             <p className="font-display text-2xl leading-tight text-midnight">
-              Upcoming events are on top.<br/>
+              Upcoming events are on top.<br />
               Scroll down to dig into the <span className="underline decoration-wavy decoration-electric-blue">archives</span>.
             </p>
           </div>
@@ -378,7 +378,7 @@ export default function EventsPage() {
 
       {/* Decks Section */}
       <div className="px-6 md:px-12 flex flex-col gap-40">
-        
+
         {/* Upcoming Deck */}
         <section className="mb-24 md:mb-32 relative">
           <div className="absolute top-1/4 -left-12 w-32 h-32 text-metro-yellow/20 -rotate-45 hidden lg:block pointer-events-none">
@@ -401,9 +401,9 @@ export default function EventsPage() {
             ) : (
               <div className="max-w-4xl mx-auto w-full relative group perspective-[1000px]">
                 <div className="absolute inset-0 bg-metro-yellow/20 -rotate-3 rounded-[40px] blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-                
+
                 <div className="relative bg-[#111] border-[6px] border-metro-yellow p-12 md:p-20 shadow-[16px_16px_0_#eab308] overflow-hidden transform transition-all duration-500 group-hover:rotate-1">
-                  
+
                   {/* CAUTION TAPES */}
                   <div className="absolute top-8 -left-[10%] w-[120%] h-12 bg-metro-yellow rotate-3 flex items-center font-display font-black text-2xl text-black tracking-widest border-y-4 border-black z-10 shadow-lg group-hover:-rotate-2 transition-transform duration-500 overflow-hidden">
                     <div className="animate-marquee">
@@ -412,7 +412,7 @@ export default function EventsPage() {
                   </div>
 
                   <div className="absolute bottom-12 -right-[10%] w-[120%] h-12 bg-metro-yellow -rotate-3 flex items-center font-display font-black text-2xl text-black tracking-widest border-y-4 border-black z-10 shadow-lg group-hover:rotate-2 transition-transform duration-500 overflow-hidden">
-                     <div className="animate-marquee-reverse">
+                    <div className="animate-marquee-reverse">
                       {"/// BREWING SOMETHING EPIC /// STAY TUNED /// BREWING SOMETHING EPIC /// STAY TUNED /// BREWING SOMETHING EPIC /// STAY TUNED /// BREWING SOMETHING EPIC /// STAY TUNED ///"}
                     </div>
                   </div>
@@ -425,14 +425,14 @@ export default function EventsPage() {
                     </div>
 
                     <h3 className="font-display text-5xl md:text-7xl font-black text-[#F4F2EC] uppercase tracking-tighter mix-blend-difference">
-                      The Void <br/>
+                      The Void <br />
                       <span className="text-red-500 font-outline-2 drop-shadow-[4px_4px_0_#000]">is empty.</span>
                     </h3>
 
                     <p className="font-body text-xl text-gray-400 max-w-lg mx-auto font-medium">
-                      Our timeline is currently shifting. We are either plotting our next masterpiece, traveling through the multiverse, or just taking a really long nap. 
+                      Our timeline is currently shifting. We are either plotting our next masterpiece, traveling through the multiverse, or just taking a really long nap.
                     </p>
-                    
+
                     <button className="inline-block mt-8 px-6 py-3 border-[3px] border-metro-yellow text-metro-yellow font-display font-bold text-xl uppercase hover:bg-metro-yellow hover:text-black transition-colors cursor-crosshair relative overflow-hidden group/btn">
                       <span className="relative z-10">[ REDACT THIS MESSAGE ]</span>
                     </button>
@@ -451,20 +451,20 @@ export default function EventsPage() {
         <section className="relative mt-20 pt-32 pb-40 border-t-[8px] border-black overflow-hidden bg-[#111] mx-[-1.5rem] md:mx-[-3rem]">
           {/* Warning Tape Background */}
           <div className="absolute top-0 left-0 w-[150%] h-12 bg-metro-yellow -rotate-1 flex items-center font-display font-black text-2xl text-black tracking-widest border-b-4 border-black z-10 overflow-hidden transform origin-top-left -ml-4 shadow-[0_4px_20px_rgba(0,0,0,0.5)] whitespace-nowrap">
-              <div className="animate-marquee">
-                {"/// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT ///"}
-              </div>
+            <div className="animate-marquee">
+              {"/// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT ///"}
+            </div>
           </div>
 
           {/* Grid background */}
           <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-          
+
           <div className="max-w-6xl mx-auto px-6 relative z-10">
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-32 relative">
               <div>
                 <h2 className="font-display text-7xl md:text-[8rem] font-black text-[#F4F2EC] uppercase leading-none tracking-tighter drop-shadow-[8px_8px_0_#eab308]">
-                  The <br/> Vault
+                  The <br /> Vault
                 </h2>
                 <div className="h-4 w-full bg-electric-blue mt-8 transform -rotate-1 shadow-[4px_4px_0_#000]" />
               </div>
@@ -477,7 +477,7 @@ export default function EventsPage() {
             <div className="flex flex-col relative max-w-5xl mx-auto">
               {/* Timeline Line */}
               <div className="absolute top-0 bottom-0 left-6 md:left-8 w-2 bg-metro-yellow/20 rounded-full" />
-              
+
               {past.map((event, i) => (
                 <div key={event.id} className="relative mb-24 last:mb-0 group/timeline w-full">
                   {/* Timeline Node */}
@@ -485,17 +485,17 @@ export default function EventsPage() {
                     <div className="w-4 h-4 bg-metro-yellow rounded-full animate-ping opacity-50" />
                     <div className="absolute w-6 h-6 bg-metro-yellow rounded-full" />
                   </div>
-                  
+
                   {/* Card Container */}
                   <div className="ml-16 md:ml-32">
-                     <DeckCard event={event} index={i} colorIndex={i + upcoming.length} stacked={false} onClick={() => setSelectedEvent(event)} />
+                    <DeckCard event={event} index={i} colorIndex={i + upcoming.length} stacked={false} onClick={() => setSelectedEvent(event)} />
                   </div>
                 </div>
               ))}
             </div>
           </div>
         </section>
-        
+
       </div>
     </div>
   );
