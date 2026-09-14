@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import eventsData from "@/data/events.json";
 import type { ClubEvent } from "@/data/types";
-import { DoodleCircle, DoodleCrown, DoodleStar, DoodleFace, DoodleSquiggle, DoodleEye, DoodleSpark, DoodleSwirl } from "@/components/Doodles";
+import { DoodleCircle, DoodleCrown, DoodleEye, DoodleSpark } from "@/components/Doodles";
 
 const events: ClubEvent[] = eventsData as ClubEvent[];
 const upcoming = events
@@ -248,14 +248,28 @@ export default function EventsPage() {
                     </div>
                   )}
 
-                  {/* Photo Grid Placeholder */}
+                  {/* Photo Grid */}
                   {selectedEvent.photos && selectedEvent.photos.length > 0 && (
                     <div className="space-y-4">
                       <h3 className={`font-display text-2xl font-bold ${theme.title.replace(/border-\S+/, '')}`}>Photos</h3>
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        {selectedEvent.photos.map((_, idx) => (
-                          <div key={idx} className={`aspect-square flex items-center justify-center relative overflow-hidden group ${theme.photoGrid}`}>
-                            <span className="text-4xl opacity-50 group-hover:scale-110 transition-transform">📸</span>
+                        {selectedEvent.photos.map((photo, idx) => (
+                          <div key={idx} className={`aspect-square relative overflow-hidden group ${theme.photoGrid} flex items-center justify-center bg-black/40`}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={photo}
+                              alt={`${selectedEvent.title} snapshot ${idx + 1}`}
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                              onError={(e) => {
+                                (e.currentTarget as HTMLElement).style.display = "none";
+                                const fallback = e.currentTarget.parentElement?.querySelector(".photo-fallback");
+                                if (fallback) (fallback as HTMLElement).style.display = "flex";
+                              }}
+                            />
+                            <div className="photo-fallback hidden flex-col items-center justify-center p-4 text-center">
+                              <span className="text-3xl opacity-60 group-hover:scale-110 transition-transform">📸</span>
+                              <span className="text-[10px] uppercase font-bold tracking-widest opacity-60 mt-2">Snapshot {idx + 1}</span>
+                            </div>
                             <div className={`absolute inset-0 pointer-events-none ${theme.photoOverlay}`} />
                           </div>
                         ))}
@@ -341,13 +355,13 @@ export default function EventsPage() {
                   {/* CAUTION TAPES */}
                   <div className="absolute top-8 -left-[10%] w-[120%] h-12 bg-metro-yellow rotate-3 flex items-center font-display font-black text-2xl text-black tracking-widest border-y-4 border-black z-10 shadow-lg group-hover:-rotate-2 transition-transform duration-500 overflow-hidden">
                     <div className="animate-marquee">
-                      /// CLASSIFIED /// TOP SECRET /// DO NOT ENTER /// CLASSIFIED /// TOP SECRET /// DO NOT ENTER /// CLASSIFIED /// TOP SECRET /// DO NOT ENTER /// CLASSIFIED /// TOP SECRET /// DO NOT ENTER ///
+                      {"/// CLASSIFIED /// TOP SECRET /// DO NOT ENTER /// CLASSIFIED /// TOP SECRET /// DO NOT ENTER /// CLASSIFIED /// TOP SECRET /// DO NOT ENTER /// CLASSIFIED /// TOP SECRET /// DO NOT ENTER ///"}
                     </div>
                   </div>
 
                   <div className="absolute bottom-12 -right-[10%] w-[120%] h-12 bg-metro-yellow -rotate-3 flex items-center font-display font-black text-2xl text-black tracking-widest border-y-4 border-black z-10 shadow-lg group-hover:rotate-2 transition-transform duration-500 overflow-hidden">
                      <div className="animate-marquee-reverse">
-                      /// BREWING SOMETHING EPIC /// STAY TUNED /// BREWING SOMETHING EPIC /// STAY TUNED /// BREWING SOMETHING EPIC /// STAY TUNED /// BREWING SOMETHING EPIC /// STAY TUNED ///
+                      {"/// BREWING SOMETHING EPIC /// STAY TUNED /// BREWING SOMETHING EPIC /// STAY TUNED /// BREWING SOMETHING EPIC /// STAY TUNED /// BREWING SOMETHING EPIC /// STAY TUNED ///"}
                     </div>
                   </div>
 
@@ -385,9 +399,9 @@ export default function EventsPage() {
         <section className="relative mt-20 pt-32 pb-40 border-t-[8px] border-black overflow-hidden bg-[#111] mx-[-1.5rem] md:mx-[-3rem]">
           {/* Warning Tape Background */}
           <div className="absolute top-0 left-0 w-[150%] h-12 bg-metro-yellow -rotate-1 flex items-center font-display font-black text-2xl text-black tracking-widest border-b-4 border-black z-10 overflow-hidden transform origin-top-left -ml-4 shadow-[0_4px_20px_rgba(0,0,0,0.5)] whitespace-nowrap">
-             <div className="animate-marquee">
-               /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT ///
-             </div>
+              <div className="animate-marquee">
+                {"/// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT /// CAUTION /// ENTERING THE VAULT ///"}
+              </div>
           </div>
 
           {/* Grid background */}
