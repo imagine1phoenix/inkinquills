@@ -418,12 +418,14 @@ function StoryCard({ story, index, onClick }: { story: Story; index: number; onC
                 {story.title}
               </h4>
               
-              <div className="flex items-center gap-3 mb-6 md:mb-8">
-                <div className={`w-12 h-[4px] ${theme.text === 'text-midnight' ? 'bg-midnight' : 'bg-[#F4F2EC]'}`}></div>
-                <p className={`font-ui text-sm md:text-base font-bold uppercase tracking-widest ${theme.text}`}>
-                  BY {story.author}
-                </p>
-              </div>
+              {story.author && (
+                <div className="flex items-center gap-3 mb-6 md:mb-8">
+                  <div className={`w-12 h-[4px] ${theme.text === 'text-midnight' ? 'bg-midnight' : 'bg-[#F4F2EC]'}`}></div>
+                  <p className={`font-ui text-sm md:text-base font-bold uppercase tracking-widest ${theme.text}`}>
+                    BY {story.author}
+                  </p>
+                </div>
+              )}
               
               <div className="relative">
                  <div className={`absolute left-0 top-0 bottom-0 w-[4px] ${theme.text === 'text-midnight' ? 'bg-midnight/20' : 'bg-[#F4F2EC]/20'}`}></div>
@@ -511,11 +513,13 @@ function StoryModal({
              </h2>
              
              <div className="flex flex-wrap items-center gap-4">
-                <div className="bg-midnight text-[#F4F2EC] px-4 py-2 border-[3px] border-midnight">
-                  <p className="font-ui text-xs font-bold uppercase tracking-widest">
-                    BY {story.author}
-                  </p>
-                </div>
+                {story.author && (
+                  <div className="bg-midnight text-[#F4F2EC] px-4 py-2 border-[3px] border-midnight">
+                    <p className="font-ui text-xs font-bold uppercase tracking-widest">
+                      BY {story.author}
+                    </p>
+                  </div>
+                )}
                 <div className="bg-[#F4F2EC] px-4 py-2 border-[3px] border-midnight shadow-[3px_3px_0_var(--midnight)]">
                   <p className="font-ui text-xs font-bold uppercase tracking-widest text-midnight">
                     {formatMonth(story.date)}
@@ -534,17 +538,27 @@ function StoryModal({
              <DoodleSpark className="w-full h-full" delayIndex={2} />
           </div>
 
-          <div
-            className={`font-body text-lg md:text-xl leading-[2] text-midnight font-medium relative z-10 ${
-              story.type === "story" ? "drop-cap-editorial" : ""
-            }`}
-          >
-            {story.body.split("\n").map((paragraph, i) => (
-              <p key={i} className={paragraph.trim() === "" ? "h-6" : "mb-6"}>
-                {paragraph}
-              </p>
-            ))}
-          </div>
+          {story.type === "poem" ? (
+            <div className="font-body text-lg md:text-xl text-midnight font-normal relative z-10 space-y-6">
+              {story.body.split(/\n\s*\n/).map((stanza, sIdx) => (
+                <div key={sIdx} className="space-y-1.5">
+                  {stanza.split("\n").map((line, lIdx) => (
+                    <p key={lIdx} className="leading-relaxed">
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="font-body text-lg md:text-xl leading-[2] text-midnight font-normal relative z-10 drop-cap-editorial">
+              {story.body.split("\n").map((paragraph, i) => (
+                <p key={i} className={paragraph.trim() === "" ? "h-6" : "mb-6"}>
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          )}
         </div>
       </motion.article>
     </motion.div>

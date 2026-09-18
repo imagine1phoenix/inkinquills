@@ -1,7 +1,7 @@
 export interface Story {
   id: string;
   title: string;
-  author: string;
+  author?: string;
   body: string;
   type: "story" | "poem";
   date: string; // YYYY-MM format

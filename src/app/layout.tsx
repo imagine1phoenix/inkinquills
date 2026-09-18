@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Schoolbell, Inter } from "next/font/google";
+import { Schoolbell, Inter, Merriweather } from "next/font/google";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Spotlight from "@/components/Spotlight";
@@ -18,6 +18,14 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   weight: ["300", "400", "500", "600", "700"],
+});
+
+const merriweather = Merriweather({
+  variable: "--font-body",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["300", "400", "700", "900"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -47,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${schoolbell.variable} ${inter.variable} h-full antialiased`}
+      className={`${schoolbell.variable} ${inter.variable} ${merriweather.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-midnight text-text-primary">
         <Spotlight />

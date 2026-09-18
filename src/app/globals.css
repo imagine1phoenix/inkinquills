@@ -47,9 +47,10 @@
   --color-foreground: var(--foreground);
 
   /* Fonts */
-  --font-display: "Schoolbell", cursive, sans-serif;
-  --font-body: "Inter", system-ui, sans-serif;
-  --font-ui: "Inter", system-ui, sans-serif;
+  --font-display: var(--font-display), "Schoolbell", cursive, sans-serif;
+  --font-body: var(--font-body), "Merriweather", "Georgia", serif;
+  --font-serif: var(--font-body), "Merriweather", "Georgia", serif;
+  --font-ui: var(--font-ui), "Inter", system-ui, sans-serif;
 
   /* Animation durations */
   --duration-fast: 150ms;
@@ -69,7 +70,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-body);
+  font-family: var(--font-ui);
   overflow-x: hidden;
 }
 
@@ -95,6 +96,10 @@ html {
 
 .font-body {
   font-family: var(--font-body);
+}
+
+.font-serif {
+  font-family: var(--font-serif);
 }
 
 .font-ui {
