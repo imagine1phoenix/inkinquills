@@ -20,6 +20,50 @@ const collectionPaths: Record<AdminCollection, string[]> = {
   books: ["/library"],
 };
 
+const githubRepository = process.env.GITHUB_REPOSITORY || "imagine1phoenix/inkinquills";
+const githubBranch = process.env.GITHUB_BRANCH || "main";
+const githubApi = `https://api.github.com/repos/${githubRepository}`;
+
+function githubHeaders() {
+  const token = process.env.GITHUB_TOKEN;
+  return token ? {
+    Accept: "application/vnd.github+json",
+    Authorization: `Bearer ${token}`,
+    "X-GitHub-Api-Version": "2022-11-28",
+  } : null;
+}
+
+async function commitRepositoryFile(repositoryPath: string, content: string | Buffer, message: string) {
+  const headers = githubHeaders();
+  if (!headers) return null;
+
+  const currentResponse = await fetch(`${githubApi}/contents/${repositoryPath}?ref=${githubBranch}`, {
+    headers,
+    cache: "no-store",
+  });
+  const current = currentResponse.ok ? await currentResponse.json() as { sha?: string } : null;
+  const response = await fetch(`${githubApi}/contents/${repositoryPath}`, {
+    method: "PUT",
+    headers: { ...headers, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      message,
+      content: Buffer.from(content).toString("base64"),
+      branch: githubBranch,
+      ...(current?.sha ? { sha: current.sha } : {}),
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`GitHub commit failed with ${response.status}`);
+  }
+  const result = await response.json() as { commit?: { sha?: string } };
+  return result.commit?.sha || null;
+}
+
+function isGithubPersistenceEnabled() {
+  return Boolean(process.env.GITHUB_TOKEN);
+}
+
 function collectionPath(collection: AdminCollection) {
   return path.join(process.cwd(), "src", "data", collectionFiles[collection]);
 }
@@ -36,11 +80,16 @@ export async function saveAdminCollection(collection: AdminCollection, value: st
       return { success: false, error: "The collection must be a JSON array." };
     }
 
-    await fs.writeFile(collectionPath(collection), `${JSON.stringify(parsed, null, 2)}\n`, "utf8");
+    const content = `${JSON.stringify(parsed, null, 2)}\n`;
+    const commitSha = await commitRepositoryFile(`src/data/${collectionFiles[collection]}`, content, `content: update ${collection}`);
+    if (!isGithubPersistenceEnabled()) {
+      await fs.writeFile(collectionPath(collection), content, "utf8");
+    }
     collectionPaths[collection].forEach((route) => revalidatePath(route));
-    return { success: true };
-  } catch {
-    return { success: false, error: "That JSON is not valid. Check the editor and try again." };
+    return { success: true, committed: Boolean(commitSha), commitSha };
+  } catch (error) {
+    console.error("Error saving admin collection:", error);
+    return { success: false, error: "The content could not be saved to the repository." };
   }
 }
 
@@ -70,13 +119,23 @@ export async function uploadEventPhotos(eventId: string, formData: FormData) {
       const extension = path.extname(file.name).toLowerCase();
       const baseName = path.basename(file.name, extension).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "event-photo";
       const fileName = `${baseName}-${randomUUID().slice(0, 8)}${extension}`;
-      await fs.writeFile(path.join(eventsDirectory, fileName), Buffer.from(await file.arrayBuffer()));
+      const fileBuffer = Buffer.from(await file.arrayBuffer());
+      if (!isGithubPersistenceEnabled()) {
+        await fs.writeFile(path.join(eventsDirectory, fileName), fileBuffer);
+      } else {
+        await commitRepositoryFile(`public/events/${fileName}`, fileBuffer, `content: add event photo ${fileName}`);
+      }
       uploadedPaths.push(`/events/${fileName}`);
     }
 
     const existingPhotos = Array.isArray(event.photos) ? event.photos.filter((photo): photo is string => typeof photo === "string") : [];
     event.photos = [...existingPhotos, ...uploadedPaths];
-    await fs.writeFile(eventsPath, `${JSON.stringify(events, null, 2)}\n`, "utf8");
+    const eventsContent = `${JSON.stringify(events, null, 2)}\n`;
+    if (isGithubPersistenceEnabled()) {
+      await commitRepositoryFile("src/data/events.json", eventsContent, `content: attach photos to ${eventId}`);
+    } else {
+      await fs.writeFile(eventsPath, eventsContent, "utf8");
+    }
     revalidatePath("/events");
     return { success: true, photos: event.photos as string[] };
   } catch (error) {

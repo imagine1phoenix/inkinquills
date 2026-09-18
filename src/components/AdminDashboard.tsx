@@ -133,7 +133,7 @@ export default function AdminDashboard({ initialData }: { initialData: AdminData
     setData({ ...data, [panel]: next });
     startTransition(async () => {
       const result = await saveAdminCollection(panel, JSON.stringify(next));
-      setNotice(result.success ? "Saved to the live content source." : result.error || "Save failed.");
+      setNotice(result.success ? (result.committed ? "Saved, committed to GitHub, and deployment has started." : "Saved locally. Add GITHUB_TOKEN to commit and deploy automatically.") : result.error || "Save failed.");
     });
   };
 
@@ -178,7 +178,7 @@ export default function AdminDashboard({ initialData }: { initialData: AdminData
         setDraft(nextDraft);
         setData({ ...data, events: nextData });
         setSelectedFiles([]);
-        setNotice(`${photos.length === 1 ? "Photo" : "Photos"} uploaded and attached to this event.`);
+        setNotice(`${photos.length === 1 ? "Photo" : "Photos"} uploaded, attached, and committed. Deployment has started.`);
       } else {
         setNotice(result.error || "The photos could not be uploaded.");
       }
