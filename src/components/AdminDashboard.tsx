@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useTransition } from "react";
 import Link from "next/link";
+import { logoutAdmin } from "@/actions/auth";
 import {
   deleteAdminAudition,
   readAdminAuditions,
@@ -219,6 +220,7 @@ export default function AdminDashboard({ initialData }: { initialData: AdminData
           <div className="flex items-center gap-3">
             <span className="border-2 border-midnight bg-metro-yellow px-3 py-2 font-ui text-[10px] font-bold uppercase tracking-widest shadow-[4px_4px_0_var(--midnight)]">Local workspace</span>
             <Link href="/" className="border-2 border-midnight bg-[#F4F2EC] px-4 py-2 font-ui text-xs font-bold uppercase tracking-widest shadow-[4px_4px_0_var(--electric-blue)] transition-transform hover:-translate-y-1">View site</Link>
+            <form action={logoutAdmin}><button type="submit" className="border-2 border-midnight bg-[#F4F2EC] px-4 py-2 font-ui text-xs font-bold uppercase tracking-widest shadow-[4px_4px_0_var(--midnight)] transition-transform hover:-translate-y-1">Log out</button></form>
           </div>
         </header>
 

@@ -5,6 +5,7 @@ import path from "node:path";
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
+import { requireAdminAuthentication } from "@/lib/admin-auth";
 
 export type AdminCollection = "stories" | "events" | "books";
 
@@ -69,11 +70,13 @@ function collectionPath(collection: AdminCollection) {
 }
 
 export async function readAdminCollection(collection: AdminCollection) {
+  await requireAdminAuthentication();
   const source = await fs.readFile(collectionPath(collection), "utf8");
   return JSON.parse(source) as unknown[];
 }
 
 export async function saveAdminCollection(collection: AdminCollection, value: string) {
+  await requireAdminAuthentication();
   try {
     const parsed = JSON.parse(value) as unknown;
     if (!Array.isArray(parsed)) {
@@ -94,6 +97,7 @@ export async function saveAdminCollection(collection: AdminCollection, value: st
 }
 
 export async function uploadEventPhotos(eventId: string, formData: FormData) {
+  await requireAdminAuthentication();
   const files = formData.getAll("photos").filter((value): value is File => value instanceof File && value.size > 0);
   const allowedExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif"]);
 
@@ -145,6 +149,7 @@ export async function uploadEventPhotos(eventId: string, formData: FormData) {
 }
 
 export async function readAdminAuditions() {
+  await requireAdminAuthentication();
   try {
     const auditions = await prisma.audition.findMany({ orderBy: { createdAt: "desc" } });
     return auditions.map((audition) => ({ ...audition, createdAt: audition.createdAt.toISOString() }));
@@ -155,6 +160,7 @@ export async function readAdminAuditions() {
 }
 
 export async function deleteAdminAudition(id: string) {
+  await requireAdminAuthentication();
   try {
     await prisma.audition.delete({ where: { id } });
     return { success: true };
