@@ -4,6 +4,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Spotlight from "@/components/Spotlight";
 import TopBar from "@/components/TopBar";
+import VisitorTracker from "@/components/VisitorTracker";
 import "./globals.css";
 
 const schoolbell = Schoolbell({
@@ -58,6 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${schoolbell.variable} ${inter.variable} ${merriweather.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-midnight text-text-primary">
+        <VisitorTracker />
         <Spotlight />
         <TopBar />
         <main className="flex-1 pt-16 pb-32 relative">{children}</main>

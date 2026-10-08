@@ -6,13 +6,16 @@ import { logoutAdmin } from "@/actions/auth";
 import {
   deleteAdminAudition,
   readAdminAuditions,
+  readAdminAnalytics,
+  resetAdminAnalytics,
   saveAdminCollection,
   uploadEventPhotos,
   type AdminCollection,
 } from "@/actions/admin";
+import type { AnalyticsSummary } from "@/lib/analytics";
 
 type AdminData = Record<AdminCollection, unknown[]>;
-type Panel = AdminCollection | "auditions";
+type Panel = AdminCollection | "auditions" | "analytics";
 type Audition = Awaited<ReturnType<typeof readAdminAuditions>>[number];
 type DraftRecord = Record<string, unknown>;
 type FieldKind = "text" | "textarea" | "date" | "select" | "checkbox" | "color" | "list";
@@ -80,24 +83,52 @@ function recordLabel(record: unknown, index: number) {
   return `Record ${index + 1}`;
 }
 
-export default function AdminDashboard({ initialData }: { initialData: AdminData }) {
+function formatTimeAgo(isoString: string): string {
+  try {
+    const date = new Date(isoString);
+    const now = new Date();
+    const diffSec = Math.floor((now.getTime() - date.getTime()) / 1000);
+    if (diffSec < 60) return "Just now";
+    if (diffSec < 3600) return `${Math.floor(diffSec / 60)}m ago`;
+    if (diffSec < 86400) return `${Math.floor(diffSec / 3600)}h ago`;
+    return date.toLocaleDateString(undefined, {
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  } catch {
+    return isoString;
+  }
+}
+
+export default function AdminDashboard({
+  initialData,
+  initialAnalytics,
+}: {
+  initialData: AdminData;
+  initialAnalytics?: AnalyticsSummary;
+}) {
   const [data, setData] = useState(initialData);
   const [panel, setPanel] = useState<Panel>("stories");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [draft, setDraft] = useState<DraftRecord>(asDraft(initialData.stories[0]));
   const [auditions, setAuditions] = useState<Audition[]>([]);
+  const [analytics, setAnalytics] = useState<AnalyticsSummary | null>(initialAnalytics || null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [notice, setNotice] = useState("");
   const [isPending, startTransition] = useTransition();
 
-  const activeRecords = panel === "auditions" ? [] : data[panel];
+  const activeRecords = panel === "auditions" || panel === "analytics" ? [] : data[panel];
   const stats = useMemo(() => ({
     stories: data.stories.length,
     events: data.events.length,
     books: data.books.length,
     auditions: auditions.length,
-  }), [auditions.length, data]);
+    visitors: analytics?.uniqueVisitors ?? 0,
+    views: analytics?.totalViews ?? 0,
+  }), [auditions.length, data, analytics]);
 
   const choosePanel = (nextPanel: Panel) => {
     setPanel(nextPanel);
@@ -108,11 +139,18 @@ export default function AdminDashboard({ initialData }: { initialData: AdminData
       startTransition(async () => setAuditions(await readAdminAuditions()));
       return;
     }
+    if (nextPanel === "analytics") {
+      startTransition(async () => {
+        const res = await readAdminAnalytics();
+        setAnalytics(res);
+      });
+      return;
+    }
     setDraft(asDraft(data[nextPanel][0]));
   };
 
   const chooseRecord = (index: number) => {
-    if (panel === "auditions") return;
+    if (panel === "auditions" || panel === "analytics") return;
     setSelectedIndex(index);
     setDraft(asDraft(data[panel][index]));
     setSelectedFiles([]);
@@ -120,7 +158,7 @@ export default function AdminDashboard({ initialData }: { initialData: AdminData
   };
 
   const addRecord = () => {
-    if (panel === "auditions") return;
+    if (panel === "auditions" || panel === "analytics") return;
     const next = [...data[panel], blankRecords[panel]];
     setData({ ...data, [panel]: next });
     setSelectedIndex(next.length - 1);
@@ -129,7 +167,7 @@ export default function AdminDashboard({ initialData }: { initialData: AdminData
   };
 
   const saveRecord = () => {
-    if (panel === "auditions") return;
+    if (panel === "auditions" || panel === "analytics") return;
     const next = data[panel].map((record, index) => index === selectedIndex ? draft : record);
     setData({ ...data, [panel]: next });
     startTransition(async () => {
@@ -139,7 +177,7 @@ export default function AdminDashboard({ initialData }: { initialData: AdminData
   };
 
   const deleteRecord = () => {
-    if (panel === "auditions" || activeRecords.length === 0) return;
+    if (panel === "auditions" || panel === "analytics" || activeRecords.length === 0) return;
     const next = activeRecords.filter((_, index) => index !== selectedIndex);
     setData({ ...data, [panel]: next });
     const nextIndex = Math.max(0, selectedIndex - 1);
@@ -224,11 +262,25 @@ export default function AdminDashboard({ initialData }: { initialData: AdminData
           </div>
         </header>
 
-        <section className="mb-8 grid grid-cols-2 gap-3 md:grid-cols-4">
-          {([["stories", stats.stories, "Stories"], ["events", stats.events, "Events"], ["books", stats.books, "Books"], ["auditions", stats.auditions, "Applications"]] as const).map(([key, value, label]) => (
-            <button key={key} onClick={() => choosePanel(key)} className="border-2 border-midnight bg-[#F4F2EC] p-4 text-left shadow-[5px_5px_0_var(--midnight)] transition-transform hover:-translate-y-1">
+        <section className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          {([
+            ["stories", stats.stories, "Stories"],
+            ["events", stats.events, "Events"],
+            ["books", stats.books, "Books"],
+            ["auditions", stats.auditions, "Applications"],
+            ["analytics", stats.visitors, `Visitors (${stats.views} Views)`],
+          ] as const).map(([key, value, label]) => (
+            <button
+              key={key}
+              onClick={() => choosePanel(key as Panel)}
+              className={`border-2 border-midnight p-4 text-left shadow-[5px_5px_0_var(--midnight)] transition-transform hover:-translate-y-1 ${
+                panel === key ? "bg-metro-yellow" : "bg-[#F4F2EC]"
+              }`}
+            >
               <span className="font-display text-4xl font-black">{value}</span>
-              <span className="mt-1 block font-ui text-[10px] font-bold uppercase tracking-widest text-midnight/60">{label}</span>
+              <span className="mt-1 block font-ui text-[10px] font-bold uppercase tracking-widest text-midnight/70">
+                {label}
+              </span>
             </button>
           ))}
         </section>
@@ -236,9 +288,21 @@ export default function AdminDashboard({ initialData }: { initialData: AdminData
         <div className="grid gap-6 lg:grid-cols-[210px_280px_minmax(0,1fr)]">
           <aside className="border-2 border-midnight bg-midnight p-3 shadow-[8px_8px_0_var(--electric-blue)]">
             <p className="mb-3 px-2 font-ui text-[10px] font-bold uppercase tracking-[0.25em] text-metro-yellow">Manage</p>
-            {([...Object.keys(collectionLabels), "auditions"] as Panel[]).map((item) => (
-              <button key={item} onClick={() => choosePanel(item)} className={`mb-1 w-full border-2 px-3 py-3 text-left font-ui text-xs font-bold uppercase tracking-widest transition-colors ${panel === item ? "border-metro-yellow bg-metro-yellow text-midnight" : "border-transparent text-[#F4F2EC] hover:border-[#F4F2EC]"}`}>
-                {item === "auditions" ? "Applications" : collectionLabels[item]}
+            {([...Object.keys(collectionLabels), "auditions", "analytics"] as Panel[]).map((item) => (
+              <button
+                key={item}
+                onClick={() => choosePanel(item)}
+                className={`mb-1 w-full border-2 px-3 py-3 text-left font-ui text-xs font-bold uppercase tracking-widest transition-colors ${
+                  panel === item
+                    ? "border-metro-yellow bg-metro-yellow text-midnight"
+                    : "border-transparent text-[#F4F2EC] hover:border-[#F4F2EC]"
+                }`}
+              >
+                {item === "auditions"
+                  ? "Applications"
+                  : item === "analytics"
+                  ? "Visitors & Traffic"
+                  : collectionLabels[item]}
               </button>
             ))}
           </aside>
@@ -250,6 +314,252 @@ export default function AdminDashboard({ initialData }: { initialData: AdminData
                 <button onClick={() => choosePanel("auditions")} className="border-2 border-midnight bg-electric-blue px-3 py-2 font-ui text-[10px] font-bold uppercase tracking-widest text-[#F4F2EC]">Refresh</button>
               </div>
               {auditions.length === 0 ? <p className="font-body text-lg text-midnight/60">No applications loaded yet. Use Refresh to check the audition inbox.</p> : <div className="space-y-3">{auditions.map((audition) => <article key={audition.id} className="border-2 border-midnight p-4 shadow-[4px_4px_0_var(--midnight)]"><div className="flex justify-between gap-4"><div><h3 className="font-display text-2xl font-black uppercase">{audition.name}</h3><p className="font-ui text-xs font-bold uppercase tracking-widest text-electric-blue">{audition.email} / {audition.role}</p></div><button onClick={() => removeAudition(audition.id)} className="font-ui text-[10px] font-bold uppercase tracking-widest text-red-700">Delete</button></div><p className="mt-3 font-body text-sm">{audition.manifesto}</p></article>)}</div>}
+            </section>
+          ) : panel === "analytics" ? (
+            <section className="min-h-[520px] border-2 border-midnight bg-[#F4F2EC] p-5 shadow-[8px_8px_0_var(--electric-blue)] lg:col-span-2">
+              <div className="mb-6 flex flex-wrap items-start justify-between gap-4 border-b-2 border-dashed border-midnight/30 pb-4">
+                <div>
+                  <p className="font-ui text-[10px] font-bold uppercase tracking-widest text-electric-blue">
+                    Visitor Intelligence &amp; Footprint
+                  </p>
+                  <h2 className="font-display text-4xl font-black uppercase">Website Visitors</h2>
+                  <p className="mt-1 font-body text-xs text-midnight/70">
+                    Real-time count of site visitors, popular pages, devices, and visitor activity.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      startTransition(async () => {
+                        const res = await readAdminAnalytics();
+                        setAnalytics(res);
+                        setNotice("Visitor analytics refreshed.");
+                      });
+                    }}
+                    disabled={isPending}
+                    className="border-2 border-midnight bg-electric-blue px-3 py-2 font-ui text-[10px] font-bold uppercase tracking-widest text-[#F4F2EC] shadow-[3px_3px_0_var(--midnight)] transition-transform hover:-translate-y-0.5 disabled:opacity-50"
+                  >
+                    {isPending ? "Refreshing..." : "Refresh Feed"}
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (confirm("Reset visitor analytics data?")) {
+                        startTransition(async () => {
+                          await resetAdminAnalytics();
+                          const res = await readAdminAnalytics();
+                          setAnalytics(res);
+                          setNotice("Visitor analytics reset successfully.");
+                        });
+                      }
+                    }}
+                    disabled={isPending}
+                    className="border-2 border-midnight bg-[#F4F2EC] px-3 py-2 font-ui text-[10px] font-bold uppercase tracking-widest text-red-700 shadow-[3px_3px_0_var(--midnight)] transition-transform hover:-translate-y-0.5 disabled:opacity-50"
+                  >
+                    Clear Data
+                  </button>
+                </div>
+              </div>
+
+              {/* Top Key Metrics */}
+              <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <div className="border-2 border-midnight bg-white p-3 shadow-[3px_3px_0_var(--midnight)]">
+                  <span className="block font-ui text-[10px] font-bold uppercase tracking-wider text-midnight/60">
+                    Total Page Views
+                  </span>
+                  <span className="mt-1 block font-display text-3xl font-black text-electric-blue">
+                    {analytics?.totalViews ?? 0}
+                  </span>
+                  <span className="mt-0.5 block font-ui text-[9px] text-midnight/50">All-time visits</span>
+                </div>
+                <div className="border-2 border-midnight bg-white p-3 shadow-[3px_3px_0_var(--midnight)]">
+                  <span className="block font-ui text-[10px] font-bold uppercase tracking-wider text-midnight/60">
+                    Unique Visitors
+                  </span>
+                  <span className="mt-1 block font-display text-3xl font-black text-midnight">
+                    {analytics?.uniqueVisitors ?? 0}
+                  </span>
+                  <span className="mt-0.5 block font-ui text-[9px] text-midnight/50">Distinct people</span>
+                </div>
+                <div className="border-2 border-midnight bg-white p-3 shadow-[3px_3px_0_var(--midnight)]">
+                  <span className="block font-ui text-[10px] font-bold uppercase tracking-wider text-midnight/60">
+                    Views Today
+                  </span>
+                  <span className="mt-1 block font-display text-3xl font-black text-midnight">
+                    {analytics?.viewsToday ?? 0}
+                  </span>
+                  <span className="mt-0.5 block font-ui text-[9px] text-midnight/50">
+                    {analytics?.uniqueToday ?? 0} unique today
+                  </span>
+                </div>
+                <div className="border-2 border-midnight bg-white p-3 shadow-[3px_3px_0_var(--midnight)]">
+                  <span className="block font-ui text-[10px] font-bold uppercase tracking-wider text-midnight/60">
+                    Past 7 Days
+                  </span>
+                  <span className="mt-1 block font-display text-3xl font-black text-midnight">
+                    {analytics?.viewsThisWeek ?? 0}
+                  </span>
+                  <span className="mt-0.5 block font-ui text-[9px] text-midnight/50">Recent week</span>
+                </div>
+              </div>
+
+              {/* Two Columns: Pages and Sources */}
+              <div className="mb-6 grid gap-4 md:grid-cols-2">
+                {/* Popular Pages */}
+                <div className="border-2 border-midnight bg-white p-4 shadow-[4px_4px_0_var(--midnight)]">
+                  <h3 className="mb-3 font-ui text-xs font-bold uppercase tracking-widest text-electric-blue">
+                    Most Visited Pages
+                  </h3>
+                  {!analytics?.topPages || analytics.topPages.length === 0 ? (
+                    <p className="font-body text-xs text-midnight/50">No page view data yet.</p>
+                  ) : (
+                    <div className="space-y-2.5">
+                      {analytics.topPages.map((page) => (
+                        <div key={page.path} className="space-y-1">
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="font-mono font-bold text-midnight">{page.path}</span>
+                            <span className="font-ui font-semibold text-midnight/70">
+                              {page.count} views ({page.percentage}%)
+                            </span>
+                          </div>
+                          <div className="h-2 w-full border border-midnight bg-[#E8E5DC]">
+                            <div
+                              className="h-full bg-electric-blue"
+                              style={{ width: `${Math.max(page.percentage, 4)}%` }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Sources & Devices */}
+                <div className="space-y-4">
+                  {/* Traffic Sources */}
+                  <div className="border-2 border-midnight bg-white p-4 shadow-[4px_4px_0_var(--midnight)]">
+                    <h3 className="mb-2 font-ui text-xs font-bold uppercase tracking-widest text-electric-blue">
+                      Traffic Sources / Referrers
+                    </h3>
+                    {!analytics?.referrerBreakdown || analytics.referrerBreakdown.length === 0 ? (
+                      <p className="font-body text-xs text-midnight/50">No referrer data yet.</p>
+                    ) : (
+                      <div className="flex flex-wrap gap-1.5">
+                        {analytics.referrerBreakdown.map((ref) => (
+                          <span
+                            key={ref.referrer}
+                            className="border border-midnight bg-[#F4F2EC] px-2 py-1 font-ui text-[10px] font-bold"
+                          >
+                            {ref.referrer}: <span className="text-electric-blue">{ref.count}</span> ({ref.percentage}%)
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Devices & Browsers */}
+                  <div className="border-2 border-midnight bg-white p-4 shadow-[4px_4px_0_var(--midnight)]">
+                    <h3 className="mb-2 font-ui text-xs font-bold uppercase tracking-widest text-electric-blue">
+                      Devices &amp; Browsers
+                    </h3>
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div>
+                        <span className="block font-ui text-[10px] font-bold uppercase text-midnight/60">
+                          Devices
+                        </span>
+                        <div className="mt-1 space-y-1">
+                          {analytics?.deviceBreakdown?.map((d) => (
+                            <div key={d.device} className="flex justify-between font-ui text-[11px]">
+                              <span className="capitalize">
+                                {d.device === "mobile"
+                                  ? "📱 Mobile"
+                                  : d.device === "tablet"
+                                  ? "📟 Tablet"
+                                  : "💻 Desktop"}
+                              </span>
+                              <span className="font-bold text-midnight">{d.percentage}%</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div>
+                        <span className="block font-ui text-[10px] font-bold uppercase text-midnight/60">
+                          Browsers
+                        </span>
+                        <div className="mt-1 space-y-1">
+                          {analytics?.browserBreakdown?.slice(0, 4).map((b) => (
+                            <div key={b.browser} className="flex justify-between font-ui text-[11px]">
+                              <span>{b.browser}</span>
+                              <span className="font-bold text-midnight">{b.count}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Recent Activity Log ("Who Came To Website") */}
+              <div className="border-2 border-midnight bg-white p-4 shadow-[4px_4px_0_var(--midnight)]">
+                <div className="mb-3 flex items-center justify-between border-b border-dashed border-midnight/20 pb-2">
+                  <div>
+                    <h3 className="font-ui text-xs font-bold uppercase tracking-widest text-electric-blue">
+                      Who Came To The Website (Recent Visitor Log)
+                    </h3>
+                    <p className="font-body text-[11px] text-midnight/60">
+                      Chronological stream of visitors and which pages they viewed
+                    </p>
+                  </div>
+                  <span className="border border-midnight bg-metro-yellow px-2 py-0.5 font-ui text-[10px] font-bold uppercase">
+                    {analytics?.recentVisits?.length ?? 0} Logged
+                  </span>
+                </div>
+
+                {!analytics?.recentVisits || analytics.recentVisits.length === 0 ? (
+                  <p className="py-6 text-center font-body text-sm text-midnight/50">
+                    No visitor logs recorded yet.
+                  </p>
+                ) : (
+                  <div className="max-h-[380px] divide-y divide-midnight/15 overflow-y-auto border border-midnight">
+                    {analytics.recentVisits.map((visit) => (
+                      <div
+                        key={visit.id}
+                        className="flex flex-col gap-2 p-3 text-xs transition-colors hover:bg-metro-yellow/10 sm:flex-row sm:items-center sm:justify-between"
+                      >
+                        <div className="flex items-start gap-3">
+                          <span className="mt-0.5 border border-midnight bg-midnight px-1.5 py-0.5 font-mono text-[10px] font-bold text-metro-yellow">
+                            {visit.device === "mobile" ? "MOB" : visit.device === "tablet" ? "TAB" : "DSK"}
+                          </span>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-mono text-xs font-bold text-electric-blue">
+                                {visit.path}
+                              </span>
+                              <span className="font-ui text-[10px] text-midnight/50">
+                                via {visit.referrer}
+                              </span>
+                            </div>
+                            <div className="mt-0.5 flex flex-wrap items-center gap-2 font-ui text-[10px] text-midnight/70">
+                              <span>
+                                {visit.browser} on {visit.os}
+                              </span>
+                              <span>•</span>
+                              <span className="font-mono">{visit.visitorId.slice(0, 14)}</span>
+                              <span>•</span>
+                              <span className="text-midnight/50">
+                                {visit.country || "Local"} ({visit.ipMasked})
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="font-ui text-right text-[10px] font-semibold text-midnight/60 sm:whitespace-nowrap">
+                          {formatTimeAgo(visit.timestamp)}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </section>
           ) : (
             <>

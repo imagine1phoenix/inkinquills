@@ -1,0 +1,80 @@
+[
+  {
+    "id": "v-init-1",
+    "visitorId": "v_litclub_819",
+    "timestamp": "2026-10-08T11:45:00.000Z",
+    "path": "/",
+    "referrer": "Direct / Bookmark",
+    "browser": "Chrome",
+    "os": "macOS",
+    "device": "desktop",
+    "screen": "1920x1080",
+    "ipMasked": "127.0.0.1",
+    "country": "Local / Dev"
+  },
+  {
+    "id": "v-init-2",
+    "visitorId": "v_litclub_819",
+    "timestamp": "2026-10-08T11:47:30.000Z",
+    "path": "/stories",
+    "referrer": "Direct / Bookmark",
+    "browser": "Chrome",
+    "os": "macOS",
+    "device": "desktop",
+    "screen": "1920x1080",
+    "ipMasked": "127.0.0.1",
+    "country": "Local / Dev"
+  },
+  {
+    "id": "v-init-3",
+    "visitorId": "v_reader_401",
+    "timestamp": "2026-10-08T10:15:10.000Z",
+    "path": "/library",
+    "referrer": "Instagram",
+    "browser": "Safari",
+    "os": "iOS",
+    "device": "mobile",
+    "screen": "390x844",
+    "ipMasked": "49.36.***.***",
+    "country": "India"
+  },
+  {
+    "id": "v-init-4",
+    "visitorId": "v_writer_922",
+    "timestamp": "2026-10-08T09:20:00.000Z",
+    "path": "/auditions",
+    "referrer": "Google Search",
+    "browser": "Firefox",
+    "os": "Windows",
+    "device": "desktop",
+    "screen": "1536x864",
+    "ipMasked": "103.21.***.***",
+    "country": "India"
+  },
+  {
+    "id": "v-init-5",
+    "visitorId": "v_bookworm_112",
+    "timestamp": "2026-10-07T18:30:00.000Z",
+    "path": "/events",
+    "referrer": "Twitter / X",
+    "browser": "Safari",
+    "os": "macOS",
+    "device": "desktop",
+    "screen": "1440x900",
+    "ipMasked": "142.250.***.***",
+    "country": "United States"
+  },
+  {
+    "id": "9f9bdff9-2c27-4bef-87e4-af14febcd29a",
+    "visitorId": "test_visitor_live_1",
+    "timestamp": "2026-10-08T07:08:23.032Z",
+    "path": "/stories",
+    "referrer": "Instagram",
+    "browser": "Chrome",
+    "os": "macOS",
+    "device": "desktop",
+    "screen": "",
+    "ipMasked": "Localhost / Dev",
+    "country": "Local / Unknown"
+  }
+]

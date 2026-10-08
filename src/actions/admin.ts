@@ -6,6 +6,7 @@ import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { requireAdminAuthentication } from "@/lib/admin-auth";
+import { getAnalyticsSummary, resetAnalyticsData, type AnalyticsSummary } from "@/lib/analytics";
 
 export type AdminCollection = "stories" | "events" | "books";
 
@@ -168,4 +169,15 @@ export async function deleteAdminAudition(id: string) {
     console.error("Error deleting audition:", error);
     return { success: false, error: "Could not delete that audition." };
   }
+}
+
+export async function readAdminAnalytics(): Promise<AnalyticsSummary> {
+  await requireAdminAuthentication();
+  return getAnalyticsSummary();
+}
+
+export async function resetAdminAnalytics(): Promise<{ success: boolean }> {
+  await requireAdminAuthentication();
+  await resetAnalyticsData();
+  return { success: true };
 }
