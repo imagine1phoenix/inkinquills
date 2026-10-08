@@ -15,12 +15,6 @@ export default function VisitorTracker() {
       return;
     }
 
-    // Prevent duplicate track calls on same page in one session
-    if (lastTracked.current === pathname) {
-      return;
-    }
-    lastTracked.current = pathname;
-
     // Retrieve or generate anonymous persistent visitor ID in localStorage
     let visitorId = "";
     try {
@@ -30,31 +24,109 @@ export default function VisitorTracker() {
         localStorage.setItem("iiq_vid", visitorId);
       }
     } catch {
-      // Ignore storage restrictions
+      // Storage access may be restricted
+      visitorId = `v_anon_${Math.random().toString(36).substring(2, 8)}`;
     }
 
-    const payload = JSON.stringify({
-      path: pathname,
-      referrer: typeof document !== "undefined" ? document.referrer : "",
-      visitorId,
-      screen: typeof window !== "undefined" ? `${window.innerWidth}x${window.innerHeight}` : "",
-    });
+    const timezone =
+      typeof Intl !== "undefined"
+        ? Intl.DateTimeFormat().resolvedOptions().timeZone || ""
+        : "";
+    const screen =
+      typeof window !== "undefined"
+        ? `${window.innerWidth}x${window.innerHeight}`
+        : "";
 
-    try {
-      if (typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function") {
-        const blob = new Blob([payload], { type: "application/json" });
-        navigator.sendBeacon("/api/analytics/track", blob);
-      } else {
+    // 1. Track pageview whenever the pathname changes
+    if (lastTracked.current !== pathname) {
+      lastTracked.current = pathname;
+
+      const pageviewPayload = JSON.stringify({
+        type: "pageview",
+        path: pathname,
+        referrer: typeof document !== "undefined" ? document.referrer : "",
+        visitorId,
+        screen,
+        timezone,
+      });
+
+      try {
         fetch("/api/analytics/track", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: payload,
+          body: pageviewPayload,
           keepalive: true,
         }).catch(() => {});
+      } catch {
+        // Safe fail
       }
-    } catch {
-      // Analytics failures should never impact user browsing experience
     }
+
+    // 2. Real-time active heartbeat while reading/browsing this page
+    const sendHeartbeat = () => {
+      if (typeof document !== "undefined" && document.visibilityState === "hidden") {
+        return;
+      }
+      try {
+        fetch("/api/analytics/track", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            type: "heartbeat",
+            path: pathname,
+            visitorId,
+            screen,
+            timezone,
+          }),
+          keepalive: true,
+        }).catch(() => {});
+      } catch {
+        // Safe fail
+      }
+    };
+
+    // Heartbeat every 20 seconds
+    const heartbeatTimer = setInterval(sendHeartbeat, 20000);
+
+    const handleVisibilityChange = () => {
+      if (typeof document !== "undefined" && document.visibilityState === "visible") {
+        sendHeartbeat();
+      }
+    };
+
+    const handleBeforeUnload = () => {
+      const leavePayload = JSON.stringify({
+        type: "leave",
+        visitorId,
+      });
+      try {
+        if (typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function") {
+          navigator.sendBeacon(
+            "/api/analytics/track",
+            new Blob([leavePayload], { type: "application/json" })
+          );
+        }
+      } catch {
+        // Safe fail
+      }
+    };
+
+    if (typeof document !== "undefined") {
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+    }
+    if (typeof window !== "undefined") {
+      window.addEventListener("beforeunload", handleBeforeUnload);
+    }
+
+    return () => {
+      clearInterval(heartbeatTimer);
+      if (typeof document !== "undefined") {
+        document.removeEventListener("visibilitychange", handleVisibilityChange);
+      }
+      if (typeof window !== "undefined") {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      }
+    };
   }, [pathname]);
 
   return null;

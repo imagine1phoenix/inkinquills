@@ -6,7 +6,12 @@ import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { requireAdminAuthentication } from "@/lib/admin-auth";
-import { getAnalyticsSummary, resetAnalyticsData, type AnalyticsSummary } from "@/lib/analytics";
+import {
+  getAnalyticsSummary,
+  resetAnalyticsData,
+  purgeMockData,
+  type AnalyticsSummary,
+} from "@/lib/analytics";
 
 export type AdminCollection = "stories" | "events" | "books";
 
@@ -180,4 +185,10 @@ export async function resetAdminAnalytics(): Promise<{ success: boolean }> {
   await requireAdminAuthentication();
   await resetAnalyticsData();
   return { success: true };
+}
+
+export async function purgeAdminMockAnalytics(): Promise<{ success: boolean; removedCount: number }> {
+  await requireAdminAuthentication();
+  const { removedCount } = await purgeMockData();
+  return { success: true, removedCount };
 }

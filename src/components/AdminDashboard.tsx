@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import Link from "next/link";
 import { logoutAdmin } from "@/actions/auth";
 import {
@@ -8,6 +8,7 @@ import {
   readAdminAuditions,
   readAdminAnalytics,
   resetAdminAnalytics,
+  purgeAdminMockAnalytics,
   saveAdminCollection,
   uploadEventPhotos,
   type AdminCollection,
@@ -115,10 +116,38 @@ export default function AdminDashboard({
   const [draft, setDraft] = useState<DraftRecord>(asDraft(initialData.stories[0]));
   const [auditions, setAuditions] = useState<Audition[]>([]);
   const [analytics, setAnalytics] = useState<AnalyticsSummary | null>(initialAnalytics || null);
+  const [isLivePolling, setIsLivePolling] = useState(true);
+  const [secondsAgo, setSecondsAgo] = useState(0);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [notice, setNotice] = useState("");
   const [isPending, startTransition] = useTransition();
+
+  // Real-time automatic polling when viewing the Visitors & Traffic section
+  useEffect(() => {
+    if (panel !== "analytics" || !isLivePolling) return;
+
+    const interval = setInterval(async () => {
+      try {
+        const res = await readAdminAnalytics();
+        setAnalytics(res);
+        setSecondsAgo(0);
+      } catch (err) {
+        console.error("Live analytics poll error:", err);
+      }
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [panel, isLivePolling]);
+
+  // Second ticker for "Synced Xs ago"
+  useEffect(() => {
+    if (panel !== "analytics") return;
+    const timer = setInterval(() => {
+      setSecondsAgo((s) => s + 1);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [panel]);
 
   const activeRecords = panel === "auditions" || panel === "analytics" ? [] : data[panel];
   const stats = useMemo(() => ({
@@ -140,6 +169,7 @@ export default function AdminDashboard({
       return;
     }
     if (nextPanel === "analytics") {
+      setSecondsAgo(0);
       startTransition(async () => {
         const res = await readAdminAnalytics();
         setAnalytics(res);
@@ -268,7 +298,13 @@ export default function AdminDashboard({
             ["events", stats.events, "Events"],
             ["books", stats.books, "Books"],
             ["auditions", stats.auditions, "Applications"],
-            ["analytics", stats.visitors, `Visitors (${stats.views} Views)`],
+            [
+              "analytics",
+              analytics?.activeNow ? `${analytics.activeNow} Live` : stats.visitors,
+              analytics?.activeNow
+                ? `● ${analytics.activeNow} Active (${stats.views} Views)`
+                : `Visitors (${stats.views} Views)`,
+            ],
           ] as const).map(([key, value, label]) => (
             <button
               key={key}
@@ -319,58 +355,137 @@ export default function AdminDashboard({
             <section className="min-h-[520px] border-2 border-midnight bg-[#F4F2EC] p-5 shadow-[8px_8px_0_var(--electric-blue)] lg:col-span-2">
               <div className="mb-6 flex flex-wrap items-start justify-between gap-4 border-b-2 border-dashed border-midnight/30 pb-4">
                 <div>
-                  <p className="font-ui text-[10px] font-bold uppercase tracking-widest text-electric-blue">
-                    Visitor Intelligence &amp; Footprint
-                  </p>
-                  <h2 className="font-display text-4xl font-black uppercase">Website Visitors</h2>
+                  <div className="flex items-center gap-2">
+                    <p className="font-ui text-[10px] font-bold uppercase tracking-widest text-electric-blue">
+                      Live Real-Time Intelligence
+                    </p>
+                    <span
+                      className={`inline-flex items-center gap-1.5 border border-midnight px-2 py-0.5 font-ui text-[9px] font-black uppercase tracking-wider ${
+                        isLivePolling
+                          ? "bg-emerald-400 text-midnight shadow-[1px_1px_0_var(--midnight)]"
+                          : "bg-metro-yellow text-midnight shadow-[1px_1px_0_var(--midnight)]"
+                      }`}
+                    >
+                      {isLivePolling ? (
+                        <>
+                          <span className="relative flex h-2 w-2">
+                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-600 opacity-75"></span>
+                            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-700"></span>
+                          </span>
+                          LIVE STREAM (4s)
+                        </>
+                      ) : (
+                        <>
+                          <span className="h-2 w-2 rounded-full bg-midnight/50"></span>
+                          PAUSED
+                        </>
+                      )}
+                    </span>
+                  </div>
+                  <h2 className="mt-0.5 font-display text-4xl font-black uppercase">Website Visitors</h2>
                   <p className="mt-1 font-body text-xs text-midnight/70">
-                    Real-time count of site visitors, popular pages, devices, and visitor activity.
+                    {isLivePolling
+                      ? `Real-time activity feed updating automatically (${secondsAgo === 0 ? "synced just now" : `synced ${secondsAgo}s ago`}).`
+                      : "Auto-refresh paused. Click Resume or Refresh Feed to fetch latest data."}
                   </p>
                 </div>
-                <div className="flex items-center gap-2">
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    onClick={() => setIsLivePolling(!isLivePolling)}
+                    className={`border-2 border-midnight px-3 py-2 font-ui text-[10px] font-bold uppercase tracking-widest transition-transform hover:-translate-y-0.5 ${
+                      isLivePolling
+                        ? "bg-[#F4F2EC] text-midnight shadow-[3px_3px_0_var(--midnight)]"
+                        : "bg-emerald-500 text-white shadow-[3px_3px_0_var(--midnight)]"
+                    }`}
+                  >
+                    {isLivePolling ? "⏸ Pause Live" : "▶ Resume Live"}
+                  </button>
+
                   <button
                     onClick={() => {
                       startTransition(async () => {
                         const res = await readAdminAnalytics();
                         setAnalytics(res);
+                        setSecondsAgo(0);
                         setNotice("Visitor analytics refreshed.");
                       });
                     }}
                     disabled={isPending}
                     className="border-2 border-midnight bg-electric-blue px-3 py-2 font-ui text-[10px] font-bold uppercase tracking-widest text-[#F4F2EC] shadow-[3px_3px_0_var(--midnight)] transition-transform hover:-translate-y-0.5 disabled:opacity-50"
                   >
-                    {isPending ? "Refreshing..." : "Refresh Feed"}
+                    {isPending ? "Refreshing..." : "↺ Refresh Feed"}
                   </button>
+
                   <button
                     onClick={() => {
-                      if (confirm("Reset visitor analytics data?")) {
+                      if (confirm("Purge any mock/dummy entries from visitor logs?")) {
+                        startTransition(async () => {
+                          const res = await purgeAdminMockAnalytics();
+                          const updated = await readAdminAnalytics();
+                          setAnalytics(updated);
+                          setNotice(`Purged ${res.removedCount} mock records. Only live visitors remain.`);
+                        });
+                      }
+                    }}
+                    disabled={isPending}
+                    className="border-2 border-midnight bg-[#F4F2EC] px-3 py-2 font-ui text-[10px] font-bold uppercase tracking-widest text-amber-800 shadow-[3px_3px_0_var(--midnight)] transition-transform hover:-translate-y-0.5 disabled:opacity-50"
+                  >
+                    Purge Mock Data
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      if (confirm("Reset and clear all visitor analytics data?")) {
                         startTransition(async () => {
                           await resetAdminAnalytics();
                           const res = await readAdminAnalytics();
                           setAnalytics(res);
-                          setNotice("Visitor analytics reset successfully.");
+                          setNotice("Visitor analytics cleared completely.");
                         });
                       }
                     }}
                     disabled={isPending}
                     className="border-2 border-midnight bg-[#F4F2EC] px-3 py-2 font-ui text-[10px] font-bold uppercase tracking-widest text-red-700 shadow-[3px_3px_0_var(--midnight)] transition-transform hover:-translate-y-0.5 disabled:opacity-50"
                   >
-                    Clear Data
+                    Clear All
                   </button>
                 </div>
               </div>
 
-              {/* Top Key Metrics */}
-              <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {/* Key Metrics Grid */}
+              <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-5">
+                {/* Active Right Now Card */}
+                <div className="relative col-span-2 overflow-hidden border-2 border-midnight bg-white p-3 shadow-[3px_3px_0_var(--midnight)] sm:col-span-1">
+                  <div className="flex items-center justify-between">
+                    <span className="font-ui text-[10px] font-bold uppercase tracking-wider text-midnight/70">
+                      Active Now
+                    </span>
+                    <span className="relative flex h-2.5 w-2.5">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
+                    </span>
+                  </div>
+                  <span className="mt-1 block font-display text-3xl font-black text-emerald-600">
+                    {analytics?.activeNow ?? 0}
+                  </span>
+                  <span className="mt-0.5 block font-ui text-[9px] font-semibold text-emerald-800">
+                    {(analytics?.activeNow ?? 0) === 1 ? "1 person online" : `${analytics?.activeNow ?? 0} online now`}
+                  </span>
+                </div>
+
+                {/* Total Views Card */}
                 <div className="border-2 border-midnight bg-white p-3 shadow-[3px_3px_0_var(--midnight)]">
                   <span className="block font-ui text-[10px] font-bold uppercase tracking-wider text-midnight/60">
-                    Total Page Views
+                    Total Views
                   </span>
                   <span className="mt-1 block font-display text-3xl font-black text-electric-blue">
                     {analytics?.totalViews ?? 0}
                   </span>
                   <span className="mt-0.5 block font-ui text-[9px] text-midnight/50">All-time visits</span>
                 </div>
+
+                {/* Unique Visitors */}
                 <div className="border-2 border-midnight bg-white p-3 shadow-[3px_3px_0_var(--midnight)]">
                   <span className="block font-ui text-[10px] font-bold uppercase tracking-wider text-midnight/60">
                     Unique Visitors
@@ -380,6 +495,8 @@ export default function AdminDashboard({
                   </span>
                   <span className="mt-0.5 block font-ui text-[9px] text-midnight/50">Distinct people</span>
                 </div>
+
+                {/* Views Today */}
                 <div className="border-2 border-midnight bg-white p-3 shadow-[3px_3px_0_var(--midnight)]">
                   <span className="block font-ui text-[10px] font-bold uppercase tracking-wider text-midnight/60">
                     Views Today
@@ -391,6 +508,8 @@ export default function AdminDashboard({
                     {analytics?.uniqueToday ?? 0} unique today
                   </span>
                 </div>
+
+                {/* Past 7 Days */}
                 <div className="border-2 border-midnight bg-white p-3 shadow-[3px_3px_0_var(--midnight)]">
                   <span className="block font-ui text-[10px] font-bold uppercase tracking-wider text-midnight/60">
                     Past 7 Days
@@ -401,6 +520,36 @@ export default function AdminDashboard({
                   <span className="mt-0.5 block font-ui text-[9px] text-midnight/50">Recent week</span>
                 </div>
               </div>
+
+              {/* Live Activity Radar Banner */}
+              {analytics?.activePages && analytics.activePages.length > 0 && (
+                <div className="mb-6 border-2 border-midnight bg-emerald-500/10 p-3 shadow-[3px_3px_0_var(--midnight)]">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="relative flex h-2 w-2">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-600 opacity-75"></span>
+                        <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-700"></span>
+                      </span>
+                      <span className="font-ui text-[10px] font-black uppercase tracking-wider text-emerald-900">
+                        Live Readers On Site Right Now:
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {analytics.activePages.map((ap) => (
+                        <span
+                          key={ap.path}
+                          className="border border-midnight bg-white px-2 py-0.5 font-mono text-[11px] font-bold text-midnight shadow-[2px_2px_0_var(--midnight)]"
+                        >
+                          <span className="text-emerald-600">●</span> {ap.path} :{" "}
+                          <span className="text-electric-blue">
+                            {ap.count} {ap.count === 1 ? "reader" : "readers"}
+                          </span>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Two Columns: Pages and Sources */}
               <div className="mb-6 grid gap-4 md:grid-cols-2">
@@ -413,22 +562,32 @@ export default function AdminDashboard({
                     <p className="font-body text-xs text-midnight/50">No page view data yet.</p>
                   ) : (
                     <div className="space-y-2.5">
-                      {analytics.topPages.map((page) => (
-                        <div key={page.path} className="space-y-1">
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="font-mono font-bold text-midnight">{page.path}</span>
-                            <span className="font-ui font-semibold text-midnight/70">
-                              {page.count} views ({page.percentage}%)
-                            </span>
+                      {analytics.topPages.map((page) => {
+                        const isCurrentlyActive = analytics.activePages?.some((ap) => ap.path === page.path);
+                        return (
+                          <div key={page.path} className="space-y-1">
+                            <div className="flex items-center justify-between text-xs">
+                              <span className="flex items-center gap-1.5 font-mono font-bold text-midnight">
+                                {page.path}
+                                {isCurrentlyActive && (
+                                  <span className="border border-emerald-600 bg-emerald-100 px-1.5 py-0.2 font-ui text-[9px] font-bold text-emerald-800">
+                                    LIVE NOW
+                                  </span>
+                                )}
+                              </span>
+                              <span className="font-ui font-semibold text-midnight/70">
+                                {page.count} views ({page.percentage}%)
+                              </span>
+                            </div>
+                            <div className="h-2 w-full border border-midnight bg-[#E8E5DC]">
+                              <div
+                                className="h-full bg-electric-blue"
+                                style={{ width: `${Math.max(page.percentage, 4)}%` }}
+                              />
+                            </div>
                           </div>
-                          <div className="h-2 w-full border border-midnight bg-[#E8E5DC]">
-                            <div
-                              className="h-full bg-electric-blue"
-                              style={{ width: `${Math.max(page.percentage, 4)}%` }}
-                            />
-                          </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   )}
                 </div>
@@ -499,45 +658,57 @@ export default function AdminDashboard({
                 </div>
               </div>
 
-              {/* Recent Activity Log ("Who Came To Website") */}
+              {/* Recent Activity Log */}
               <div className="border-2 border-midnight bg-white p-4 shadow-[4px_4px_0_var(--midnight)]">
                 <div className="mb-3 flex items-center justify-between border-b border-dashed border-midnight/20 pb-2">
                   <div>
                     <h3 className="font-ui text-xs font-bold uppercase tracking-widest text-electric-blue">
-                      Who Came To The Website (Recent Visitor Log)
+                      Live Visitor Activity Stream
                     </h3>
                     <p className="font-body text-[11px] text-midnight/60">
-                      Chronological stream of visitors and which pages they viewed
+                      Real-time chronological stream of visitors, routes viewed, and origins
                     </p>
                   </div>
-                  <span className="border border-midnight bg-metro-yellow px-2 py-0.5 font-ui text-[10px] font-bold uppercase">
-                    {analytics?.recentVisits?.length ?? 0} Logged
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="border border-midnight bg-metro-yellow px-2 py-0.5 font-ui text-[10px] font-bold uppercase">
+                      {analytics?.recentVisits?.length ?? 0} Recorded
+                    </span>
+                  </div>
                 </div>
 
                 {!analytics?.recentVisits || analytics.recentVisits.length === 0 ? (
-                  <p className="py-6 text-center font-body text-sm text-midnight/50">
-                    No visitor logs recorded yet.
-                  </p>
+                  <div className="py-8 text-center font-body text-xs text-midnight/60">
+                    <p className="font-bold text-midnight">No visitor logs recorded yet.</p>
+                    <p className="mt-1 text-midnight/50">
+                      Open any page of Ink in Quills in another tab to watch real-time tracking stream in!
+                    </p>
+                  </div>
                 ) : (
                   <div className="max-h-[380px] divide-y divide-midnight/15 overflow-y-auto border border-midnight">
                     {analytics.recentVisits.map((visit) => (
                       <div
                         key={visit.id}
-                        className="flex flex-col gap-2 p-3 text-xs transition-colors hover:bg-metro-yellow/10 sm:flex-row sm:items-center sm:justify-between"
+                        className={`flex flex-col gap-2 p-3 text-xs transition-colors hover:bg-metro-yellow/10 sm:flex-row sm:items-center sm:justify-between ${
+                          visit.isLive ? "bg-emerald-50/60" : ""
+                        }`}
                       >
                         <div className="flex items-start gap-3">
                           <span className="mt-0.5 border border-midnight bg-midnight px-1.5 py-0.5 font-mono text-[10px] font-bold text-metro-yellow">
                             {visit.device === "mobile" ? "MOB" : visit.device === "tablet" ? "TAB" : "DSK"}
                           </span>
                           <div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex flex-wrap items-center gap-2">
                               <span className="font-mono text-xs font-bold text-electric-blue">
                                 {visit.path}
                               </span>
                               <span className="font-ui text-[10px] text-midnight/50">
                                 via {visit.referrer}
                               </span>
+                              {visit.isLive && (
+                                <span className="inline-flex items-center gap-1 border border-emerald-700 bg-emerald-400 px-1.5 py-0.5 font-mono text-[9px] font-black uppercase text-midnight shadow-[1px_1px_0_var(--midnight)] animate-pulse">
+                                  ● LIVE NOW
+                                </span>
+                              )}
                             </div>
                             <div className="mt-0.5 flex flex-wrap items-center gap-2 font-ui text-[10px] text-midnight/70">
                               <span>
@@ -546,14 +717,18 @@ export default function AdminDashboard({
                               <span>•</span>
                               <span className="font-mono">{visit.visitorId.slice(0, 14)}</span>
                               <span>•</span>
-                              <span className="text-midnight/50">
-                                {visit.country || "Local"} ({visit.ipMasked})
+                              <span className="text-midnight/60">
+                                📍 {visit.country || "Local"} ({visit.ipMasked})
                               </span>
                             </div>
                           </div>
                         </div>
                         <div className="font-ui text-right text-[10px] font-semibold text-midnight/60 sm:whitespace-nowrap">
-                          {formatTimeAgo(visit.timestamp)}
+                          {visit.isLive ? (
+                            <span className="font-bold text-emerald-700">Active now</span>
+                          ) : (
+                            formatTimeAgo(visit.timestamp)
+                          )}
                         </div>
                       </div>
                     ))}
